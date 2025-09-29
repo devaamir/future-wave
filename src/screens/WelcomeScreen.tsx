@@ -41,7 +41,7 @@ const WelcomeScreen = () => {
       {/* Logo Section */}
       <View style={styles.logoSection}>
         <Image
-          source={require('../assets/images/logo-white.png')}
+          source={require('../assets/images/logo.png')}
           style={styles.logo}
           resizeMode="contain"
         />
@@ -93,7 +93,7 @@ const WelcomeScreen = () => {
       </View>
 
       {/* Version Text */}
-      <Text style={styles.versionText}>Powered by Future Wave</Text>
+      <Text style={styles.versionText}>Powered by D H Business Developers</Text>
     </View>
   );
 };
@@ -101,7 +101,7 @@ const WelcomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1A3C8E',
+    backgroundColor: '#FFFFFF',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
   },
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
   tagline: {
     fontSize: 30,
     fontFamily: theme.fonts.bold,
-    color: '#FFFFFF',
+    color: '#1A3C8E',
     textAlign: 'center',
     marginBottom: 16,
     lineHeight: 36,
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 17,
     fontFamily: theme.fonts.regular,
-    color: '#D9E0E8',
+    color: '#666666',
     textAlign: 'center',
     lineHeight: 24,
     paddingHorizontal: 10,
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
   },
   signUpButton: {
     borderWidth: 2,
-    borderColor: '#FFFFFF',
+    borderColor: '#1A3C8E',
     borderRadius: 12,
     paddingVertical: 14,
     alignItems: 'center',
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
   signUpButtonText: {
     fontSize: 18,
     fontFamily: theme.fonts.medium,
-    color: '#FFFFFF',
+    color: '#1A3C8E',
   },
   bottomWave: {
     position: 'absolute',
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
   versionText: {
     fontSize: 12,
     fontFamily: theme.fonts.regular,
-    color: '#D9E0E8',
+    color: '#666666',
     textAlign: 'center',
     marginBottom: 20,
     opacity: 0.7,

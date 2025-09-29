@@ -20,7 +20,7 @@ const LoginScreen = ({ navigation }: any) => {
   return (
     <View style={styles.container}>
       <Image
-        source={require('../assets/images/logo-white.png')}
+        source={require('../assets/images/logo.png')}
         style={styles.logo}
         resizeMode="contain"
       />
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontFamily: theme.fonts.bold,
-    color: theme.colors.primary,
+    color: theme.colors.text,
     textAlign: 'center',
     marginBottom: 40,
   },

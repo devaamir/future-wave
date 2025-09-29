@@ -3,9 +3,12 @@ import { View, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import HomeScreen from './HomeScreen';
 import CoursesScreen from './CoursesScreen';
+import LiveClassesScreen from './LiveClassesScreen';
+import ExamsScreen from './ExamsScreen';
+import ProfileScreen from './ProfileScreen';
 import BottomNavigation from '../components/BottomNavigation';
 
-const MainHomeScreen = () => {
+const MainHomeScreen = ({ navigation }: any) => {
   const [activeTab, setActiveTab] = useState('Home');
 
   const handleTabPress = (tab: string) => {
@@ -21,11 +24,11 @@ const MainHomeScreen = () => {
       case 'Courses':
         return <CoursesScreen />;
       case 'Live':
-        return <HomeScreen />; // Placeholder - replace with LiveScreen
+        return <LiveClassesScreen />;
       case 'Exams':
-        return <HomeScreen />; // Placeholder - replace with ExamsScreen
+        return <ExamsScreen />;
       case 'Profile':
-        return <HomeScreen />; // Placeholder - replace with ProfileScreen
+        return <ProfileScreen navigation={navigation} onTabPress={handleTabPress} />;
       default:
         return <HomeScreen />;
     }

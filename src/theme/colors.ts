@@ -5,11 +5,11 @@ export const colors = {
   accent: '#2EB5E5',       // Sky blue
   
   // Text Colors
-  text: '#FFFFFF',         // Clean white
-  textSecondary: '#D9E0E8', // Light grey
+  text: '#333333',         // Dark text for light backgrounds
+  textSecondary: '#666666', // Medium grey
   
   // Background Colors
-  background: '#1A3C8E',   // Primary background
+  background: '#FFFFFF',   // White background
   surface: '#F5F5F5',
   
   // Standard Colors
