@@ -28,7 +28,9 @@ const MainHomeScreen = ({ navigation }: any) => {
       case 'Exams':
         return <ExamsScreen />;
       case 'Profile':
-        return <ProfileScreen navigation={navigation} onTabPress={handleTabPress} />;
+        return (
+          <ProfileScreen navigation={navigation} onTabPress={handleTabPress} />
+        );
       default:
         return <HomeScreen />;
     }
@@ -36,9 +38,7 @@ const MainHomeScreen = ({ navigation }: any) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
-        {renderContent()}
-      </View>
+      <View style={styles.content}>{renderContent()}</View>
       <BottomNavigation activeTab={activeTab} onTabPress={handleTabPress} />
     </SafeAreaView>
   );

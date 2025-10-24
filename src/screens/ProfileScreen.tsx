@@ -11,25 +11,28 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Svg, { Path } from 'react-native-svg';
+import { CoursesIcon, ExamIcon, NotificationIcon, DownloadIcon, CardIcon, MoonIcon, QuestionIcon, LanguageIcon, InfoIcon } from '../components/Icons';
 import { theme } from '../theme';
 
 const ProfileScreen = ({ navigation, onTabPress }: any) => {
   const [darkMode, setDarkMode] = useState(false);
 
   const handleLogout = () => {
-    Alert.alert(
-      'Logout',
-      'Are you sure you want to logout?',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        { text: 'Logout', onPress: () => navigation?.navigate('Welcome') },
-      ]
-    );
+    Alert.alert('Logout', 'Are you sure you want to logout?', [
+      { text: 'Cancel', style: 'cancel' },
+      { text: 'Logout', onPress: () => navigation?.navigate('Welcome') },
+    ]);
   };
 
   const ProfileCard = ({ icon, title, onPress }: any) => (
     <TouchableOpacity style={styles.card} onPress={onPress}>
-      <Text style={styles.cardIcon}>{icon}</Text>
+      <View style={styles.cardIconContainer}>
+        {typeof icon === 'string' ? (
+          <Text style={styles.cardIcon}>{icon}</Text>
+        ) : (
+          icon
+        )}
+      </View>
       <Text style={styles.cardTitle}>{title}</Text>
       <Text style={styles.arrow}>›</Text>
     </TouchableOpacity>
@@ -54,51 +57,57 @@ const ProfileScreen = ({ navigation, onTabPress }: any) => {
               <Text style={styles.editText}>✏️</Text>
             </TouchableOpacity>
           </View>
-          
+
           <Text style={styles.userName}>John Doe</Text>
           <Text style={styles.userEmail}>john.doe@email.com</Text>
         </View>
         {/* Main Content Cards */}
         <View style={styles.section}>
           <ProfileCard
-            icon="🎓"
+            icon={<CoursesIcon size={20} color="#6B7280" />}
             title="My Courses"
             onPress={() => onTabPress?.('Courses')}
           />
-          <ProfileCard
-            icon="📝"
-            title="My Exams"
-            onPress={() => {}}
+          <ProfileCard 
+            icon={<ExamIcon size={20} color="#6B7280" />} 
+            title="My Exams" 
+            onPress={() => {}} 
+          />
+          <ProfileCard 
+            icon={<DownloadIcon size={20} color="#6B7280" />} 
+            title="Downloads" 
+            onPress={() => {}} 
+          />
+          <ProfileCard 
+            icon={<CardIcon size={20} color="#6B7280" />} 
+            title="Payment History" 
+            onPress={() => {}} 
           />
           <ProfileCard
-            icon="⬇️"
-            title="Downloads"
-            onPress={() => {}}
-          />
-          <ProfileCard
-            icon="💳"
-            title="Payment History"
-            onPress={() => {}}
-          />
-          <ProfileCard
-            icon="🔔"
+            icon={<NotificationIcon size={20} color="#6B7280" />}
             title="Notifications"
-            onPress={() => {}}
+            onPress={() => {
+              navigation?.navigate('Notifications');
+            }}
           />
         </View>
 
         {/* Settings Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Settings</Text>
-          
+
           <TouchableOpacity style={styles.card}>
-            <Text style={styles.cardIcon}>🌐</Text>
+            <View style={styles.cardIconContainer}>
+              <LanguageIcon size={20} color="#6B7280" />
+            </View>
             <Text style={styles.cardTitle}>Language Preference</Text>
             <Text style={styles.cardSubtitle}>English</Text>
           </TouchableOpacity>
 
           <View style={styles.card}>
-            <Text style={styles.cardIcon}>🌙</Text>
+            <View style={styles.cardIconContainer}>
+              <MoonIcon size={20} color="#6B7280" />
+            </View>
             <Text style={styles.cardTitle}>Dark Mode</Text>
             <Switch
               value={darkMode}
@@ -108,15 +117,15 @@ const ProfileScreen = ({ navigation, onTabPress }: any) => {
             />
           </View>
 
-          <ProfileCard
-            icon="❓"
-            title="Help & Support"
-            onPress={() => {}}
+          <ProfileCard 
+            icon={<QuestionIcon size={20} color="#6B7280" />} 
+            title="Help & Support" 
+            onPress={() => {}} 
           />
-          <ProfileCard
-            icon="ℹ️"
-            title="About Future Wave"
-            onPress={() => {}}
+          <ProfileCard 
+            icon={<InfoIcon size={20} color="#6B7280" />} 
+            title="About Future Wave" 
+            onPress={() => {}} 
           />
         </View>
 
@@ -237,6 +246,12 @@ const styles = StyleSheet.create({
     marginRight: 16,
     width: 24,
     textAlign: 'center',
+  },
+  cardIconContainer: {
+    marginRight: 16,
+    width: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   cardTitle: {
     flex: 1,

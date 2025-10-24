@@ -25,28 +25,20 @@ import {
   SearchIcon,
 } from '../components/Icons';
 import { theme } from '../theme';
-
-const { width } = Dimensions.get('window');
-
-const WaveIcon = ({ size = 24 }) => (
-  <Svg width={size} height={size * 0.6} viewBox="0 0 40 24">
-    <Defs>
-      <SvgLinearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-        <Stop offset="0%" stopColor="#00C6A7" />
-        <Stop offset="100%" stopColor="#2EB5E5" />
-      </SvgLinearGradient>
-    </Defs>
-    <Path
-      d="M0 12C8 4, 16 4, 20 12C24 20, 32 20, 40 12V20H0V12Z"
-      fill="url(#logoGradient)"
-    />
-  </Svg>
-);
+import { useNavigation } from '@react-navigation/native';
 
 const HomeScreen = () => {
   const categories = [
-    { icon: LiveClassIcon, title: 'Live Classes' },
-    { icon: RecordedVideosIcon, title: 'Recorded Videos' },
+    {
+      icon: LiveClassIcon,
+      title: 'Live Classes',
+      onPress: () => navigation.navigate('LiveClasses'),
+    },
+    {
+      icon: RecordedVideosIcon,
+      title: 'Recorded Videos',
+      onPress: () => navigation.navigate('RecordedVideos'),
+    },
     { icon: StudyMaterialIcon, title: 'Study Material' },
     { icon: ExamIcon, title: 'Exams' },
   ];
@@ -74,6 +66,8 @@ const HomeScreen = () => {
     },
   ];
 
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -83,10 +77,14 @@ const HomeScreen = () => {
           resizeMode="contain"
         />
         <Text style={styles.welcomeText}>Welcome, Aamir!</Text>
-        <View style={styles.notificationContainer}>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          style={styles.notificationContainer}
+          onPress={() => navigation.navigate('Notifications')}
+        >
           <NotificationIcon size={24} color="#2D2D2D" />
           <View style={styles.badge} />
-        </View>
+        </TouchableOpacity>
       </View>
 
       <View style={styles.searchContainer}>
@@ -127,7 +125,12 @@ const HomeScreen = () => {
           {categories.map((category, index) => {
             const IconComponent = category.icon;
             return (
-              <TouchableOpacity key={index} style={styles.categoryItem}>
+              <TouchableOpacity
+                key={index}
+                style={styles.categoryItem}
+                activeOpacity={0.7}
+                onPress={category.onPress}
+              >
                 <View style={styles.categoryIcon}>
                   <IconComponent size={32} color="#1A3C8E" />
                 </View>
