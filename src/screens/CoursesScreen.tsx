@@ -21,7 +21,7 @@ interface Course {
   price: string;
   isFree: boolean;
   category: string;
-  thumbnail: string;
+  thumbnail: any;
 }
 
 const CoursesScreen = ({ navigation }: any) => {
@@ -49,7 +49,7 @@ const CoursesScreen = ({ navigation }: any) => {
       price: '₹499',
       isFree: false,
       category: 'PSC',
-      thumbnail: '📘',
+      thumbnail: require('../assets/images/kpsc_thumb.png'),
     },
     {
       id: '2',
@@ -59,7 +59,7 @@ const CoursesScreen = ({ navigation }: any) => {
       price: '₹999',
       isFree: false,
       category: 'SSC',
-      thumbnail: '📗',
+      thumbnail: require('../assets/images/maths_thumb.png'),
     },
     {
       id: '3',
@@ -69,7 +69,7 @@ const CoursesScreen = ({ navigation }: any) => {
       price: '₹799',
       isFree: false,
       category: 'NEET',
-      thumbnail: '📕',
+      thumbnail: require('../assets/images/physics_thumb.png'),
     },
     {
       id: '4',
@@ -79,7 +79,7 @@ const CoursesScreen = ({ navigation }: any) => {
       price: 'Free',
       isFree: true,
       category: 'Languages',
-      thumbnail: '📙',
+      thumbnail: require('../assets/images/mathematics.webp'),
     },
     {
       id: '5',
@@ -89,7 +89,7 @@ const CoursesScreen = ({ navigation }: any) => {
       price: '₹1299',
       isFree: false,
       category: 'IT Skills',
-      thumbnail: '💻',
+      thumbnail: require('../assets/images/maths_thumb.png'),
     },
     {
       id: '6',
@@ -99,7 +99,7 @@ const CoursesScreen = ({ navigation }: any) => {
       price: '₹899',
       isFree: false,
       category: 'JEE',
-      thumbnail: '🧪',
+      thumbnail: require('../assets/images/physics_thumb.png'),
     },
   ];
 
@@ -116,7 +116,7 @@ const CoursesScreen = ({ navigation }: any) => {
   const renderCourseCard = ({ item }: { item: Course }) => (
     <View style={styles.courseCard}>
       <View style={styles.thumbnail}>
-        <Text style={styles.thumbnailEmoji}>{item.thumbnail}</Text>
+        <Image source={item.thumbnail} style={styles.thumbnailImage} resizeMode="cover" />
       </View>
       <View style={styles.courseInfo}>
         <Text style={styles.courseTitle}>{item.title}</Text>
@@ -348,14 +348,15 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   thumbnail: {
-    height: 100,
+    aspectRatio: 1,
     backgroundColor: '#F3F4F6',
     justifyContent: 'center',
     alignItems: 'center',
+    overflow: 'hidden',
   },
-  thumbnailEmoji: {
-    fontSize: 40,
-    fontFamily: theme.fonts.regular,
+  thumbnailImage: {
+    width: '100%',
+    height: '100%',
   },
   courseInfo: {
     padding: 12,

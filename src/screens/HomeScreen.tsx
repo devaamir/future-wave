@@ -32,14 +32,14 @@ const HomeScreen = () => {
     {
       icon: LiveClassIcon,
       title: 'Live Classes',
-      onPress: () => navigation.navigate('LiveClasses'),
+      onPress: () => navigation.navigate('LiveClassesInner'),
     },
     {
       icon: RecordedVideosIcon,
       title: 'Recorded Videos',
       onPress: () => navigation.navigate('RecordedVideos'),
     },
-    { icon: StudyMaterialIcon, title: 'Study Material' },
+    { icon: StudyMaterialIcon, title: 'Study Material', onPress: () => navigation.navigate('StudyMaterial') },
     { icon: ExamIcon, title: 'Exams' },
   ];
 
@@ -47,10 +47,18 @@ const HomeScreen = () => {
     {
       title: 'Kerala PSC Prelims – Crash Batch',
       teacher: 'Dr. Kumar',
-      image: '📚',
+      image: require('../assets/images/kpsc_thumb.png'),
     },
-    { title: 'Maths for SSC CGL', teacher: 'Prof. Sharma', image: '🔢' },
-    { title: 'NEET Physics Fundamentals', teacher: 'Dr. Patel', image: '⚛️' },
+    { 
+      title: 'Maths for SSC CGL', 
+      teacher: 'Prof. Sharma', 
+      image: require('../assets/images/maths_thumb.png'),
+    },
+    { 
+      title: 'NEET Physics Fundamentals', 
+      teacher: 'Dr. Patel', 
+      image: require('../assets/images/physics_thumb.png'),
+    },
   ];
 
   const upcomingClasses = [
@@ -150,7 +158,11 @@ const HomeScreen = () => {
             {courses.map((course, index) => (
               <TouchableOpacity key={index} style={styles.courseCard}>
                 <View style={styles.courseImage}>
-                  <Text style={styles.courseEmoji}>{course.image}</Text>
+                  <Image 
+                    source={course.image} 
+                    style={styles.courseImageStyle}
+                    resizeMode="cover"
+                  />
                 </View>
                 <Text style={styles.courseTitle}>{course.title}</Text>
                 <Text style={styles.courseTeacher}>{course.teacher}</Text>
@@ -313,16 +325,15 @@ const styles = StyleSheet.create({
   },
   courseImage: {
     width: '100%',
-    height: 80,
+    aspectRatio: 1,
     backgroundColor: '#F3F4F6',
     borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
     marginBottom: 8,
+    overflow: 'hidden',
   },
-  courseEmoji: {
-    fontSize: 32,
-    fontFamily: theme.fonts.regular,
+  courseImageStyle: {
+    width: '100%',
+    height: '100%',
   },
   courseTitle: {
     fontSize: 16,

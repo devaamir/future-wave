@@ -7,6 +7,7 @@ import {
   ScrollView,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import { CalendarIcon, AnalyticsIcon, ClockIcon } from '../components/Icons';
 import { theme } from '../theme';
 
 const ExamsScreen = () => {
@@ -68,8 +69,14 @@ const ExamsScreen = () => {
           <Text style={styles.examTitle}>{exam.title}</Text>
           <Text style={styles.examSubject}>{exam.subject}</Text>
           <View style={styles.examDetails}>
-            <Text style={styles.examInfo}>📅 {exam.date}, {exam.time}</Text>
-            <Text style={styles.examInfo}>⏱ {exam.duration}</Text>
+            <View style={styles.examInfoRow}>
+              <CalendarIcon size={16} color="#6B7280" />
+              <Text style={styles.examInfo}>{exam.date}, {exam.time}</Text>
+            </View>
+            <View style={styles.examInfoRow}>
+              <ClockIcon size={16} color="#6B7280" />
+              <Text style={styles.examInfo}>{exam.duration}</Text>
+            </View>
           </View>
           <LinearGradient
             colors={['#00C6A7', '#2EB5E5']}
@@ -156,7 +163,7 @@ const ExamsScreen = () => {
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Exams</Text>
         <TouchableOpacity style={styles.analyticsIcon}>
-          <Text style={styles.analyticsText}>📊</Text>
+          <AnalyticsIcon size={24} color="#1A3C8E" />
         </TouchableOpacity>
       </View>
 
@@ -279,6 +286,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: theme.fonts.regular,
     color: '#6B7280',
+    marginBottom: 4,
+    marginLeft: 6,
+  },
+  examInfoRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 4,
   },
   timerContainer: {

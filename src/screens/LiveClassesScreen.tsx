@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Svg, { Path } from 'react-native-svg';
+import { PlayIcon } from '../components/Icons';
 import { theme } from '../theme';
 
 const LiveClassesScreen = () => {
@@ -44,9 +45,21 @@ const LiveClassesScreen = () => {
   ];
 
   const pastSessions = [
-    { id: 1, title: 'Algebra Basics', thumbnail: require('../assets/images/logo-icon.png') },
-    { id: 2, title: 'Physics Laws', thumbnail: require('../assets/images/logo-icon.png') },
-    { id: 3, title: 'Chemistry Bonds', thumbnail: require('../assets/images/logo-icon.png') },
+    {
+      id: 1,
+      title: 'Algebra Basics',
+      thumbnail: require('../assets/images/mathematics.webp'),
+    },
+    {
+      id: 2,
+      title: 'Physics Laws',
+      thumbnail: require('../assets/images/mathematics.webp'),
+    },
+    {
+      id: 3,
+      title: 'Chemistry Bonds',
+      thumbnail: require('../assets/images/mathematics.webp'),
+    },
   ];
 
   return (
@@ -72,30 +85,26 @@ const LiveClassesScreen = () => {
         {/* Ongoing Live Class */}
         <View style={styles.liveSection}>
           <ImageBackground
-            source={require('../assets/images/logo.png')}
+            source={require('../assets/images/live_screen.png')}
             style={styles.liveCard}
             imageStyle={styles.liveCardImage}
           >
             <View style={styles.liveOverlay}>
               <View style={styles.liveBadge}>
-                <Text style={styles.liveText}>🔴 LIVE Now</Text>
+                <View style={styles.redDot} />
+                <Text style={styles.liveText}>LIVE Now</Text>
               </View>
-              
-              <View style={styles.liveInfo}>
-                <Text style={styles.liveTitle}>Introduction to React Native</Text>
-                <Text style={styles.liveTeacher}>Prof. John Smith</Text>
-                
-                <LinearGradient
-                  colors={['#00C6A7', '#2EB5E5']}
-                  style={styles.joinButton}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 0 }}
-                >
-                  <TouchableOpacity style={styles.joinButtonContent}>
-                    <Text style={styles.joinButtonText}>Join Now</Text>
-                  </TouchableOpacity>
-                </LinearGradient>
-              </View>
+
+              <LinearGradient
+                colors={['#00C6A7', '#2EB5E5']}
+                style={styles.joinButton}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+              >
+                <TouchableOpacity style={styles.joinButtonContent}>
+                  <Text style={styles.joinButtonText}>Join Now</Text>
+                </TouchableOpacity>
+              </LinearGradient>
             </View>
           </ImageBackground>
         </View>
@@ -103,17 +112,21 @@ const LiveClassesScreen = () => {
         {/* Upcoming Classes */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Upcoming Sessions</Text>
-          
-          {upcomingClasses.map((classItem) => (
+
+          {upcomingClasses.map(classItem => (
             <View key={classItem.id} style={styles.classCard}>
               <Image source={classItem.avatar} style={styles.teacherAvatar} />
-              
+
               <View style={styles.classInfo}>
                 <Text style={styles.classTitle}>{classItem.title}</Text>
-                <Text style={styles.teacherName}>{classItem.teacher} • {classItem.subject}</Text>
-                <Text style={styles.classTime}>{classItem.date} at {classItem.time}</Text>
+                <Text style={styles.teacherName}>
+                  {classItem.teacher} • {classItem.subject}
+                </Text>
+                <Text style={styles.classTime}>
+                  {classItem.date} at {classItem.time}
+                </Text>
               </View>
-              
+
               <TouchableOpacity style={styles.reminderButton}>
                 <Text style={styles.reminderText}>Set Reminder</Text>
               </TouchableOpacity>
@@ -124,14 +137,23 @@ const LiveClassesScreen = () => {
         {/* Past Sessions */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Watch Recordings</Text>
-          
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.recordingsScroll}>
-            {pastSessions.map((session) => (
+
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.recordingsScroll}
+          >
+            {pastSessions.map(session => (
               <TouchableOpacity key={session.id} style={styles.recordingCard}>
                 <View style={styles.recordingThumbnail}>
-                  <Image source={session.thumbnail} style={styles.thumbnailImage} />
+                  <Image
+                    source={session.thumbnail}
+                    style={styles.thumbnailImage}
+                  />
                   <View style={styles.playOverlay}>
-                    <Text style={styles.playIcon}>▶️</Text>
+                    <View style={styles.playButton}>
+                      <PlayIcon size={24} color="#FFFFFF" />
+                    </View>
                   </View>
                 </View>
                 <Text style={styles.recordingTitle}>{session.title}</Text>
@@ -181,10 +203,11 @@ const styles = StyleSheet.create({
   },
   liveCardImage: {
     borderRadius: 16,
+    transform: [{ scaleX: 1.1 }, { scaleY: 1.2 }],
   },
   liveOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
     padding: 16,
     justifyContent: 'space-between',
   },
@@ -194,6 +217,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  redDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: '#FFFFFF',
+    marginRight: 6,
   },
   liveText: {
     color: '#FFFFFF',
@@ -316,8 +348,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.3)',
     borderRadius: 8,
   },
-  playIcon: {
-    fontSize: 24,
+  playButton: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   recordingTitle: {
     fontSize: 14,
