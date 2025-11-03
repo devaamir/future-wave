@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     flex: 1,
     textAlign: 'center',
-    fontSize: 22,
+    fontSize: 18,
     fontFamily: theme.fonts.bold,
     color: '#2D2D2D',
   },

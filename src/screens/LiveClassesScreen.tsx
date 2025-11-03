@@ -12,8 +12,11 @@ import LinearGradient from 'react-native-linear-gradient';
 import Svg, { Path } from 'react-native-svg';
 import { PlayIcon } from '../components/Icons';
 import { theme } from '../theme';
+import { useNavigation } from '@react-navigation/native';
 
 const LiveClassesScreen = () => {
+  const navigation = useNavigation();
+  
   const upcomingClasses = [
     {
       id: 1,
@@ -22,6 +25,8 @@ const LiveClassesScreen = () => {
       subject: 'Calculus',
       date: 'Today',
       time: '3:00 PM',
+      scheduledTime: new Date('2025-11-03T15:00:00+05:30'),
+      thumbnail: require('../assets/images/maths_thumb.png'),
       avatar: require('../assets/images/logo-icon.png'),
     },
     {
@@ -31,6 +36,8 @@ const LiveClassesScreen = () => {
       subject: 'Mechanics',
       date: 'Tomorrow',
       time: '10:00 AM',
+      scheduledTime: new Date('2025-11-04T10:00:00+05:30'),
+      thumbnail: require('../assets/images/physics_thumb.png'),
       avatar: require('../assets/images/logo-icon.png'),
     },
     {
@@ -40,9 +47,15 @@ const LiveClassesScreen = () => {
       subject: 'Organic Chemistry',
       date: 'Sep 28',
       time: '2:00 PM',
+      scheduledTime: new Date('2025-11-05T14:00:00+05:30'),
+      thumbnail: require('../assets/images/kpsc_thumb.png'),
       avatar: require('../assets/images/logo-icon.png'),
     },
   ];
+
+  const handleSetReminder = (classItem: any) => {
+    navigation.navigate('ClassReminder', { classData: classItem });
+  };
 
   const pastSessions = [
     {
@@ -101,7 +114,10 @@ const LiveClassesScreen = () => {
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
               >
-                <TouchableOpacity style={styles.joinButtonContent}>
+                <TouchableOpacity 
+                  style={styles.joinButtonContent}
+                  onPress={() => navigation.navigate('LiveClassJoin')}
+                >
                   <Text style={styles.joinButtonText}>Join Now</Text>
                 </TouchableOpacity>
               </LinearGradient>
@@ -127,7 +143,10 @@ const LiveClassesScreen = () => {
                 </Text>
               </View>
 
-              <TouchableOpacity style={styles.reminderButton}>
+              <TouchableOpacity 
+                style={styles.reminderButton}
+                onPress={() => handleSetReminder(classItem)}
+              >
                 <Text style={styles.reminderText}>Set Reminder</Text>
               </TouchableOpacity>
             </View>
@@ -144,7 +163,14 @@ const LiveClassesScreen = () => {
             style={styles.recordingsScroll}
           >
             {pastSessions.map(session => (
-              <TouchableOpacity key={session.id} style={styles.recordingCard}>
+              <TouchableOpacity 
+                key={session.id} 
+                style={styles.recordingCard}
+                onPress={() => navigation.navigate('VideoPlayer', { 
+                  videoTitle: session.title,
+                  videoUrl: 'https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4'
+                })}
+              >
                 <View style={styles.recordingThumbnail}>
                   <Image
                     source={session.thumbnail}
@@ -183,7 +209,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#F3F4F6',
   },
   headerTitle: {
-    fontSize: 22,
+    fontSize: 18,
     fontFamily: theme.fonts.bold,
     color: '#2D2D2D',
   },

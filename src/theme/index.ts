@@ -1,5 +1,6 @@
 import { colors } from './colors';
 import { fonts, fontSizes } from './fonts';
+import { buttonStyles, buttonColors } from './buttonStyles';
 
 export const theme = {
   colors,
@@ -8,4 +9,4 @@ export const theme = {
   defaultFont: fonts.regular,
 };
 
-export { colors, fonts, fontSizes };
+export { colors, fonts, fontSizes, buttonStyles, buttonColors };

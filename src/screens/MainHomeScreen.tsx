@@ -20,7 +20,7 @@ const MainHomeScreen = ({ navigation }: any) => {
   const renderContent = () => {
     switch (activeTab) {
       case 'Home':
-        return <HomeScreen />;
+        return <HomeScreen onTabPress={handleTabPress} />;
       case 'Courses':
         return <CoursesScreen />;
       case 'Live':
@@ -32,7 +32,7 @@ const MainHomeScreen = ({ navigation }: any) => {
           <ProfileScreen navigation={navigation} onTabPress={handleTabPress} />
         );
       default:
-        return <HomeScreen />;
+        return <HomeScreen onTabPress={handleTabPress} />;
     }
   };
 

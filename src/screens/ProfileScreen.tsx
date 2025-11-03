@@ -10,8 +10,19 @@ import {
   Alert,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import Svg, { Path } from 'react-native-svg';
-import { CoursesIcon, ExamIcon, NotificationIcon, DownloadIcon, CardIcon, MoonIcon, QuestionIcon, LanguageIcon, InfoIcon } from '../components/Icons';
+import {
+  CoursesIcon,
+  ExamIcon,
+  NotificationIcon,
+  DownloadIcon,
+  CardIcon,
+  MoonIcon,
+  QuestionIcon,
+  LanguageIcon,
+  InfoIcon,
+  EditIcon,
+  ProfileIcon,
+} from '../components/Icons';
 import { theme } from '../theme';
 
 const ProfileScreen = ({ navigation, onTabPress }: any) => {
@@ -48,15 +59,20 @@ const ProfileScreen = ({ navigation, onTabPress }: any) => {
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         {/* Profile Info Card */}
         <View style={styles.profileCard}>
-          <View style={styles.avatarContainer}>
-            <Image
-              source={require('../assets/images/logo-icon.png')}
-              style={styles.avatar}
-            />
-            <TouchableOpacity style={styles.editIcon}>
-              <Text style={styles.editText}>✏️</Text>
+          <TouchableOpacity
+            style={styles.avatarContainer}
+            onPress={() => navigation?.navigate('EditProfile')}
+          >
+            <View style={styles.avatar}>
+              <ProfileIcon size={48} color="#6B7280" />
+            </View>
+            <TouchableOpacity
+              style={styles.editIcon}
+              onPress={() => navigation?.navigate('EditProfile')}
+            >
+              <EditIcon size={16} color="#1A3C8E" />
             </TouchableOpacity>
-          </View>
+          </TouchableOpacity>
 
           <Text style={styles.userName}>John Doe</Text>
           <Text style={styles.userEmail}>john.doe@email.com</Text>
@@ -66,22 +82,22 @@ const ProfileScreen = ({ navigation, onTabPress }: any) => {
           <ProfileCard
             icon={<CoursesIcon size={20} color="#6B7280" />}
             title="My Courses"
-            onPress={() => onTabPress?.('Courses')}
+            onPress={() => navigation?.navigate('MyCourses')}
           />
-          <ProfileCard 
-            icon={<ExamIcon size={20} color="#6B7280" />} 
-            title="My Exams" 
-            onPress={() => {}} 
+          <ProfileCard
+            icon={<ExamIcon size={20} color="#6B7280" />}
+            title="My Exams"
+            onPress={() => {}}
           />
-          <ProfileCard 
-            icon={<DownloadIcon size={20} color="#6B7280" />} 
-            title="Downloads" 
-            onPress={() => {}} 
+          <ProfileCard
+            icon={<DownloadIcon size={20} color="#6B7280" />}
+            title="Downloads"
+            onPress={() => {}}
           />
-          <ProfileCard 
-            icon={<CardIcon size={20} color="#6B7280" />} 
-            title="Payment History" 
-            onPress={() => {}} 
+          <ProfileCard
+            icon={<CardIcon size={20} color="#6B7280" />}
+            title="Payment History"
+            onPress={() => {}}
           />
           <ProfileCard
             icon={<NotificationIcon size={20} color="#6B7280" />}
@@ -117,15 +133,15 @@ const ProfileScreen = ({ navigation, onTabPress }: any) => {
             />
           </View>
 
-          <ProfileCard 
-            icon={<QuestionIcon size={20} color="#6B7280" />} 
-            title="Help & Support" 
-            onPress={() => {}} 
+          <ProfileCard
+            icon={<QuestionIcon size={20} color="#6B7280" />}
+            title="Help & Support"
+            onPress={() => {}}
           />
-          <ProfileCard 
-            icon={<InfoIcon size={20} color="#6B7280" />} 
-            title="About Future Wave" 
-            onPress={() => {}} 
+          <ProfileCard
+            icon={<InfoIcon size={20} color="#6B7280" />}
+            title="About Future Wave"
+            onPress={() => {}}
           />
         </View>
 
@@ -162,7 +178,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#F3F4F6',
   },
   headerTitle: {
-    fontSize: 22,
+    fontSize: 18,
     fontFamily: theme.fonts.bold,
     color: '#2D2D2D',
   },
@@ -186,7 +202,9 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#F3F4F6',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   editIcon: {
     position: 'absolute',
@@ -198,9 +216,6 @@ const styles = StyleSheet.create({
     height: 24,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  editText: {
-    fontSize: 12,
   },
   userName: {
     fontSize: 20,

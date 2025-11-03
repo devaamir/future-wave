@@ -8,11 +8,14 @@ import SignupScreen from '../screens/SignupScreen';
 import MainHomeScreen from '../screens/MainHomeScreen';
 import NotificationScreen from '../screens/NotificationScreen';
 import LiveClassesScreen from '../screens/LiveClassesScreen';
-import LiveClassesInnerScreen from '../screens/LiveClassesInnerScreen';
-import LiveDashboardScreen from '../screens/LiveDashboardScreen';
+import LiveClassJoinScreen from '../screens/LiveClassJoinScreen';
+import ClassReminderScreen from '../screens/ClassReminderScreen';
 import StudyMaterialScreen from '../screens/StudyMaterialScreen';
 import RecordedVideosScreen from '../screens/RecordedVideosScreen';
 import VideoPlayerScreen from '../screens/VideoPlayerScreen';
+import MyCoursesScreen from '../screens/MyCoursesScreen';
+import EditProfileScreen from '../screens/EditProfileScreen';
+import EnrollmentScreen from '../screens/EnrollmentScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -53,11 +56,16 @@ const AppNavigator = () => {
         <Stack.Screen name="Home" component={MainHomeScreen} />
         <Stack.Screen name="Notifications" component={NotificationScreen} />
         <Stack.Screen name="LiveClasses" component={LiveClassesScreen} />
-        <Stack.Screen name="LiveClassesInner" component={LiveClassesInnerScreen} />
-        <Stack.Screen name="LiveDashboard" component={LiveDashboardScreen} />
+        <Stack.Screen name="LiveClassJoin" component={LiveClassJoinScreen} />
+        <Stack.Screen name="ClassReminder" component={ClassReminderScreen} />
+        {/* <Stack.Screen name="LiveClassesInner" component={LiveClassesInnerScreen} /> */}
+        {/* <Stack.Screen name="LiveDashboard" component={LiveDashboardScreen} /> */}
         <Stack.Screen name="StudyMaterial" component={StudyMaterialScreen} />
         <Stack.Screen name="RecordedVideos" component={RecordedVideosScreen} />
         <Stack.Screen name="VideoPlayer" component={VideoPlayerScreen} />
+        <Stack.Screen name="MyCourses" component={MyCoursesScreen} />
+        <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+        <Stack.Screen name="Enrollment" component={EnrollmentScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

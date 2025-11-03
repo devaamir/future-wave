@@ -450,7 +450,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     flex: 1,
     textAlign: 'center',
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: theme.fonts.bold,
     color: '#FFFFFF',
   },

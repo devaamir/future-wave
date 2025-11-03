@@ -12,6 +12,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import { theme } from '../theme';
 import { SearchIcon, NotificationIcon } from '../components/Icons';
+import { useNavigation } from '@react-navigation/native';
 
 interface Course {
   id: string;
@@ -25,6 +26,7 @@ interface Course {
 }
 
 const CoursesScreen = ({ navigation }: any) => {
+  const nav = useNavigation();
   const [activeCategory, setActiveCategory] = useState('All');
   const [sortBy, setSortBy] = useState('Popular');
   const [showSearch, setShowSearch] = useState(false);
@@ -132,7 +134,13 @@ const CoursesScreen = ({ navigation }: any) => {
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
           >
-            <TouchableOpacity style={styles.enrollButtonContent}>
+            <TouchableOpacity 
+              style={styles.enrollButtonContent}
+              onPress={() => nav.navigate('Enrollment', {
+                courseTitle: item.title,
+                coursePrice: item.price
+              })}
+            >
               <Text style={styles.enrollButtonText}>Enroll</Text>
             </TouchableOpacity>
           </LinearGradient>
@@ -235,7 +243,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   headerTitle: {
-    fontSize: 22,
+    fontSize: 18,
     fontFamily: theme.fonts.bold,
     color: '#2D2D2D',
   },
@@ -259,7 +267,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     borderRadius: 12,
     paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingVertical: 8,
   },
   searchInput: {
     flex: 1,

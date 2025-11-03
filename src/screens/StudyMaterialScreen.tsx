@@ -6,13 +6,89 @@ import {
   StyleSheet,
   ScrollView,
   FlatList,
+  Image,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { BackArrowIcon, SearchIcon, DownloadIcon } from '../components/Icons';
+import { BackArrowIcon, SearchIcon } from '../components/Icons';
+import Svg, { Path } from 'react-native-svg';
 import { theme } from '../theme';
+
+const DownloadIcon = ({ size = 16, color = '#FFFFFF' }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Path
+      d="M8 12L12 16M12 16L16 12M12 16V4M4 20H20"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      fill="none"
+    />
+  </Svg>
+);
+
+const PlusIcon = ({ size = 24, color = '#FFFFFF' }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Path
+      d="M4 12H20M12 4V20"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      fill="none"
+    />
+  </Svg>
+);
 
 const StudyMaterialScreen = ({ navigation }: any) => {
   const [activeFilter, setActiveFilter] = useState('All');
+
+  const getSubjectIcon = (title: string) => {
+    const lowerTitle = title.toLowerCase();
+    if (lowerTitle.includes('physics')) {
+      return <Image source={require('../assets/images/physics_thumb.png')} style={styles.subjectImage} />;
+    }
+    if (lowerTitle.includes('math')) {
+      return <Image source={require('../assets/images/maths_thumb.png')} style={styles.subjectImage} />;
+    }
+    if (lowerTitle.includes('chemistry')) {
+      return <Image source={require('../assets/images/logo-icon.png')} style={styles.subjectImage} />;
+    }
+    if (lowerTitle.includes('biology')) {
+      return <Image source={require('../assets/images/logo-icon-white.png')} style={styles.subjectImage} />;
+    }
+    if (lowerTitle.includes('psc') || lowerTitle.includes('kerala')) {
+      return <Image source={require('../assets/images/kpsc_thumb.png')} style={styles.subjectImage} />;
+    }
+    if (lowerTitle.includes('english') || lowerTitle.includes('literature')) {
+      return <Image source={require('../assets/images/mathematics.webp')} style={styles.subjectImage} />;
+    }
+    // Default fallback
+    return <Image source={require('../assets/images/logo-icon.png')} style={styles.subjectImage} />;
+  };
+
+  const getRecommendedIcon = (title: string) => {
+    const lowerTitle = title.toLowerCase();
+    if (lowerTitle.includes('physics')) {
+      return <Image source={require('../assets/images/physics_thumb.png')} style={styles.recommendedImage} />;
+    }
+    if (lowerTitle.includes('math')) {
+      return <Image source={require('../assets/images/maths_thumb.png')} style={styles.recommendedImage} />;
+    }
+    if (lowerTitle.includes('chemistry')) {
+      return <Image source={require('../assets/images/logo-icon.png')} style={styles.recommendedImage} />;
+    }
+    if (lowerTitle.includes('biology')) {
+      return <Image source={require('../assets/images/logo-icon-white.png')} style={styles.recommendedImage} />;
+    }
+    if (lowerTitle.includes('psc') || lowerTitle.includes('kerala')) {
+      return <Image source={require('../assets/images/kpsc_thumb.png')} style={styles.recommendedImage} />;
+    }
+    if (lowerTitle.includes('english') || lowerTitle.includes('literature')) {
+      return <Image source={require('../assets/images/mathematics.webp')} style={styles.recommendedImage} />;
+    }
+    // Default fallback
+    return <Image source={require('../assets/images/logo-icon.png')} style={styles.recommendedImage} />;
+  };
 
   const filters = [
     { id: 'All', label: 'All', icon: '📚' },
@@ -55,19 +131,85 @@ const StudyMaterialScreen = ({ navigation }: any) => {
       icon: '🧠',
       isNew: false,
     },
+    {
+      id: 5,
+      title: 'Biology Cell Structure Notes',
+      subtitle: 'Uploaded by Dr. Priya on Oct 25',
+      type: 'PDF',
+      icon: '📄',
+      isNew: true,
+    },
+    {
+      id: 6,
+      title: 'English Literature Guide',
+      subtitle: 'Uploaded by Prof. Sarah on Oct 22',
+      type: 'Notes',
+      icon: '🧾',
+      isNew: false,
+    },
+    {
+      id: 7,
+      title: 'Mathematics Calculus Practice',
+      subtitle: 'Uploaded by Dr. Raj on Oct 19',
+      type: 'Question Papers',
+      icon: '🧠',
+      isNew: false,
+    },
+    {
+      id: 8,
+      title: 'Physics Thermodynamics Video',
+      subtitle: 'Uploaded by Prof. John on Oct 16',
+      type: 'Video',
+      icon: '🎥',
+      isNew: false,
+    },
+    {
+      id: 9,
+      title: 'Chemistry Organic Compounds',
+      subtitle: 'Uploaded by Dr. Maya on Oct 14',
+      type: 'PDF',
+      icon: '📄',
+      isNew: false,
+    },
+    {
+      id: 10,
+      title: 'Kerala PSC Mock Test Series',
+      subtitle: 'Uploaded by Admin on Oct 10',
+      type: 'Question Papers',
+      icon: '🧠',
+      isNew: false,
+    },
+    {
+      id: 11,
+      title: 'Biology Genetics Study Guide',
+      subtitle: 'Uploaded by Dr. Ravi on Oct 8',
+      type: 'PDF',
+      icon: '📄',
+      isNew: false,
+    },
+    {
+      id: 12,
+      title: 'Mathematics Algebra Basics',
+      subtitle: 'Uploaded by Prof. Meera on Oct 5',
+      type: 'Video',
+      icon: '🎥',
+      isNew: false,
+    },
   ];
 
   const recommendedMaterials = [
-    { id: 1, title: 'Maths Basics', icon: '📘' },
+    { id: 1, title: 'Mathematics Basics', icon: '📘' },
     { id: 2, title: 'Physics Laws', icon: '🎥' },
     { id: 3, title: 'Chemistry Notes', icon: '📄' },
     { id: 4, title: 'Biology Guide', icon: '📗' },
+    { id: 5, title: 'English Literature', icon: '📖' },
+    { id: 6, title: 'Kerala PSC Prep', icon: '🎯' },
   ];
 
   const renderMaterialCard = ({ item }: any) => (
     <View style={styles.materialCard}>
       <View style={styles.iconContainer}>
-        <Text style={styles.materialIcon}>{item.icon}</Text>
+        {getSubjectIcon(item.title)}
       </View>
       <View style={styles.materialInfo}>
         <View style={styles.titleRow}>
@@ -80,22 +222,19 @@ const StudyMaterialScreen = ({ navigation }: any) => {
         </View>
         <Text style={styles.materialSubtitle}>{item.subtitle}</Text>
       </View>
-      <LinearGradient
-        colors={['#0056FF', '#2D9CDB']}
-        style={styles.actionButton}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-      >
+      <View style={styles.actionButton}>
         <TouchableOpacity style={styles.actionButtonContent}>
           <DownloadIcon size={16} color="#FFFFFF" />
         </TouchableOpacity>
-      </LinearGradient>
+      </View>
     </View>
   );
 
   const renderRecommendedCard = (item: any) => (
     <TouchableOpacity key={item.id} style={styles.recommendedCard}>
-      <Text style={styles.recommendedIcon}>{item.icon}</Text>
+      <View style={styles.recommendedIconContainer}>
+        {getRecommendedIcon(item.title)}
+      </View>
       <Text style={styles.recommendedTitle}>{item.title}</Text>
     </TouchableOpacity>
   );
@@ -121,16 +260,16 @@ const StudyMaterialScreen = ({ navigation }: any) => {
           showsHorizontalScrollIndicator={false}
           style={styles.filterBar}
         >
-          {filters.map(filter => (
+          {filters.map((filter, index) => (
             <TouchableOpacity
               key={filter.id}
               style={[
                 styles.filterChip,
                 activeFilter === filter.id && styles.activeFilterChip,
+                index === filters.length - 1 ? { marginRight: 16 } : null,
               ]}
               onPress={() => setActiveFilter(filter.id)}
             >
-              <Text style={styles.filterIcon}>{filter.icon}</Text>
               <Text
                 style={[
                   styles.filterText,
@@ -170,7 +309,7 @@ const StudyMaterialScreen = ({ navigation }: any) => {
         end={{ x: 1, y: 0 }}
       >
         <TouchableOpacity style={styles.floatingButtonContent}>
-          <Text style={styles.floatingButtonIcon}>➕</Text>
+          <PlusIcon size={24} color="#FFFFFF" />
         </TouchableOpacity>
       </LinearGradient>
     </View>
@@ -199,7 +338,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     flex: 1,
     textAlign: 'center',
-    fontSize: 22,
+    fontSize: 18,
     fontFamily: theme.fonts.bold,
     color: '#2D2D2D',
   },
@@ -207,7 +346,7 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   filterBar: {
-    // paddingHorizontal: 16,
+    // paddingHorizontal: 32,
     marginBottom: 16,
     // height: 48,
     paddingTop: 8,
@@ -220,15 +359,11 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     borderWidth: 1,
     borderColor: '#D1D5DB',
-    marginHorizontal: 5,
+    marginLeft: 16,
   },
   activeFilterChip: {
     backgroundColor: '#0056FF',
     borderColor: '#0056FF',
-  },
-  filterIcon: {
-    fontSize: 14,
-    marginRight: 4,
   },
   filterText: {
     fontSize: 14,
@@ -252,11 +387,13 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     flexDirection: 'row',
     alignItems: 'center',
-    shadowColor: '#E5E7EB',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 3,
+    borderWidth: 1,
+    borderColor: '#F3F4F6',
   },
   iconContainer: {
     width: 48,
@@ -266,9 +403,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 12,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
   },
-  materialIcon: {
-    fontSize: 20,
+  subjectImage: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    resizeMode: 'cover',
+  },
+  recommendedImage: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    resizeMode: 'cover',
   },
   materialInfo: {
     flex: 1,
@@ -305,6 +454,7 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
+    backgroundColor: '#0056FF',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -332,11 +482,23 @@ const styles = StyleSheet.create({
     marginRight: 12,
     width: 100,
     alignItems: 'center',
-    shadowColor: '#E5E7EB',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 3,
+    borderWidth: 1,
+    borderColor: '#F3F4F6',
+  },
+  recommendedIconContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#F3F4F6',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 8,
+    overflow: 'hidden',
   },
   recommendedIcon: {
     fontSize: 32,

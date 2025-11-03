@@ -27,20 +27,24 @@ import {
 import { theme } from '../theme';
 import { useNavigation } from '@react-navigation/native';
 
-const HomeScreen = () => {
+const HomeScreen = ({ onTabPress }: any) => {
   const categories = [
     {
       icon: LiveClassIcon,
       title: 'Live Classes',
-      onPress: () => navigation.navigate('LiveClassesInner'),
+      onPress: () => onTabPress?.('Live'),
     },
     {
       icon: RecordedVideosIcon,
       title: 'Recorded Videos',
       onPress: () => navigation.navigate('RecordedVideos'),
     },
-    { icon: StudyMaterialIcon, title: 'Study Material', onPress: () => navigation.navigate('StudyMaterial') },
-    { icon: ExamIcon, title: 'Exams' },
+    {
+      icon: StudyMaterialIcon,
+      title: 'Study Material',
+      onPress: () => navigation.navigate('StudyMaterial'),
+    },
+    { icon: ExamIcon, title: 'Exams', onPress: () => onTabPress?.('Exams') },
   ];
 
   const courses = [
@@ -49,14 +53,14 @@ const HomeScreen = () => {
       teacher: 'Dr. Kumar',
       image: require('../assets/images/kpsc_thumb.png'),
     },
-    { 
-      title: 'Maths for SSC CGL', 
-      teacher: 'Prof. Sharma', 
+    {
+      title: 'Maths for SSC CGL',
+      teacher: 'Prof. Sharma',
       image: require('../assets/images/maths_thumb.png'),
     },
-    { 
-      title: 'NEET Physics Fundamentals', 
-      teacher: 'Dr. Patel', 
+    {
+      title: 'NEET Physics Fundamentals',
+      teacher: 'Dr. Patel',
       image: require('../assets/images/physics_thumb.png'),
     },
   ];
@@ -66,15 +70,23 @@ const HomeScreen = () => {
       title: 'General Science – Live Test Discussion',
       teacher: 'Dr. Nair',
       time: 'Today, 7:00 PM',
+      scheduledTime: new Date('2025-11-03T19:00:00+05:30'), // 7:00 PM today
+      thumbnail: require('../assets/images/physics_thumb.png'),
     },
     {
       title: 'English Grammar Basics',
       teacher: 'Ms. Priya',
       time: 'Tomorrow, 6:00 PM',
+      scheduledTime: new Date('2025-11-04T18:00:00+05:30'), // 6:00 PM tomorrow
+      thumbnail: require('../assets/images/maths_thumb.png'),
     },
   ];
 
   const navigation = useNavigation();
+
+  const handleSetReminder = (classItem: any) => {
+    navigation.navigate('ClassReminder', { classData: classItem });
+  };
 
   return (
     <View style={styles.container}>
@@ -123,7 +135,15 @@ const HomeScreen = () => {
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
           >
-            <TouchableOpacity style={styles.buttonContent}>
+            <TouchableOpacity
+              style={styles.buttonContent}
+              onPress={() =>
+                navigation.navigate('Enrollment', {
+                  courseTitle: 'Kerala PSC Prelims – Crash Batch',
+                  coursePrice: '₹499',
+                })
+              }
+            >
               <Text style={styles.enrollButtonText}>Enroll Now</Text>
             </TouchableOpacity>
           </LinearGradient>
@@ -156,10 +176,19 @@ const HomeScreen = () => {
             style={styles.horizontalScroll}
           >
             {courses.map((course, index) => (
-              <TouchableOpacity key={index} style={styles.courseCard}>
+              <TouchableOpacity
+                key={index}
+                style={styles.courseCard}
+                onPress={() =>
+                  navigation.navigate('Enrollment', {
+                    courseTitle: course.title,
+                    coursePrice: '₹499',
+                  })
+                }
+              >
                 <View style={styles.courseImage}>
-                  <Image 
-                    source={course.image} 
+                  <Image
+                    source={course.image}
                     style={styles.courseImageStyle}
                     resizeMode="cover"
                   />
@@ -180,8 +209,11 @@ const HomeScreen = () => {
                 <Text style={styles.classTeacher}>by {classItem.teacher}</Text>
                 <Text style={styles.classTime}>{classItem.time}</Text>
               </View>
-              <TouchableOpacity style={styles.joinButton}>
-                <Text style={styles.joinButtonText}>Join</Text>
+              <TouchableOpacity
+                style={styles.reminderButton}
+                onPress={() => handleSetReminder(classItem)}
+              >
+                <Text style={styles.reminderText}>Set Reminder</Text>
               </TouchableOpacity>
             </View>
           ))}
@@ -240,7 +272,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     borderRadius: 12,
     paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingVertical: 8,
   },
   searchInput: {
     flex: 1,
@@ -388,6 +420,18 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontFamily: theme.fonts.bold,
     fontSize: 14,
+  },
+  reminderButton: {
+    borderWidth: 1,
+    borderColor: '#1A3C8E',
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+  },
+  reminderText: {
+    fontSize: 12,
+    fontFamily: theme.fonts.medium,
+    color: '#1A3C8E',
   },
 });
 
