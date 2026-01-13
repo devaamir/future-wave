@@ -129,7 +129,7 @@ const CoursesScreen = ({ navigation }: any) => {
             {item.price}
           </Text>
           <LinearGradient
-            colors={['#00C6A7', '#2EB5E5']}
+            colors={['#4ECDC4', '#26A69A']}
             style={styles.enrollButton}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
@@ -297,7 +297,7 @@ const styles = StyleSheet.create({
     borderBottomColor: 'transparent',
   },
   activeCategoryTab: {
-    borderBottomColor: '#1A3C8E',
+    borderBottomColor: '#4ECDC4',
   },
   categoryText: {
     fontSize: 16,
@@ -306,7 +306,7 @@ const styles = StyleSheet.create({
   },
   activeCategoryText: {
     fontFamily: theme.fonts.bold,
-    color: '#1A3C8E',
+    color: '#4ECDC4',
   },
   sortContainer: {
     flexDirection: 'row',
@@ -396,10 +396,10 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 16,
     fontFamily: theme.fonts.bold,
-    color: '#1A3C8E',
+    color: '#4ECDC4',
   },
   freePrice: {
-    color: '#00C6A7',
+    color: '#4ECDC4',
   },
   enrollButton: {
     borderRadius: 6,

@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   coursePrice: {
     fontSize: 24,
     fontFamily: theme.fonts.bold,
-    color: '#00C6A7',
+    color: '#4ECDC4',
   },
   featuresSection: {
     backgroundColor: '#FFFFFF',

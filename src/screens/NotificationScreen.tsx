@@ -53,7 +53,7 @@ const NotificationScreen = () => {
         {notifications.map(item => (
           <TouchableOpacity key={item.id} style={styles.notificationCard}>
             <View style={styles.iconContainer}>
-              <NotificationIcon size={20} color="#1A3C8E" />
+              <NotificationIcon size={20} color="#E74C3C" />
             </View>
             <View style={styles.textContainer}>
               <Text style={styles.title}>{item.title}</Text>
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: '#1A3C8E',
+    backgroundColor: '#4ECDC4',
     marginTop: 8,
   },
   emptyState: {

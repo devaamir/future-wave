@@ -9,4 +9,12 @@ export const theme = {
   defaultFont: fonts.regular,
 };
 
+// Gradient presets matching logo colors
+export const gradients = {
+  flame: ['#E74C3C', '#F39C12', '#F1C40F'],
+  teal: ['#4ECDC4', '#26A69A'],
+  green: ['#27AE60', '#1E8449'],
+  redOrange: ['#E74C3C', '#F39C12'],
+};
+
 export { colors, fonts, fontSizes, buttonStyles, buttonColors };

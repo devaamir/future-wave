@@ -255,10 +255,10 @@ const ExamsScreen = () => {
         <Text style={styles.headerTitle}>Exams</Text>
         <View style={styles.headerIcons}>
           <TouchableOpacity style={styles.headerIcon}>
-            <CalendarIcon size={24} color="#1A3C8E" />
+            <CalendarIcon size={24} color="#4ECDC4" />
           </TouchableOpacity>
           <TouchableOpacity style={styles.headerIcon}>
-            <NotificationIcon size={24} color="#1A3C8E" />
+            <NotificationIcon size={24} color="#4ECDC4" />
           </TouchableOpacity>
         </View>
       </View>
@@ -359,8 +359,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   activeFilterChip: {
-    backgroundColor: '#1A3C8E',
-    borderColor: '#1A3C8E',
+    backgroundColor: '#4ECDC4',
+    borderColor: '#4ECDC4',
   },
   filterChipText: {
     fontSize: 14,
@@ -395,7 +395,7 @@ const styles = StyleSheet.create({
   },
   ongoingCard: {
     borderWidth: 2,
-    borderColor: '#00C6A7',
+    borderColor: '#4ECDC4',
   },
   completedCard: {
     opacity: 0.9,
@@ -484,7 +484,7 @@ const styles = StyleSheet.create({
   },
   progressFill: {
     height: '100%',
-    backgroundColor: '#00C6A7',
+    backgroundColor: '#4ECDC4',
     borderRadius: 4,
   },
   progressText: {

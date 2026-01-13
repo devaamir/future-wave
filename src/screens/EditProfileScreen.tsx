@@ -132,7 +132,7 @@ const EditProfileScreen = ({ navigation }: any) => {
               style={styles.editIcon}
               onPress={handleImagePicker}
             >
-              <EditIcon size={16} color="#1A3C8E" />
+              <EditIcon size={16} color="#4ECDC4" />
             </TouchableOpacity> */}
           </View>
           <TouchableOpacity
@@ -233,7 +233,7 @@ const EditProfileScreen = ({ navigation }: any) => {
               style={styles.modalOptionHalf}
               onPress={openCamera}
             >
-              <CameraIcon size={20} color="#1A3C8E" />
+              <CameraIcon size={20} color="#4ECDC4" />
               <Text style={styles.modalOptionText}>Camera</Text>
             </TouchableOpacity>
 
@@ -241,7 +241,7 @@ const EditProfileScreen = ({ navigation }: any) => {
               style={styles.modalOptionHalf}
               onPress={openGallery}
             >
-              <GalleryIcon size={20} color="#1A3C8E" />
+              <GalleryIcon size={20} color="#4ECDC4" />
               <Text style={styles.modalOptionText}>Gallery</Text>
             </TouchableOpacity>
           </View>
@@ -319,7 +319,7 @@ const styles = StyleSheet.create({
   changePhotoText: {
     fontSize: 14,
     fontFamily: theme.fonts.medium,
-    color: '#1A3C8E',
+    color: '#4ECDC4',
   },
   formSection: {
     backgroundColor: '#FFFFFF',

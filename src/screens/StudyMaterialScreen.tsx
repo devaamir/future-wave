@@ -51,7 +51,7 @@ const StudyMaterialScreen = ({ navigation }: any) => {
       return <Image source={require('../assets/images/maths_thumb.png')} style={styles.subjectImage} />;
     }
     if (lowerTitle.includes('chemistry')) {
-      return <Image source={require('../assets/images/logo-icon.png')} style={styles.subjectImage} />;
+      return <Image source={require('../assets/images/logo-icon.jpg')} style={styles.subjectImage} />;
     }
     if (lowerTitle.includes('biology')) {
       return <Image source={require('../assets/images/logo-icon-white.png')} style={styles.subjectImage} />;
@@ -63,7 +63,7 @@ const StudyMaterialScreen = ({ navigation }: any) => {
       return <Image source={require('../assets/images/mathematics.webp')} style={styles.subjectImage} />;
     }
     // Default fallback
-    return <Image source={require('../assets/images/logo-icon.png')} style={styles.subjectImage} />;
+    return <Image source={require('../assets/images/logo-icon.jpg')} style={styles.subjectImage} />;
   };
 
   const getRecommendedIcon = (title: string) => {
@@ -75,7 +75,7 @@ const StudyMaterialScreen = ({ navigation }: any) => {
       return <Image source={require('../assets/images/maths_thumb.png')} style={styles.recommendedImage} />;
     }
     if (lowerTitle.includes('chemistry')) {
-      return <Image source={require('../assets/images/logo-icon.png')} style={styles.recommendedImage} />;
+      return <Image source={require('../assets/images/logo-icon.jpg')} style={styles.recommendedImage} />;
     }
     if (lowerTitle.includes('biology')) {
       return <Image source={require('../assets/images/logo-icon-white.png')} style={styles.recommendedImage} />;
@@ -87,7 +87,7 @@ const StudyMaterialScreen = ({ navigation }: any) => {
       return <Image source={require('../assets/images/mathematics.webp')} style={styles.recommendedImage} />;
     }
     // Default fallback
-    return <Image source={require('../assets/images/logo-icon.png')} style={styles.recommendedImage} />;
+    return <Image source={require('../assets/images/logo-icon.jpg')} style={styles.recommendedImage} />;
   };
 
   const filters = [

@@ -70,7 +70,7 @@ const ProfileScreen = ({ navigation, onTabPress }: any) => {
               style={styles.editIcon}
               onPress={() => navigation?.navigate('EditProfile')}
             >
-              <EditIcon size={16} color="#1A3C8E" />
+              <EditIcon size={16} color="#4ECDC4" />
             </TouchableOpacity>
           </TouchableOpacity>
 
@@ -128,7 +128,7 @@ const ProfileScreen = ({ navigation, onTabPress }: any) => {
             <Switch
               value={darkMode}
               onValueChange={setDarkMode}
-              trackColor={{ false: '#E5E7EB', true: '#00C6A7' }}
+              trackColor={{ false: '#E5E7EB', true: '#4ECDC4' }}
               thumbColor={darkMode ? '#FFFFFF' : '#F3F4F6'}
             />
           </View>
@@ -147,7 +147,7 @@ const ProfileScreen = ({ navigation, onTabPress }: any) => {
 
         {/* Logout Button */}
         <LinearGradient
-          colors={['#00C6A7', '#2EB5E5']}
+          colors={['#4ECDC4', '#26A69A']}
           style={styles.logoutButton}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}

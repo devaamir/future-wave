@@ -27,7 +27,7 @@ const LiveClassesScreen = () => {
       time: '3:00 PM',
       scheduledTime: new Date('2025-11-03T15:00:00+05:30'),
       thumbnail: require('../assets/images/maths_thumb.png'),
-      avatar: require('../assets/images/logo-icon.png'),
+      avatar: require('../assets/images/logo-icon.jpg'),
     },
     {
       id: 2,
@@ -38,7 +38,7 @@ const LiveClassesScreen = () => {
       time: '10:00 AM',
       scheduledTime: new Date('2025-11-04T10:00:00+05:30'),
       thumbnail: require('../assets/images/physics_thumb.png'),
-      avatar: require('../assets/images/logo-icon.png'),
+      avatar: require('../assets/images/logo-icon.jpg'),
     },
     {
       id: 3,
@@ -49,7 +49,7 @@ const LiveClassesScreen = () => {
       time: '2:00 PM',
       scheduledTime: new Date('2025-11-05T14:00:00+05:30'),
       thumbnail: require('../assets/images/kpsc_thumb.png'),
-      avatar: require('../assets/images/logo-icon.png'),
+      avatar: require('../assets/images/logo-icon.jpg'),
     },
   ];
 
@@ -84,7 +84,7 @@ const LiveClassesScreen = () => {
           <Svg width={24} height={24} viewBox="0 0 24 24">
             <Path
               d="M3 9H21M7 3V5M17 3V5M6 13H8M6 17H8M11 13H13M11 17H13M16 13H18M16 17H18M6.2 21H17.8C18.9201 21 19.4802 21 19.908 20.782C20.2843 20.5903 20.5903 20.2843 20.782 19.908C21 19.4802 21 18.9201 21 17.8V8.2C21 7.07989 21 6.51984 20.782 6.09202C20.5903 5.71569 20.2843 5.40973 19.908 5.21799C19.4802 5 18.9201 5 17.8 5H6.2C5.0799 5 4.51984 5 4.09202 5.21799C3.71569 5.40973 3.40973 5.71569 3.21799 6.09202C3 6.51984 3 7.07989 3 8.2V17.8C3 18.9201 3 19.4802 3.21799 19.908C3.40973 20.2843 3.71569 20.5903 4.09202 20.782C4.51984 21 5.07989 21 6.2 21Z"
-              stroke="#1A3C8E"
+              stroke="#4ECDC4"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -109,7 +109,7 @@ const LiveClassesScreen = () => {
               </View>
 
               <LinearGradient
-                colors={['#00C6A7', '#2EB5E5']}
+                colors={['#4ECDC4', '#26A69A']}
                 style={styles.joinButton}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
@@ -336,7 +336,7 @@ const styles = StyleSheet.create({
   },
   reminderButton: {
     borderWidth: 1,
-    borderColor: '#1A3C8E',
+    borderColor: '#4ECDC4',
     borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 6,
@@ -344,7 +344,7 @@ const styles = StyleSheet.create({
   reminderText: {
     fontSize: 12,
     fontFamily: theme.fonts.medium,
-    color: '#1A3C8E',
+    color: '#4ECDC4',
   },
   recordingsScroll: {
     marginLeft: -16,

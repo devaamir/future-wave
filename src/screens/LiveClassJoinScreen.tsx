@@ -70,7 +70,7 @@ const LiveClassJoinScreen = () => {
 
             {!isJoined && (
               <LinearGradient
-                colors={['#1A3C8E', '#2E5BBA']}
+                colors={['#4ECDC4', '#2E5BBA']}
                 style={styles.joinOverlayButton}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
@@ -120,7 +120,7 @@ const LiveClassJoinScreen = () => {
         {/* <View style={styles.optionsRow}>
           <TouchableOpacity style={styles.optionButton}>
             <LinearGradient
-              colors={['#1A3C8E', '#2E5BBA']}
+              colors={['#4ECDC4', '#2E5BBA']}
               style={styles.optionGradient}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
@@ -132,7 +132,7 @@ const LiveClassJoinScreen = () => {
 
           <TouchableOpacity style={styles.optionButton}>
             <LinearGradient
-              colors={['#1A3C8E', '#2E5BBA']}
+              colors={['#4ECDC4', '#2E5BBA']}
               style={styles.optionGradient}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
@@ -144,7 +144,7 @@ const LiveClassJoinScreen = () => {
 
           <TouchableOpacity style={styles.optionButton}>
             <LinearGradient
-              colors={['#1A3C8E', '#2E5BBA']}
+              colors={['#4ECDC4', '#2E5BBA']}
               style={styles.optionGradient}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
@@ -156,7 +156,7 @@ const LiveClassJoinScreen = () => {
 
           <TouchableOpacity style={styles.optionButton}>
             <LinearGradient
-              colors={['#1A3C8E', '#2E5BBA']}
+              colors={['#4ECDC4', '#2E5BBA']}
               style={styles.optionGradient}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
@@ -171,7 +171,7 @@ const LiveClassJoinScreen = () => {
       {/* Bottom Action Area */}
       {/* <View style={styles.bottomSection}>
         <LinearGradient
-          colors={['#1A3C8E', '#2E5BBA']}
+          colors={['#4ECDC4', '#2E5BBA']}
           style={styles.joinButton}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}

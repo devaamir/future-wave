@@ -112,7 +112,7 @@ const ClassReminderScreen = () => {
       {/* Bottom Action */}
       <View style={styles.bottomSection}>
         <LinearGradient
-          colors={reminderSet ? ['#10B981', '#059669'] : ['#1A3C8E', '#2E5BBA']}
+          colors={reminderSet ? ['#27AE60', '#1E8449'] : ['#E74C3C', '#F39C12']}
           style={styles.reminderButton}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
   timeInfo: {
     fontSize: 14,
     fontFamily: theme.fonts.medium,
-    color: '#1A3C8E',
+    color: '#4ECDC4',
     marginBottom: 16,
   },
   metaInfo: {

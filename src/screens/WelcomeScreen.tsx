@@ -23,8 +23,8 @@ const WaveIcon = () => (
   <Svg width="40" height="24" viewBox="0 0 40 24">
     <Defs>
       <SvgLinearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-        <Stop offset="0%" stopColor="#00C6A7" />
-        <Stop offset="100%" stopColor="#2EB5E5" />
+        <Stop offset="0%" stopColor="#4ECDC4" />
+        <Stop offset="100%" stopColor="#26A69A" />
       </SvgLinearGradient>
     </Defs>
     <Path
@@ -41,7 +41,7 @@ const WelcomeScreen = () => {
       {/* Logo Section */}
       <View style={styles.logoSection}>
         <Image
-          source={require('../assets/images/logo.png')}
+          source={require('../assets/images/logo-icon.jpg')}
           style={styles.logo}
           resizeMode="contain"
         />
@@ -58,7 +58,7 @@ const WelcomeScreen = () => {
       {/* Buttons Section */}
       <View style={styles.buttonSection}>
         <LinearGradient
-          colors={['#00C6A7', '#2EB5E5']}
+          colors={['#4ECDC4', '#26A69A']}
           style={styles.loginButton}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
   tagline: {
     fontSize: 30,
     fontFamily: theme.fonts.bold,
-    color: '#1A3C8E',
+    color: '#4ECDC4',
     textAlign: 'center',
     marginBottom: 16,
     lineHeight: 36,
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
   },
   signUpButton: {
     borderWidth: 2,
-    borderColor: '#1A3C8E',
+    borderColor: '#4ECDC4',
     borderRadius: 12,
     paddingVertical: 14,
     alignItems: 'center',
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
   signUpButtonText: {
     fontSize: 18,
     fontFamily: theme.fonts.medium,
-    color: '#1A3C8E',
+    color: '#4ECDC4',
   },
   bottomWave: {
     position: 'absolute',

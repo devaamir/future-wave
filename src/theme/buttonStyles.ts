@@ -2,21 +2,29 @@ import { StyleSheet } from 'react-native';
 import { theme } from './index';
 
 export const buttonStyles = StyleSheet.create({
-  // Primary gradient button (main actions)
+  // Primary gradient button (main actions) - Teal to darker teal
   primaryGradient: {
     borderRadius: 12,
   },
-  primaryGradientColors: ['#00C6A7', '#2EB5E5'],
+  primaryGradientColors: ['#4ECDC4', '#26A69A'],
   primaryGradientStart: { x: 0, y: 0 },
   primaryGradientEnd: { x: 1, y: 0 },
   
-  // Secondary gradient button (banners, highlights)
+  // Secondary gradient button (banners, highlights) - Red to orange flame
   secondaryGradient: {
     borderRadius: 12,
   },
-  secondaryGradientColors: ['#1A3C8E', '#00C6A7'],
+  secondaryGradientColors: ['#E74C3C', '#F39C12'],
   secondaryGradientStart: { x: 0, y: 0 },
   secondaryGradientEnd: { x: 1, y: 0 },
+  
+  // Accent gradient (flame effect) - Full flame gradient
+  accentGradient: {
+    borderRadius: 12,
+  },
+  accentGradientColors: ['#E74C3C', '#F39C12', '#F1C40F'],
+  accentGradientStart: { x: 0, y: 0 },
+  accentGradientEnd: { x: 1, y: 0 },
   
   // Button content padding
   buttonContent: {
@@ -36,7 +44,7 @@ export const buttonStyles = StyleSheet.create({
   // Outlined button
   outlinedButton: {
     borderWidth: 1,
-    borderColor: '#1A3C8E',
+    borderColor: '#4ECDC4',
     borderRadius: 12,
     paddingVertical: 12,
     paddingHorizontal: 24,
@@ -47,7 +55,7 @@ export const buttonStyles = StyleSheet.create({
   outlinedButtonText: {
     fontSize: 14,
     fontFamily: theme.fonts.medium,
-    color: '#1A3C8E',
+    color: '#4ECDC4',
   },
   
   // Small button variants
@@ -87,10 +95,10 @@ export const buttonStyles = StyleSheet.create({
 });
 
 export const buttonColors = {
-  primary: ['#00C6A7', '#2EB5E5'],
-  secondary: ['#1A3C8E', '#00C6A7'],
-  accent: '#1A3C8E',
-  success: '#10B981',
-  warning: '#F59E0B',
-  error: '#EF4444',
+  primary: ['#4ECDC4', '#26A69A'],        // Teal gradient
+  secondary: ['#E74C3C', '#F39C12'],      // Red to orange
+  accent: ['#E74C3C', '#F39C12', '#F1C40F'], // Full flame gradient
+  success: '#27AE60',                     // Green from logo
+  warning: '#F39C12',                     // Orange from flame
+  error: '#E74C3C',                       // Red from logo
 };

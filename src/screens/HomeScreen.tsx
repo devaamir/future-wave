@@ -92,7 +92,7 @@ const HomeScreen = ({ onTabPress }: any) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Image
-          source={require('../assets/images/logo-icon.png')}
+          source={require('../assets/images/logo-icon.jpg')}
           style={styles.logoIcon}
           resizeMode="contain"
         />
@@ -121,7 +121,7 @@ const HomeScreen = ({ onTabPress }: any) => {
         showsVerticalScrollIndicator={false}
       >
         <LinearGradient
-          colors={['#1A3C8E', '#00C6A7']}
+          colors={['#E74C3C', '#F39C12']}
           style={styles.banner}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
@@ -130,7 +130,7 @@ const HomeScreen = ({ onTabPress }: any) => {
             Live PSC Crash Course Starting Tomorrow!
           </Text>
           <LinearGradient
-            colors={['#00C6A7', '#2EB5E5']}
+            colors={['#4ECDC4', '#26A69A']}
             style={styles.enrollButton}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
@@ -160,7 +160,7 @@ const HomeScreen = ({ onTabPress }: any) => {
                 onPress={category.onPress}
               >
                 <View style={styles.categoryIcon}>
-                  <IconComponent size={32} color="#1A3C8E" />
+                  <IconComponent size={32} color="#4ECDC4" />
                 </View>
                 <Text style={styles.categoryText}>{category.title}</Text>
               </TouchableOpacity>
@@ -408,10 +408,10 @@ const styles = StyleSheet.create({
   classTime: {
     fontSize: 14,
     fontFamily: theme.fonts.medium,
-    color: '#1A3C8E',
+    color: '#4ECDC4',
   },
   joinButton: {
-    backgroundColor: '#1A3C8E',
+    backgroundColor: '#4ECDC4',
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 8,
@@ -423,7 +423,7 @@ const styles = StyleSheet.create({
   },
   reminderButton: {
     borderWidth: 1,
-    borderColor: '#1A3C8E',
+    borderColor: '#4ECDC4',
     borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 6,
@@ -431,7 +431,7 @@ const styles = StyleSheet.create({
   reminderText: {
     fontSize: 12,
     fontFamily: theme.fonts.medium,
-    color: '#1A3C8E',
+    color: '#4ECDC4',
   },
 });
 
