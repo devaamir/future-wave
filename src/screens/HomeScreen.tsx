@@ -17,10 +17,10 @@ import Svg, {
   Stop,
 } from 'react-native-svg';
 import {
-  LiveClassIcon,
-  RecordedVideosIcon,
   StudyMaterialIcon,
   ExamIcon,
+  CoursesIcon,
+  AnalyticsIcon,
   NotificationIcon,
   SearchIcon,
 } from '../components/Icons';
@@ -30,21 +30,25 @@ import { useNavigation } from '@react-navigation/native';
 const HomeScreen = ({ onTabPress }: any) => {
   const categories = [
     {
-      icon: LiveClassIcon,
-      title: 'Live Classes',
-      onPress: () => onTabPress?.('Live'),
-    },
-    {
-      icon: RecordedVideosIcon,
-      title: 'Recorded Videos',
-      onPress: () => navigation.navigate('RecordedVideos'),
-    },
-    {
       icon: StudyMaterialIcon,
-      title: 'Study Material',
+      title: 'Study Materials',
       onPress: () => navigation.navigate('StudyMaterial'),
     },
-    { icon: ExamIcon, title: 'Exams', onPress: () => onTabPress?.('Exams') },
+    {
+      icon: ExamIcon,
+      title: 'Exams',
+      onPress: () => onTabPress?.('Exams'),
+    },
+    {
+      icon: CoursesIcon,
+      title: 'Courses',
+      onPress: () => navigation.navigate('Courses'),
+    },
+    {
+      icon: AnalyticsIcon,
+      title: 'Progress',
+      onPress: () => navigation.navigate('Progress'),
+    },
   ];
 
   const courses = [
@@ -194,13 +198,13 @@ const HomeScreen = ({ onTabPress }: any) => {
                   />
                 </View>
                 <Text style={styles.courseTitle}>{course.title}</Text>
-                <Text style={styles.courseTeacher}>{course.teacher}</Text>
+                {/* <Text style={styles.courseTeacher}>{course.teacher}</Text> */}
               </TouchableOpacity>
             ))}
           </ScrollView>
         </View>
 
-        <View style={styles.section}>
+        {/* <View style={styles.section}>
           <Text style={styles.sectionTitle}>Your Upcoming Classes</Text>
           {upcomingClasses.map((classItem, index) => (
             <View key={index} style={styles.classCard}>
@@ -217,7 +221,7 @@ const HomeScreen = ({ onTabPress }: any) => {
               </TouchableOpacity>
             </View>
           ))}
-        </View>
+        </View> */}
       </ScrollView>
     </View>
   );

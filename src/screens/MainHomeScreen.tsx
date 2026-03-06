@@ -23,8 +23,8 @@ const MainHomeScreen = ({ navigation }: any) => {
         return <HomeScreen onTabPress={handleTabPress} />;
       case 'Courses':
         return <CoursesScreen />;
-      case 'Live':
-        return <LiveClassesScreen />;
+      // case 'Live':
+      //   return <LiveClassesScreen />;
       case 'Exams':
         return <ExamsScreen />;
       case 'Profile':
