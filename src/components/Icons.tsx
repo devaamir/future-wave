@@ -360,6 +360,57 @@ export const AnalyticsIcon = ({ size = 24, color = '#4ECDC4' }: IconProps) => (
   </Svg>
 );
 
+export const AchievementsIcon = ({ size = 24, color = '#6B7280' }: IconProps) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    {/* Trophy cup body */}
+    <Path
+      d="M7 4H17V12C17 14.2091 15.2091 16 13 16H11C8.79086 16 7 14.2091 7 12V4Z"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinejoin="round"
+      fill="none"
+    />
+    {/* Left handle */}
+    <Path
+      d="M7 6H5C3.89543 6 3 6.89543 3 8C3 9.10457 3.89543 10 5 10H7"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+      fill="none"
+    />
+    {/* Right handle */}
+    <Path
+      d="M17 6H19C20.1046 6 21 6.89543 21 8C21 9.10457 20.1046 10 19 10H17"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+      fill="none"
+    />
+    {/* Stem */}
+    <Path
+      d="M12 16V19"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+    {/* Base */}
+    <Path
+      d="M9 21H15"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+    {/* Star inside cup */}
+    <Path
+      d="M12 8L12.5 9.5L14 10L12.5 10.5L12 12L11.5 10.5L10 10L11.5 9.5L12 8Z"
+      stroke={color}
+      strokeWidth="1.5"
+      strokeLinejoin="round"
+      fill="none"
+    />
+  </Svg>
+);
+
 export const CalendarIcon = ({ size = 24, color = '#4ECDC4' }: IconProps) => (
   <Svg width={size} height={size} viewBox="0 0 24 24">
     <Path
@@ -492,6 +543,130 @@ export const BellIcon = ({ size = 24, color = '#FFFFFF' }: IconProps) => (
   <Svg width={size} height={size} viewBox="0 0 24 24">
     <Path
       d="M9.00195 17H5.60636C4.34793 17 3.71872 17 3.58633 16.9023C3.4376 16.7925 3.40126 16.7277 3.38515 16.5436C3.37082 16.3797 3.75646 15.7486 4.52776 14.4866C5.32411 13.1835 6.00031 11.2862 6.00031 8.6C6.00031 7.11479 6.63245 5.69041 7.75766 4.6402C8.88288 3.59 10.409 3 12.0003 3C13.5916 3 15.1177 3.59 16.2429 4.6402C17.3682 5.69041 18.0003 7.11479 18.0003 8.6C18.0003 11.2862 18.6765 13.1835 19.4729 14.4866C20.2441 15.7486 20.6298 16.3797 20.6155 16.5436C20.5994 16.7277 20.563 16.7925 20.4143 16.9023C20.2819 17 19.6527 17 18.3943 17H15.0003M9.00195 17L9.00031 18C9.00031 19.6569 10.3435 21 12.0003 21C13.6572 21 15.0003 19.6569 15.0003 18V17M9.00195 17H15.0003"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      fill="none"
+    />
+  </Svg>
+);
+
+export const TodayTaskIcon = ({ size = 24, color = '#6B7280' }: IconProps) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Path
+      d="M9 5H7C5.89543 5 5 5.89543 5 7V19C5 20.1046 5.89543 21 7 21H17C18.1046 21 19 20.1046 19 19V7C19 5.89543 18.1046 5 17 5H15M9 5C9 6.10457 9.89543 7 11 7H13C14.1046 7 15 6.10457 15 5M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5M12 12H15M12 16H15M9 12H9.01M9 16H9.01"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      fill="none"
+    />
+  </Svg>
+);
+
+export const LearningSectionIcon = ({ size = 24, color = '#6B7280' }: IconProps) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Path
+      d="M19 21V5C19 3.89543 18.1046 3 17 3H7C5.89543 3 5 3.89543 5 5V21M19 21H21M19 21H14M5 21H3M5 21H10M14 21V16C14 15.4477 13.5523 15 13 15H11C10.4477 15 10 15.4477 10 16V21M14 21H10"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      fill="none"
+    />
+  </Svg>
+);
+
+export const OMRIcon = ({ size = 24, color = '#6B7280' }: IconProps) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Path
+      d="M9 12H15M9 16H15M17 21H7C5.89543 21 5 20.1046 5 19V5C5 3.89543 5.89543 3 7 3H12.5858C12.851 3 13.1054 3.10536 13.2929 3.29289L18.7071 8.70711C18.8946 8.89464 19 9.149 19 9.41421V19C19 20.1046 18.1046 21 17 21Z"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      fill="none"
+    />
+  </Svg>
+);
+
+export const PrelimsIcon = ({ size = 24, color = '#6B7280' }: IconProps) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Path
+      d="M9 5H7C5.89543 5 5 5.89543 5 7V19C5 20.1046 5.89543 21 7 21H17C18.1046 21 19 20.1046 19 19V7C19 5.89543 18.1046 5 17 5H15M9 5C9 6.10457 9.89543 7 11 7H13C14.1046 7 15 6.10457 15 5M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5M9 12L11 14L15 10"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      fill="none"
+    />
+  </Svg>
+);
+
+export const MainCoursesIcon = ({ size = 24, color = '#6B7280' }: IconProps) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Path
+      d="M12 14L21 9L12 4L3 9L12 14ZM12 14L18.1591 10.5783C18.7017 11.9466 19 13.4384 19 15C19 15.7014 18.9398 16.3889 18.8244 17.0569M12 14L5.84092 10.5783C5.29831 11.9466 5 13.4384 5 15C5 15.7014 5.06019 16.3889 5.17564 17.0569M6 20.0872H18M7 16.5L6 20.0872M17 16.5L18 20.0872"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      fill="none"
+    />
+  </Svg>
+);
+
+export const VideosIcon = ({ size = 24, color = '#6B7280' }: IconProps) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Path
+      d="M15 10L19.5528 7.72361C20.2177 7.39116 21 7.87465 21 8.61803V15.382C21 16.1253 20.2177 16.6088 19.5528 16.2764L15 14M5 18H13C14.1046 18 15 17.1046 15 16V8C15 6.89543 14.1046 6 13 6H5C3.89543 6 3 6.89543 3 8V16C3 17.1046 3.89543 18 5 18Z"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      fill="none"
+    />
+  </Svg>
+);
+
+export const OurBooksIcon = ({ size = 24, color = '#6B7280' }: IconProps) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Path
+      d="M12 6.25278V19.2528M12 6.25278C10.8321 5.47686 9.24649 5 7.5 5C5.75351 5 4.16789 5.47686 3 6.25278V19.2528C4.16789 18.4769 5.75351 18 7.5 18C9.24649 18 10.8321 18.4769 12 19.2528M12 6.25278C13.1679 5.47686 14.7535 5 16.5 5C18.2465 5 19.8321 5.47686 21 6.25278V19.2528C19.8321 18.4769 18.2465 18 16.5 18C14.7535 18 13.1679 18.4769 12 19.2528"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      fill="none"
+    />
+  </Svg>
+);
+
+export const CurrentAffairsIcon = ({ size = 24, color = '#6B7280' }: IconProps) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Path
+      d="M19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      fill="none"
+    />
+    <Path
+      d="M7 7H17M7 11H17M7 15H13"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);
+
+export const AudioClassIcon = ({ size = 24, color = '#6B7280' }: IconProps) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Path
+      d="M12 3C7.58172 3 4 6.58172 4 11V17C4 18.1046 4.89543 19 6 19H8C8.55228 19 9 18.5523 9 18V13C9 12.4477 8.55228 12 8 12H5V11C5 7.13401 8.13401 4 12 4C15.866 4 19 7.13401 19 11V12H16C15.4477 12 15 12.4477 15 13V18C15 18.5523 15.4477 19 16 19H18C19.1046 19 20 18.1046 20 17V11C20 6.58172 16.4183 3 12 3Z"
       stroke={color}
       strokeWidth="2"
       strokeLinecap="round"

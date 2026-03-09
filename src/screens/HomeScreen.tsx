@@ -5,224 +5,240 @@ import {
   ScrollView,
   TouchableOpacity,
   StyleSheet,
-  Dimensions,
   TextInput,
   Image,
+  Platform,
+  StatusBar,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import Svg, {
-  Path,
-  Defs,
-  LinearGradient as SvgLinearGradient,
-  Stop,
-} from 'react-native-svg';
 import {
-  StudyMaterialIcon,
-  ExamIcon,
-  CoursesIcon,
-  AnalyticsIcon,
   NotificationIcon,
   SearchIcon,
+  TodayTaskIcon,
+  LearningSectionIcon,
+  OMRIcon,
+  PrelimsIcon,
+  MainCoursesIcon,
+  VideosIcon,
+  OurBooksIcon,
+  CurrentAffairsIcon,
+  AudioClassIcon,
+  StudyMaterialIcon,
+  ExamIcon,
+  AchievementsIcon,
 } from '../components/Icons';
 import { theme } from '../theme';
 import { useNavigation } from '@react-navigation/native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import LinearGradient from 'react-native-linear-gradient';
 
 const HomeScreen = ({ onTabPress }: any) => {
-  const categories = [
-    {
-      icon: StudyMaterialIcon,
-      title: 'Study Materials',
-      onPress: () => navigation.navigate('StudyMaterial'),
-    },
-    {
-      icon: ExamIcon,
-      title: 'Exams',
-      onPress: () => onTabPress?.('Exams'),
-    },
-    {
-      icon: CoursesIcon,
-      title: 'Courses',
-      onPress: () => navigation.navigate('Courses'),
-    },
-    {
-      icon: AnalyticsIcon,
-      title: 'Progress',
-      onPress: () => navigation.navigate('Progress'),
-    },
-  ];
-
-  const courses = [
-    {
-      title: 'Kerala PSC Prelims – Crash Batch',
-      teacher: 'Dr. Kumar',
-      image: require('../assets/images/kpsc_thumb.png'),
-    },
-    {
-      title: 'Maths for SSC CGL',
-      teacher: 'Prof. Sharma',
-      image: require('../assets/images/maths_thumb.png'),
-    },
-    {
-      title: 'NEET Physics Fundamentals',
-      teacher: 'Dr. Patel',
-      image: require('../assets/images/physics_thumb.png'),
-    },
-  ];
-
-  const upcomingClasses = [
-    {
-      title: 'General Science – Live Test Discussion',
-      teacher: 'Dr. Nair',
-      time: 'Today, 7:00 PM',
-      scheduledTime: new Date('2025-11-03T19:00:00+05:30'), // 7:00 PM today
-      thumbnail: require('../assets/images/physics_thumb.png'),
-    },
-    {
-      title: 'English Grammar Basics',
-      teacher: 'Ms. Priya',
-      time: 'Tomorrow, 6:00 PM',
-      scheduledTime: new Date('2025-11-04T18:00:00+05:30'), // 6:00 PM tomorrow
-      thumbnail: require('../assets/images/maths_thumb.png'),
-    },
-  ];
-
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
 
-  const handleSetReminder = (classItem: any) => {
-    navigation.navigate('ClassReminder', { classData: classItem });
-  };
+  const dashboardItems = [
+    { title: "My tasks", icon: TodayTaskIcon },
+    { title: 'Learning Section', icon: LearningSectionIcon },
+    { title: 'OMR Practice', icon: OMRIcon },
+    { title: 'Announcements', icon: NotificationIcon },
+    { title: 'Prelims', icon: PrelimsIcon },
+    { title: 'Main Courses', icon: MainCoursesIcon },
+    { title: 'News & Events', icon: CurrentAffairsIcon },
+    { title: 'Videos', icon: VideosIcon },
+    { title: 'Audio Class', icon: AudioClassIcon },
+    { title: 'Achievements', icon: AchievementsIcon },
+    { title: 'Our Books', icon: OurBooksIcon },
+    { title: '', icon: null }, // Empty placeholder
+  ];
+
+  const currentAffairs = [
+    {
+      image: require('../assets/images/kpsc_thumb.png'),
+      title: 'Kerala PSC Updates',
+      category: 'Kerala PSC Prelims',
+      date: 'Today'
+    },
+    {
+      image: require('../assets/images/maths_thumb.png'),
+      title: 'National News',
+      category: 'Current Affairs',
+      date: 'Yesterday'
+    },
+    {
+      image: require('../assets/images/physics_thumb.png'),
+      title: 'International Affairs',
+      category: 'Current Affairs',
+      date: '2 days ago'
+    },
+    {
+      image: require('../assets/images/kpsc_thumb.png'),
+      title: 'Economy Updates',
+      category: 'Current Affairs',
+      date: '3 days ago'
+    },
+  ];
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Image
-          source={require('../assets/images/logo-icon.jpg')}
-          style={styles.logoIcon}
-          resizeMode="contain"
-        />
-        <Text style={styles.welcomeText}>Welcome, Aamir!</Text>
-        <TouchableOpacity
-          activeOpacity={0.7}
-          style={styles.notificationContainer}
-          onPress={() => navigation.navigate('Notifications')}
-        >
-          <NotificationIcon size={24} color="#2D2D2D" />
-          <View style={styles.badge} />
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.searchContainer}>
-        <SearchIcon size={16} color="#6B7280" />
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search courses, exams, teachers…"
-          placeholderTextColor="#6B7280"
-        />
-      </View>
-
-      <ScrollView
-        style={styles.scrollView}
-        showsVerticalScrollIndicator={false}
-      >
-        <LinearGradient
-          colors={['#E74C3C', '#F39C12']}
-          style={styles.banner}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-        >
-          <Text style={styles.bannerText}>
-            Live PSC Crash Course Starting Tomorrow!
-          </Text>
-          <LinearGradient
-            colors={['#4ECDC4', '#26A69A']}
-            style={styles.enrollButton}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-          >
+      <LinearGradient colors={['#4DB8AC', '#ffffff']} style={styles.linearGradient} start={{ x: 0, y: 0 }} end={{ x: 0, y: 0.5 }}>
+        <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+        <View style={[styles.headerContainer]}>
+          <View style={styles.header}>
+            <Image
+              source={require('../assets/images/logo-icon.jpg')}
+              style={styles.logoIcon}
+              resizeMode="contain"
+            />
+            <View style={styles.headerCenter}>
+              <Text style={styles.greetingText}>Hi, Aamir</Text>
+              <Text style={styles.subGreetingText}>Ready to continue learning?</Text>
+            </View>
             <TouchableOpacity
-              style={styles.buttonContent}
-              onPress={() =>
-                navigation.navigate('Enrollment', {
-                  courseTitle: 'Kerala PSC Prelims – Crash Batch',
-                  coursePrice: '₹499',
-                })
-              }
+              activeOpacity={0.7}
+              onPress={() => navigation.navigate('Notifications')}
             >
-              <Text style={styles.enrollButtonText}>Enroll Now</Text>
+              <NotificationIcon size={24} color="#2D2D2D" />
             </TouchableOpacity>
-          </LinearGradient>
-        </LinearGradient>
-
-        <View style={styles.categoriesContainer}>
-          {categories.map((category, index) => {
-            const IconComponent = category.icon;
-            return (
-              <TouchableOpacity
-                key={index}
-                style={styles.categoryItem}
-                activeOpacity={0.7}
-                onPress={category.onPress}
-              >
-                <View style={styles.categoryIcon}>
-                  <IconComponent size={32} color="#4ECDC4" />
-                </View>
-                <Text style={styles.categoryText}>{category.title}</Text>
-              </TouchableOpacity>
-            );
-          })}
+          </View>
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Recommended Courses</Text>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            style={styles.horizontalScroll}
-          >
-            {courses.map((course, index) => (
-              <TouchableOpacity
-                key={index}
-                style={styles.courseCard}
-                onPress={() =>
-                  navigation.navigate('Enrollment', {
-                    courseTitle: course.title,
-                    coursePrice: '₹499',
-                  })
-                }
-              >
-                <View style={styles.courseImage}>
-                  <Image
-                    source={course.image}
-                    style={styles.courseImageStyle}
-                    resizeMode="cover"
-                  />
-                </View>
-                <Text style={styles.courseTitle}>{course.title}</Text>
-                {/* <Text style={styles.courseTeacher}>{course.teacher}</Text> */}
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
+        <View style={styles.searchContainer}>
+          <SearchIcon size={18} color="#9CA3AF" />
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search courses, exams, materials..."
+            placeholderTextColor="#9CA3AF"
+          />
         </View>
 
-        {/* <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Your Upcoming Classes</Text>
-          {upcomingClasses.map((classItem, index) => (
-            <View key={index} style={styles.classCard}>
-              <View style={styles.classInfo}>
-                <Text style={styles.classTitle}>{classItem.title}</Text>
-                <Text style={styles.classTeacher}>by {classItem.teacher}</Text>
-                <Text style={styles.classTime}>{classItem.time}</Text>
-              </View>
-              <TouchableOpacity
-                style={styles.reminderButton}
-                onPress={() => handleSetReminder(classItem)}
-              >
-                <Text style={styles.reminderText}>Set Reminder</Text>
+
+
+        <ScrollView
+          style={styles.scrollView}
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Today's Tasks</Text>
+            <View style={styles.tasksCard}>
+              <TouchableOpacity style={styles.taskRow} activeOpacity={0.7}>
+                <View style={styles.taskLeft}>
+                  <View style={styles.taskIconContainer}>
+                    <StudyMaterialIcon size={18} color="#6B7280" />
+                  </View>
+                  <Text style={styles.taskTitle}>Study Materials</Text>
+                </View>
+                <View style={styles.taskCompleted}>
+                  <Text style={styles.checkmark}>✓</Text>
+                </View>
+              </TouchableOpacity>
+
+              <View style={styles.taskDivider} />
+
+              <TouchableOpacity style={styles.taskRow} activeOpacity={0.7}>
+                <View style={styles.taskLeft}>
+                  <View style={styles.taskIconContainer}>
+                    <ExamIcon size={18} color="#6B7280" />
+                  </View>
+                  <Text style={styles.taskTitle}>Daily Quiz</Text>
+                </View>
+                <View style={styles.startButton}>
+                  <Text style={styles.startButtonText}>Start</Text>
+                </View>
+              </TouchableOpacity>
+
+              <View style={styles.taskDivider} />
+
+              <TouchableOpacity style={styles.taskRow} activeOpacity={0.7}>
+                <View style={styles.taskLeft}>
+                  <View style={styles.taskIconContainer}>
+                    <CurrentAffairsIcon size={18} color="#6B7280" />
+                  </View>
+                  <Text style={styles.taskTitle}>Read Current Affairs</Text>
+                </View>
+                <Text style={styles.pendingText}>Pending</Text>
               </TouchableOpacity>
             </View>
-          ))}
-        </View> */}
-      </ScrollView>
+          </View>
+          <View style={styles.dashboardCard}>
+            <View style={styles.dashboardGrid}>
+              {dashboardItems.map((item, index) => {
+                if (!item.icon) return <View key={index} style={styles.dashboardItem} />;
+                const IconComponent = item.icon;
+                return (
+                  <TouchableOpacity
+                    key={index}
+                    style={styles.dashboardItem}
+                    activeOpacity={0.7}
+                  >
+                    <View style={styles.iconContainer}>
+                      <IconComponent size={28} color="#4DB8AC" />
+                    </View>
+                    <Text style={styles.dashboardText}>{item.title}</Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          </View>
+
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Continue Learning</Text>
+            <View style={styles.continueCard}>
+              <View style={styles.continueContent}>
+                <Text style={styles.continueTitle}>Kerala PSC Polity Notes</Text>
+                <View style={styles.progressContainer}>
+                  <View style={styles.progressBar}>
+                    <View style={[styles.progressFill, { width: '45%' }]} />
+                  </View>
+                  <Text style={styles.progressText}>45%</Text>
+                </View>
+              </View>
+              <TouchableOpacity style={styles.resumeButton} activeOpacity={0.7}>
+                <Text style={styles.resumeText}>Resume →</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <View style={styles.section}>
+            <View style={styles.sectionHeader}>
+              <Text style={styles.sectionTitle}>Current Affairs</Text>
+              <TouchableOpacity activeOpacity={0.7}>
+                <Text style={styles.viewAllText}>View All</Text>
+              </TouchableOpacity>
+            </View>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              style={styles.horizontalScroll}
+            >
+              {currentAffairs.map((item, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={styles.affairCard}
+                  activeOpacity={0.7}
+                >
+                  <Image
+                    source={item.image}
+                    style={styles.affairImage}
+                    resizeMode="cover"
+                  />
+                  <View style={styles.affairOverlay}>
+                    <View style={styles.categoryBadge}>
+                      <Text style={styles.categoryText}>{item.category}</Text>
+                    </View>
+                  </View>
+                  <View style={styles.affairInfo}>
+                    <Text style={styles.affairTitle} numberOfLines={2}>
+                      {item.title}
+                    </Text>
+                    <Text style={styles.affairDate}>{item.date}</Text>
+                  </View>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </View>
+
+        </ScrollView>
+
+      </LinearGradient>
     </View>
   );
 };
@@ -230,57 +246,57 @@ const HomeScreen = ({ onTabPress }: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#F5F5F5',
+  },
+  linearGradient: {
+    flex: 1,
+  },
+  headerContainer: {
     backgroundColor: '#FFFFFF',
+    paddingBottom: 20,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-    paddingTop: 20,
-    paddingBottom: 16,
-    backgroundColor: '#FFFFFF',
   },
   logoIcon: {
-    width: 40,
-    height: 40,
+    width: 36,
+    height: 36,
+    borderRadius: 8,
   },
-  welcomeText: {
-    fontSize: 16,
+  headerCenter: {
+    flex: 1,
+    marginLeft: 12,
+  },
+  greetingText: {
+    fontSize: 18,
     fontFamily: theme.fonts.semiBold,
     color: '#2D2D2D',
-    flex: 1,
-    textAlign: 'left',
-    marginLeft: 16,
-    marginTop: 8,
   },
-  notificationContainer: {
-    position: 'relative',
-  },
-  badge: {
-    position: 'absolute',
-    top: 2,
-    right: 2,
-    backgroundColor: '#FF4444',
-    borderRadius: 10,
-    width: 8,
-    height: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
+  subGreetingText: {
+    fontSize: 13,
+    fontFamily: theme.fonts.regular,
+    color: '#6B7280',
+    marginTop: 2,
   },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F3F4F6',
+    backgroundColor: '#F9FAFB',
     marginHorizontal: 16,
+    marginTop: 16,
     marginBottom: 16,
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+    borderRadius: 10,
+    paddingHorizontal: 14,
+    height: 44,
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
   },
   searchInput: {
     flex: 1,
-    fontSize: 16,
+    fontSize: 14,
     fontFamily: theme.fonts.regular,
     color: '#2D2D2D',
     marginLeft: 8,
@@ -288,154 +304,235 @@ const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
   },
-  banner: {
-    marginHorizontal: 16,
-    borderRadius: 16,
-    padding: 20,
+  section: {
     marginBottom: 24,
   },
-  bannerText: {
-    fontSize: 18,
-    fontFamily: theme.fonts.bold,
-    color: '#FFFFFF',
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginHorizontal: 16,
     marginBottom: 12,
   },
-  enrollButton: {
-    alignSelf: 'flex-start',
-    borderRadius: 8,
+  sectionTitle: {
+    fontSize: 16,
+    fontFamily: theme.fonts.bold,
+    color: '#2D2D2D',
   },
-  buttonContent: {
-    paddingHorizontal: 16,
+  viewAllText: {
+    fontSize: 13,
+    fontFamily: theme.fonts.medium,
+    color: '#4DB8AC',
+  },
+  tasksCard: {
+    backgroundColor: '#FFFFFF',
+    marginHorizontal: 16,
+    borderRadius: 12,
+    padding: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  taskRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     paddingVertical: 8,
   },
-  enrollButtonText: {
-    color: '#FFFFFF',
-    fontFamily: theme.fonts.bold,
-    fontSize: 14,
-  },
-  categoriesContainer: {
+  taskLeft: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginHorizontal: 16,
-    marginBottom: 24,
-  },
-  categoryItem: {
     alignItems: 'center',
+    flex: 1,
   },
-  categoryIcon: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: '#F3F4F6',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 8,
+  taskIconContainer: {
+    marginRight: 10,
   },
-  categoryText: {
-    fontSize: 12,
+  taskTitle: {
+    fontSize: 13,
     fontFamily: theme.fonts.medium,
     color: '#2D2D2D',
+  },
+  taskCompleted: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: '#10B981',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  checkmark: {
+    color: '#FFFFFF',
+    fontSize: 12,
+    fontFamily: theme.fonts.bold,
+  },
+  startButton: {
+    backgroundColor: '#4DB8AC',
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderRadius: 6,
+  },
+  startButtonText: {
+    color: '#FFFFFF',
+    fontSize: 11,
+    fontFamily: theme.fonts.semiBold,
+  },
+  pendingText: {
+    fontSize: 11,
+    fontFamily: theme.fonts.medium,
+    color: '#9CA3AF',
+  },
+  taskDivider: {
+    height: 1,
+    backgroundColor: '#F3F4F6',
+  },
+  continueCard: {
+    backgroundColor: '#FFFFFF',
+    marginHorizontal: 16,
+    borderRadius: 12,
+    padding: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  continueContent: {
+    flex: 1,
+    marginRight: 12,
+  },
+  continueTitle: {
+    fontSize: 14,
+    fontFamily: theme.fonts.semiBold,
+    color: '#2D2D2D',
+    marginBottom: 8,
+  },
+  progressContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  progressBar: {
+    flex: 1,
+    height: 6,
+    backgroundColor: '#E5E7EB',
+    borderRadius: 3,
+    marginRight: 8,
+    overflow: 'hidden',
+  },
+  progressFill: {
+    height: '100%',
+    backgroundColor: '#4DB8AC',
+    borderRadius: 3,
+  },
+  progressText: {
+    fontSize: 12,
+    fontFamily: theme.fonts.medium,
+    color: '#6B7280',
+    minWidth: 35,
+  },
+  resumeButton: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+  },
+  resumeText: {
+    fontSize: 13,
+    fontFamily: theme.fonts.semiBold,
+    color: '#4DB8AC',
+  },
+  dashboardCard: {
+    backgroundColor: '#FFFFFF',
+    marginHorizontal: 16,
+    marginBottom: 20,
+    borderRadius: 16,
+    padding: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  dashboardGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  dashboardItem: {
+    width: '31%',
+    alignItems: 'center',
+    marginBottom: 28,
+  },
+  iconContainer: {
+    marginBottom: 8,
+  },
+  dashboardText: {
+    fontSize: 12,
+    fontFamily: theme.fonts.bold,
+    color: '#4B5563',
     textAlign: 'center',
   },
   section: {
     marginBottom: 24,
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: theme.fonts.bold,
     color: '#2D2D2D',
     marginHorizontal: 16,
-    marginBottom: 16,
+    marginBottom: 12,
   },
   horizontalScroll: {
     paddingLeft: 16,
   },
-  courseCard: {
-    width: 150,
-    marginRight: 16,
-    backgroundColor: '#F9FAFB',
+  affairCard: {
+    width: 160,
+    marginRight: 12,
     borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
+    overflow: 'hidden',
+    backgroundColor: '#FFFFFF',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 6,
+    elevation: 3,
+  },
+  affairImage: {
+    width: '100%',
+    height: 110,
+  },
+  affairOverlay: {
+    position: 'absolute',
+    top: 8,
+    left: 8,
+  },
+  categoryBadge: {
+    backgroundColor: 'rgba(77, 184, 172, 0.9)',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 6,
+  },
+  categoryText: {
+    fontSize: 10,
+    fontFamily: theme.fonts.semiBold,
+    color: '#FFFFFF',
+  },
+  affairInfo: {
     padding: 12,
   },
-  courseImage: {
-    width: '100%',
-    aspectRatio: 1,
-    backgroundColor: '#F3F4F6',
-    borderRadius: 8,
-    marginBottom: 8,
-    overflow: 'hidden',
-  },
-  courseImageStyle: {
-    width: '100%',
-    height: '100%',
-  },
-  courseTitle: {
-    fontSize: 16,
-    fontFamily: theme.fonts.bold,
+  affairTitle: {
+    fontSize: 14,
+    fontFamily: theme.fonts.semiBold,
     color: '#2D2D2D',
-    marginBottom: 4,
-    lineHeight: 20,
+    marginBottom: 6,
+    lineHeight: 18,
   },
-  courseTeacher: {
-    fontSize: 12,
+  affairDate: {
+    fontSize: 11,
     fontFamily: theme.fonts.regular,
-    color: '#6B7280',
-  },
-  classCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#F9FAFB',
-    marginHorizontal: 16,
-    marginBottom: 12,
-    padding: 16,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
-  },
-  classInfo: {
-    flex: 1,
-  },
-  classTitle: {
-    fontSize: 16,
-    fontFamily: theme.fonts.bold,
-    color: '#2D2D2D',
-    marginBottom: 4,
-  },
-  classTeacher: {
-    fontSize: 14,
-    fontFamily: theme.fonts.regular,
-    color: '#6B7280',
-    marginBottom: 2,
-  },
-  classTime: {
-    fontSize: 14,
-    fontFamily: theme.fonts.medium,
-    color: '#4ECDC4',
-  },
-  joinButton: {
-    backgroundColor: '#4ECDC4',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 8,
-  },
-  joinButtonText: {
-    color: '#FFFFFF',
-    fontFamily: theme.fonts.bold,
-    fontSize: 14,
-  },
-  reminderButton: {
-    borderWidth: 1,
-    borderColor: '#4ECDC4',
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-  },
-  reminderText: {
-    fontSize: 12,
-    fontFamily: theme.fonts.medium,
-    color: '#4ECDC4',
+    color: '#9CA3AF',
   },
 });
 

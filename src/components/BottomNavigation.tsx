@@ -37,7 +37,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({
             style={styles.tab}
             onPress={() => onTabPress(tab.id)}
           >
-            <IconComponent size={20} color={isActive ? '#4ECDC4' : '#7F8C8D'} />
+            <IconComponent size={20} color={isActive ? '#4DB8AC' : '#7F8C8D'} />
             <Text style={[styles.label, isActive && styles.activeLabel]}>
               {tab.label}
             </Text>
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   activeLabel: {
-    color: '#4ECDC4',
+    color: '#4DB8AC',
     fontFamily: theme.fonts.bold,
   },
 });
