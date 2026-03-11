@@ -21,7 +21,7 @@ const SignupScreen = ({ navigation }: any) => {
   return (
     <View style={styles.container}>
       <Image
-        source={require('../assets/images/logo-icon.jpg')}
+        source={require('../assets/images/logo-icon.png')}
         style={styles.logo}
         resizeMode="contain"
       />

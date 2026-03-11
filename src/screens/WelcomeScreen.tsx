@@ -41,7 +41,7 @@ const WelcomeScreen = () => {
       {/* Logo Section */}
       <View style={styles.logoSection}>
         <Image
-          source={require('../assets/images/logo-icon.jpg')}
+          source={require('../assets/images/logo-icon.png')}
           style={styles.logo}
           resizeMode="contain"
         />
@@ -83,9 +83,8 @@ const WelcomeScreen = () => {
       <View style={styles.bottomWave}>
         <Svg width={width} height="100" viewBox={`0 0 ${width} 100`}>
           <Path
-            d={`M0 40C${width * 0.25} 20, ${
-              width * 0.75
-            } 60, ${width} 40V100H0V40Z`}
+            d={`M0 40C${width * 0.25} 20, ${width * 0.75
+              } 60, ${width} 40V100H0V40Z`}
             fill="#2A4FA3"
             opacity={0.3}
           />

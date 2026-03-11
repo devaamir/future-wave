@@ -37,7 +37,7 @@ const MainHomeScreen = ({ navigation }: any) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['bottom', 'left', 'right']}>
       <View style={styles.content}>{renderContent()}</View>
       <BottomNavigation activeTab={activeTab} onTabPress={handleTabPress} />
     </SafeAreaView>
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    paddingBottom: 60,
+    // paddingBottom: 60,
   },
 });
 

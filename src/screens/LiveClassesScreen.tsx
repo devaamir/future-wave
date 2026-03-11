@@ -16,7 +16,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const LiveClassesScreen = () => {
   const navigation = useNavigation();
-  
+
   const upcomingClasses = [
     {
       id: 1,
@@ -27,7 +27,7 @@ const LiveClassesScreen = () => {
       time: '3:00 PM',
       scheduledTime: new Date('2025-11-03T15:00:00+05:30'),
       thumbnail: require('../assets/images/maths_thumb.png'),
-      avatar: require('../assets/images/logo-icon.jpg'),
+      avatar: require('../assets/images/logo-icon.png'),
     },
     {
       id: 2,
@@ -38,7 +38,7 @@ const LiveClassesScreen = () => {
       time: '10:00 AM',
       scheduledTime: new Date('2025-11-04T10:00:00+05:30'),
       thumbnail: require('../assets/images/physics_thumb.png'),
-      avatar: require('../assets/images/logo-icon.jpg'),
+      avatar: require('../assets/images/logo-icon.png'),
     },
     {
       id: 3,
@@ -49,7 +49,7 @@ const LiveClassesScreen = () => {
       time: '2:00 PM',
       scheduledTime: new Date('2025-11-05T14:00:00+05:30'),
       thumbnail: require('../assets/images/kpsc_thumb.png'),
-      avatar: require('../assets/images/logo-icon.jpg'),
+      avatar: require('../assets/images/logo-icon.png'),
     },
   ];
 
@@ -114,7 +114,7 @@ const LiveClassesScreen = () => {
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
               >
-                <TouchableOpacity 
+                <TouchableOpacity
                   style={styles.joinButtonContent}
                   onPress={() => navigation.navigate('LiveClassJoin')}
                 >
@@ -143,7 +143,7 @@ const LiveClassesScreen = () => {
                 </Text>
               </View>
 
-              <TouchableOpacity 
+              <TouchableOpacity
                 style={styles.reminderButton}
                 onPress={() => handleSetReminder(classItem)}
               >
@@ -163,10 +163,10 @@ const LiveClassesScreen = () => {
             style={styles.recordingsScroll}
           >
             {pastSessions.map(session => (
-              <TouchableOpacity 
-                key={session.id} 
+              <TouchableOpacity
+                key={session.id}
                 style={styles.recordingCard}
-                onPress={() => navigation.navigate('VideoPlayer', { 
+                onPress={() => navigation.navigate('VideoPlayer', {
                   videoTitle: session.title,
                   videoUrl: 'https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4'
                 })}
