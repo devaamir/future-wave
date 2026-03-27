@@ -1,5 +1,5 @@
 import React from 'react';
-import Svg, { Path, Circle, Rect, G } from 'react-native-svg';
+import Svg, { Path, Circle, Rect, G, Defs, Stop, LinearGradient, Filter, FeDropShadow } from 'react-native-svg';
 
 interface IconProps {
   size?: number;
@@ -552,6 +552,56 @@ export const BellIcon = ({ size = 24, color = '#FFFFFF' }: IconProps) => (
   </Svg>
 );
 
+export const GoldenBellIcon = ({ size = 24 }: IconProps) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <Defs>
+      {/* Main golden gradient: deep gold to bright gold */}
+      <LinearGradient id="goldMain" x1="12" y1="3" x2="12" y2="21" gradientUnits="userSpaceOnUse">
+        <Stop offset="0%" stopColor="#FFE066" />
+        <Stop offset="40%" stopColor="#FFB800" />
+        <Stop offset="100%" stopColor="#B8860B" />
+      </LinearGradient>
+
+      {/* Shine highlight gradient */}
+      <LinearGradient id="goldShine" x1="3" y1="3" x2="21" y2="21" gradientUnits="userSpaceOnUse">
+        <Stop offset="0%" stopColor="#FFF5A0" stopOpacity="0.9" />
+        <Stop offset="50%" stopColor="#FFD700" stopOpacity="0.3" />
+        <Stop offset="100%" stopColor="#996600" stopOpacity="0.8" />
+      </LinearGradient>
+
+      {/* Stroke gradient */}
+      <LinearGradient id="goldStroke" x1="12" y1="3" x2="12" y2="21" gradientUnits="userSpaceOnUse">
+        <Stop offset="0%" stopColor="#FFE87C" />
+        <Stop offset="100%" stopColor="#7A5200" />
+      </LinearGradient>
+
+      {/* Drop shadow filter */}
+      <Filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+        <FeDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#B8860B" floodOpacity="0.6" />
+        <FeDropShadow dx="0" dy="0" stdDeviation="4" floodColor="#FFD700" floodOpacity="0.4" />
+      </Filter>
+    </Defs>
+
+    {/* Bell body filled with golden gradient */}
+    <Path
+      d="M9.00195 17H5.60636C4.34793 17 3.71872 17 3.58633 16.9023C3.4376 16.7925 3.40126 16.7277 3.38515 16.5436C3.37082 16.3797 3.75646 15.7486 4.52776 14.4866C5.32411 13.1835 6.00031 11.2862 6.00031 8.6C6.00031 7.11479 6.63245 5.69041 7.75766 4.6402C8.88288 3.59 10.409 3 12.0003 3C13.5916 3 15.1177 3.59 16.2429 4.6402C17.3682 5.69041 18.0003 7.11479 18.0003 8.6C18.0003 11.2862 18.6765 13.1835 19.4729 14.4866C20.2441 15.7486 20.6298 16.3797 20.6155 16.5436C20.5994 16.7277 20.563 16.7925 20.4143 16.9023C20.2819 17 19.6527 17 18.3943 17H15.0003M9.00195 17L9.00031 18C9.00031 19.6569 10.3435 21 12.0003 21C13.6572 21 15.0003 19.6569 15.0003 18V17M9.00195 17H15.0003"
+      fill="url(#goldMain)"
+      stroke="url(#goldStroke)"
+      stroke-width="0.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      filter="url(#glow)"
+    />
+
+    {/* Shine overlay layer */}
+    <Path
+      d="M9.00195 17H5.60636C4.34793 17 3.71872 17 3.58633 16.9023C3.4376 16.7925 3.40126 16.7277 3.38515 16.5436C3.37082 16.3797 3.75646 15.7486 4.52776 14.4866C5.32411 13.1835 6.00031 11.2862 6.00031 8.6C6.00031 7.11479 6.63245 5.69041 7.75766 4.6402C8.88288 3.59 10.409 3 12.0003 3C13.5916 3 15.1177 3.59 16.2429 4.6402C17.3682 5.69041 18.0003 7.11479 18.0003 8.6C18.0003 11.2862 18.6765 13.1835 19.4729 14.4866C20.2441 15.7486 20.6298 16.3797 20.6155 16.5436C20.5994 16.7277 20.563 16.7925 20.4143 16.9023C20.2819 17 19.6527 17 18.3943 17H15.0003M9.00195 17L9.00031 18C9.00031 19.6569 10.3435 21 12.0003 21C13.6572 21 15.0003 19.6569 15.0003 18V17M9.00195 17H15.0003"
+      fill="url(#goldShine)"
+      stroke="none"
+    />
+  </Svg>
+);
+
 export const TodayTaskIcon = ({ size = 24, color = '#6B7280' }: IconProps) => (
   <Svg width={size} height={size} viewBox="0 0 24 24">
     <Path
@@ -672,6 +722,39 @@ export const AudioClassIcon = ({ size = 24, color = '#6B7280' }: IconProps) => (
       strokeLinecap="round"
       strokeLinejoin="round"
       fill="none"
+    />
+  </Svg>
+);
+
+export const MegaphoneIcon = ({ size = 24, color = '#6B7280' }: IconProps) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Path
+      d="M3 9V15H7L14 20V4L7 9H3Z"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      fill="none"
+    />
+    <Path
+      d="M17 8.5C17.8 9.3 18.3 10.4 18.3 12C18.3 13.6 17.8 14.7 17 15.5"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+      fill="none"
+    />
+    <Path
+      d="M19.5 6C21.1 7.5 22 9.6 22 12C22 14.4 21.1 16.5 19.5 18"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+      fill="none"
+    />
+    <Path
+      d="M7 15V20"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
     />
   </Svg>
 );

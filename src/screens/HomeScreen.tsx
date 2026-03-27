@@ -26,6 +26,8 @@ import {
   StudyMaterialIcon,
   ExamIcon,
   AchievementsIcon,
+  MegaphoneIcon,
+  GoldenBellIcon,
 } from '../components/Icons';
 import { theme } from '../theme';
 import { useNavigation } from '@react-navigation/native';
@@ -42,18 +44,18 @@ const HomeScreen = ({ onTabPress }: any) => {
 
 
   const dashboardItems = [
-    { title: "My tasks", icon: TodayTaskIcon },
-    { title: 'Learning Section', icon: LearningSectionIcon },
-    { title: 'OMR Practice', icon: OMRIcon },
-    { title: 'Announcements', icon: NotificationIcon },
-    { title: 'Prelims', icon: PrelimsIcon },
-    { title: 'Main Courses', icon: MainCoursesIcon },
-    { title: 'News & Events', icon: CurrentAffairsIcon },
-    { title: 'Videos', icon: VideosIcon },
-    { title: 'Audio Class', icon: AudioClassIcon },
-    { title: 'Achievements', icon: AchievementsIcon },
-    { title: 'Our Books', icon: OurBooksIcon },
-    { title: '', icon: null }, // Empty placeholder
+    { title: "My tasks", icon: TodayTaskIcon, color: '#37B38A' },
+    { title: 'Learning Section', icon: LearningSectionIcon, color: '#3A8EDB' },
+    { title: 'OMR Practice', icon: OMRIcon, color: '#F39C12' },
+    { title: 'Announcements', icon: MegaphoneIcon, color: '#2BAE9B' },
+    { title: 'Prelims', icon: PrelimsIcon, color: '#7B5ACF' },
+    { title: 'Main Courses', icon: MainCoursesIcon, color: '#F5B041' },
+    { title: 'Audio Class', icon: AudioClassIcon, color: '#FF5A7A' },
+    { title: 'News & Events', icon: CurrentAffairsIcon, color: '#3DBE8B' },
+    { title: 'Videos', icon: VideosIcon, color: '#F04F4F' },
+    { title: 'Achievements', icon: AchievementsIcon, color: '#4DB8AC' },
+    { title: 'Our Books', icon: OurBooksIcon, color: '#2E9E45' },
+    { title: '', icon: null, color: 'transparent' }, // Empty placeholder
   ];
 
   const currentAffairs = [
@@ -101,7 +103,7 @@ const HomeScreen = ({ onTabPress }: any) => {
             activeOpacity={0.7}
             onPress={() => navigation.navigate('Notifications')}
           >
-            <NotificationIcon size={24} color="#2D2D2D" />
+            <GoldenBellIcon size={24} />
           </TouchableOpacity>
         </View>
       </View>
@@ -184,8 +186,8 @@ const HomeScreen = ({ onTabPress }: any) => {
                   style={styles.dashboardItem}
                   activeOpacity={0.7}
                 >
-                  <View style={styles.iconContainer}>
-                    <IconComponent size={28} color="#4DB8AC" />
+                  <View style={[styles.iconContainer, { backgroundColor: item.color }]}>
+                    <IconComponent size={20} color="#FFFFFF" />
                   </View>
                   <Text style={styles.dashboardText}>{item.title}</Text>
                 </TouchableOpacity>
@@ -516,6 +518,11 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     marginBottom: 8,
+    width: 40,
+    height: 40,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   dashboardText: {
     fontSize: 12,
