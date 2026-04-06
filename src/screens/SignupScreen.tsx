@@ -6,16 +6,42 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
+  Alert,
+  ActivityIndicator,
 } from 'react-native';
 import { theme } from '../theme';
+import { register } from '../services/api';
 
 const SignupScreen = ({ navigation }: any) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSignup = () => {
-    navigation.navigate('Home');
+  const handleSignup = async () => {
+    if (!name || !email || !password) {
+      Alert.alert('Error', 'Please fill in all fields.');
+      return;
+    }
+    try {
+      setLoading(true);
+      await register({
+        username: email,
+        email,
+        password,
+        name,
+      });
+      Alert.alert('Success', 'Account created! Please login.', [
+        { text: 'OK', onPress: () => navigation.navigate('Login') },
+      ]);
+    } catch (error: any) {
+      const msg = error?.response?.data
+        ? JSON.stringify(error.response.data)
+        : 'Something went wrong. Please try again.';
+      Alert.alert('Signup Failed', msg);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -51,8 +77,12 @@ const SignupScreen = ({ navigation }: any) => {
         secureTextEntry
       />
 
-      <TouchableOpacity style={styles.signupButton} onPress={handleSignup}>
-        <Text style={styles.signupButtonText}>Sign Up</Text>
+      <TouchableOpacity style={styles.signupButton} onPress={handleSignup} disabled={loading}>
+        {loading ? (
+          <ActivityIndicator color={theme.colors.white} />
+        ) : (
+          <Text style={styles.signupButtonText}>Sign Up</Text>
+        )}
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => navigation.navigate('Login')}>

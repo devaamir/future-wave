@@ -6,15 +6,36 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
+  Alert,
+  ActivityIndicator,
 } from 'react-native';
 import { theme } from '../theme';
+import { login } from '../services/api';
+import { saveSession } from '../services/storage';
 
 const LoginScreen = ({ navigation }: any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = () => {
-    navigation.navigate('Home');
+  const handleLogin = async () => {
+    if (!email || !password) {
+      Alert.alert('Error', 'Please enter email and password.');
+      return;
+    }
+    try {
+      setLoading(true);
+      const { data } = await login({ username: email, password });
+      await saveSession(data.access, data.refresh, data.user);
+      navigation.reset({ index: 0, routes: [{ name: 'Home' }] });
+    } catch (error: any) {
+      const msg = error?.response?.data
+        ? JSON.stringify(error.response.data)
+        : 'Invalid credentials. Please try again.';
+      Alert.alert('Login Failed', msg);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -43,8 +64,12 @@ const LoginScreen = ({ navigation }: any) => {
         secureTextEntry
       />
 
-      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-        <Text style={styles.loginButtonText}>Login</Text>
+      <TouchableOpacity style={styles.loginButton} onPress={handleLogin} disabled={loading}>
+        {loading ? (
+          <ActivityIndicator color={theme.colors.white} />
+        ) : (
+          <Text style={styles.loginButtonText}>Login</Text>
+        )}
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => navigation.navigate('Signup')}>

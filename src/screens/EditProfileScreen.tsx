@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -7,6 +7,8 @@ import {
   StyleSheet,
   ScrollView,
   Image,
+  Alert,
+  ActivityIndicator,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Modal from 'react-native-modal';
@@ -24,17 +26,36 @@ import {
   GalleryIcon,
   XMarkIcon,
 } from '../components/Icons';
+import { getUser, saveSession } from '../services/storage';
+import { updateProfile } from '../services/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const EditProfileScreen = ({ navigation }: any) => {
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [isModalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    name: 'John Doe',
-    email: 'john.doe@email.com',
-    phone: '+91 9876543210',
-    dateOfBirth: '15/08/1995',
-    address: 'Kochi, Kerala',
+    name: '',
+    email: '',
+    phone: '',
+    dateOfBirth: '',
+    address: '',
   });
+
+  useEffect(() => {
+    getUser().then(user => {
+      if (user) {
+        setFormData({
+          name: user.name || '',
+          email: user.email || '',
+          phone: user.mobile_number || '',
+          dateOfBirth: '',
+          address: user.address || '',
+        });
+        if (user.photo) setProfileImage(user.photo);
+      }
+    });
+  }, []);
 
   const handleImagePicker = () => {
     setModalVisible(true);
@@ -76,9 +97,33 @@ const EditProfileScreen = ({ navigation }: any) => {
     }
   };
 
-  const handleSave = () => {
-    // Save profile logic here
-    navigation.goBack();
+  const handleSave = async () => {
+    try {
+      setLoading(true);
+      const { data } = await updateProfile({
+        ...(formData.name ? { name: formData.name } : null),
+        ...(formData.phone ? { mobile_number: formData.phone } : null),
+        ...(formData.address ? { address: formData.address } : null),
+        // ...(profileImage ? { photo: profileImage } : null),
+      });
+      // Update stored user with new values
+      const currentUser = await getUser();
+      if (currentUser) {
+        const refresh = await AsyncStorage.getItem('refresh_token');
+        const access = await AsyncStorage.getItem('access_token');
+        await saveSession(access!, refresh!, { ...currentUser, ...data });
+      }
+      Alert.alert('Success', 'Profile updated successfully.', [
+        { text: 'OK', onPress: () => navigation.goBack() },
+      ]);
+    } catch (error: any) {
+      const msg = error?.response?.data
+        ? JSON.stringify(error.response.data)
+        : 'Failed to update profile.';
+      Alert.alert('Error', msg);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const InputField = ({
@@ -204,8 +249,13 @@ const EditProfileScreen = ({ navigation }: any) => {
             <TouchableOpacity
               style={buttonStyles.buttonContent}
               onPress={handleSave}
+              disabled={loading}
             >
-              <Text style={buttonStyles.buttonText}>Save Changes</Text>
+              {loading ? (
+                <ActivityIndicator color="#fff" />
+              ) : (
+                <Text style={buttonStyles.buttonText}>Save Changes</Text>
+              )}
             </TouchableOpacity>
           </LinearGradient>
         </View>

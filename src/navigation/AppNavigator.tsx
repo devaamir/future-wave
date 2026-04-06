@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getAccessToken } from '../services/storage';
 import WelcomeScreen from '../screens/WelcomeScreen';
 import LoginScreen from '../screens/LoginScreen';
 import SignupScreen from '../screens/SignupScreen';
@@ -20,34 +21,39 @@ import EnrollmentScreen from '../screens/EnrollmentScreen';
 const Stack = createNativeStackNavigator();
 
 const AppNavigator = () => {
-  const [isFirstTime, setIsFirstTime] = useState<boolean | null>(null);
+  const [initialRoute, setInitialRoute] = useState<string | null>(null);
 
   useEffect(() => {
-    checkFirstTime();
+    resolveInitialRoute();
   }, []);
 
-  const checkFirstTime = async () => {
+  const resolveInitialRoute = async () => {
     try {
+      const token = await getAccessToken();
+      if (token) {
+        setInitialRoute('Home');
+        return;
+      }
       const hasLaunched = await AsyncStorage.getItem('hasLaunched');
       if (hasLaunched === null) {
-        setIsFirstTime(true);
         await AsyncStorage.setItem('hasLaunched', 'true');
+        setInitialRoute('Welcome');
       } else {
-        setIsFirstTime(false);
+        setInitialRoute('Login');
       }
-    } catch (error) {
-      setIsFirstTime(true);
+    } catch {
+      setInitialRoute('Welcome');
     }
   };
 
-  if (isFirstTime === null) {
-    return null; // Loading state
+  if (initialRoute === null) {
+    return null;
   }
 
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName={isFirstTime ? 'Welcome' : 'Login'}
+        initialRouteName={initialRoute}
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Welcome" component={WelcomeScreen} />

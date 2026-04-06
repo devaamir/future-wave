@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   View,
   Text,
@@ -24,14 +24,27 @@ import {
   ProfileIcon,
 } from '../components/Icons';
 import { theme } from '../theme';
+import { getUser, clearSession } from '../services/storage';
+import { LoginUser } from '../services/api';
 
 const ProfileScreen = ({ navigation, onTabPress }: any) => {
   const [darkMode, setDarkMode] = useState(false);
+  const [user, setUser] = useState<LoginUser | null>(null);
+
+  useEffect(() => {
+    getUser().then(setUser);
+  }, []);
 
   const handleLogout = () => {
     Alert.alert('Logout', 'Are you sure you want to logout?', [
       { text: 'Cancel', style: 'cancel' },
-      { text: 'Logout', onPress: () => navigation?.navigate('Welcome') },
+      {
+        text: 'Logout',
+        onPress: async () => {
+          await clearSession();
+          navigation?.reset({ index: 0, routes: [{ name: 'Login' }] });
+        },
+      },
     ]);
   };
 
@@ -64,7 +77,11 @@ const ProfileScreen = ({ navigation, onTabPress }: any) => {
             onPress={() => navigation?.navigate('EditProfile')}
           >
             <View style={styles.avatar}>
-              <ProfileIcon size={48} color="#6B7280" />
+              {user?.photo ? (
+                <Image source={{ uri: user.photo }} style={styles.avatarImage} />
+              ) : (
+                <ProfileIcon size={48} color="#6B7280" />
+              )}
             </View>
             <TouchableOpacity
               style={styles.editIcon}
@@ -74,8 +91,8 @@ const ProfileScreen = ({ navigation, onTabPress }: any) => {
             </TouchableOpacity>
           </TouchableOpacity>
 
-          <Text style={styles.userName}>John Doe</Text>
-          <Text style={styles.userEmail}>john.doe@email.com</Text>
+          <Text style={styles.userName}>{user?.name || 'User'}</Text>
+          <Text style={styles.userEmail}>{user?.email || ''}</Text>
         </View>
         {/* Main Content Cards */}
         <View style={styles.section}>
@@ -205,6 +222,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#F3F4F6',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  avatarImage: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
   },
   editIcon: {
     position: 'absolute',
