@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -33,57 +33,39 @@ import { theme } from '../theme';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
+import { getNews, News } from '../services/api';
 
 
 
 const HomeScreen = ({ onTabPress }: any) => {
   const navigation = useNavigation();
-
   const insets = useSafeAreaInsets();
   const statusBarHeight = insets.top;
+  const [news, setNews] = useState<News[]>([]);
+
+  useEffect(() => {
+    getNews({ page: 1 }).then(({ data }) => setNews(data.results)).catch(() => { });
+  }, []);
 
 
   const dashboardItems = [
-    { title: "My tasks", icon: TodayTaskIcon, color: '#37B38A' },
-    { title: 'Learning Section', icon: LearningSectionIcon, color: '#3A8EDB' },
-    { title: 'OMR Practice', icon: OMRIcon, color: '#F39C12' },
-    { title: 'Announcements', icon: MegaphoneIcon, color: '#2BAE9B' },
-    { title: 'Prelims', icon: PrelimsIcon, color: '#7B5ACF' },
-    { title: 'Main Courses', icon: MainCoursesIcon, color: '#F5B041' },
-    { title: 'Audio Class', icon: AudioClassIcon, color: '#FF5A7A' },
-    { title: 'News & Events', icon: CurrentAffairsIcon, color: '#3DBE8B' },
-    { title: 'Videos', icon: VideosIcon, color: '#F04F4F' },
-    { title: 'Achievements', icon: AchievementsIcon, color: '#4DB8AC' },
-    { title: 'Our Books', icon: OurBooksIcon, color: '#2E9E45' },
-    { title: '', icon: null, color: 'transparent' }, // Empty placeholder
+    { title: "My tasks", icon: TodayTaskIcon, color: '#37B38A', screen: null },
+    { title: 'Learning Section', icon: LearningSectionIcon, color: '#3A8EDB', screen: null },
+    { title: 'OMR Practice', icon: OMRIcon, color: '#F39C12', screen: null },
+    { title: 'Announcements', icon: MegaphoneIcon, color: '#2BAE9B', screen: null },
+    { title: 'Prelims', icon: PrelimsIcon, color: '#7B5ACF', screen: null },
+    { title: 'Main Courses', icon: MainCoursesIcon, color: '#F5B041', screen: null },
+    { title: 'Audio Class', icon: AudioClassIcon, color: '#FF5A7A', screen: null },
+    { title: 'Videos', icon: VideosIcon, color: '#F04F4F', screen: 'RecordedVideos' },
+    { title: 'Achievements', icon: AchievementsIcon, color: '#4DB8AC', screen: null },
+    { title: 'Our Books', icon: OurBooksIcon, color: '#2E9E45', screen: null },
+    { title: '', icon: null, color: 'transparent', screen: null },
   ];
 
-  const currentAffairs = [
-    {
-      image: require('../assets/images/kpsc_thumb.png'),
-      title: 'Kerala PSC Updates',
-      category: 'Kerala PSC Prelims',
-      date: 'Today'
-    },
-    {
-      image: require('../assets/images/maths_thumb.png'),
-      title: 'National News',
-      category: 'Current Affairs',
-      date: 'Yesterday'
-    },
-    {
-      image: require('../assets/images/physics_thumb.png'),
-      title: 'International Affairs',
-      category: 'Current Affairs',
-      date: '2 days ago'
-    },
-    {
-      image: require('../assets/images/kpsc_thumb.png'),
-      title: 'Economy Updates',
-      category: 'Current Affairs',
-      date: '3 days ago'
-    },
-  ];
+  const formattedDate = (date: string) => new Date(date).toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+  });
 
   return (
     <ImageBackground source={require('../assets/images/background-image.png')} style={styles.container}>
@@ -130,7 +112,7 @@ const HomeScreen = ({ onTabPress }: any) => {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.tasksHorizontal}
           >
-            <TouchableOpacity style={styles.taskCard} activeOpacity={0.7}>
+            <TouchableOpacity style={styles.taskCard} activeOpacity={0.7} onPress={() => navigation.navigate('StudyMaterial' as never)}>
               <View style={styles.taskHeader}>
                 <View style={styles.taskIconContainer}>
                   <StudyMaterialIcon size={24} color="#6B7280" />
@@ -138,14 +120,14 @@ const HomeScreen = ({ onTabPress }: any) => {
                 <Text style={styles.taskTitle}>Study Materials</Text>
               </View>
               <View>
-                <Text style={styles.taskProgressIncomplete}>1/3 completed</Text>
+                {/* <Text style={styles.taskProgressIncomplete}>1/3 completed</Text> */}
                 <TouchableOpacity style={styles.continueButtonSmall} activeOpacity={0.7}>
-                  <Text style={styles.continueButtonText}>Continue</Text>
+                  <Text style={styles.continueButtonText}>View</Text>
                 </TouchableOpacity>
               </View>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.taskCard} activeOpacity={0.7}>
+            <TouchableOpacity style={styles.taskCard} activeOpacity={0.7} onPress={() => navigation.navigate('DailyQuiz' as never)}>
               <View style={styles.taskHeader}>
                 <View style={styles.taskIconContainer}>
                   <ExamIcon size={24} color="#6B7280" />
@@ -153,23 +135,22 @@ const HomeScreen = ({ onTabPress }: any) => {
                 <Text style={styles.taskTitle}>Daily Quiz</Text>
               </View>
               <View>
-                <TouchableOpacity style={styles.startButtonFull} activeOpacity={0.7}>
+                <TouchableOpacity style={styles.startButtonFull} activeOpacity={0.7} onPress={() => navigation.navigate('DailyQuiz' as never)}>
                   <Text style={styles.startButtonText}>Start</Text>
                 </TouchableOpacity>
               </View>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.taskCard} activeOpacity={0.7}>
+            <TouchableOpacity style={styles.taskCard} activeOpacity={0.7} onPress={() => navigation.navigate('CurrentAffairs' as never)}>
               <View style={styles.taskHeader}>
-                <View style={styles.taskIconContainer}>
-                  <CurrentAffairsIcon size={24} color="#6B7280" />
+                <View style={[styles.taskIconContainer, { backgroundColor: '#E8F5E9', borderRadius: 8, padding: 4 }]}>
+                  <CurrentAffairsIcon size={20} color="#3DBE8B" />
                 </View>
                 <Text style={styles.taskTitle}>Current Affairs</Text>
               </View>
               <View>
-                <Text style={styles.taskProgressPending}>0/1 completed</Text>
-                <View style={styles.pendingBadge}>
-                  <Text style={styles.pendingText}>Pending</Text>
+                <View style={styles.caReadBadge}>
+                  <Text style={styles.caReadText}>Read Now</Text>
                 </View>
               </View>
             </TouchableOpacity>
@@ -185,6 +166,7 @@ const HomeScreen = ({ onTabPress }: any) => {
                   key={index}
                   style={styles.dashboardItem}
                   activeOpacity={0.7}
+                  onPress={() => item.screen && navigation.navigate(item.screen as never)}
                 >
                   <View style={[styles.iconContainer, { backgroundColor: item.color }]}>
                     <IconComponent size={20} color="#FFFFFF" />
@@ -216,8 +198,8 @@ const HomeScreen = ({ onTabPress }: any) => {
 
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Current Affairs</Text>
-            <TouchableOpacity activeOpacity={0.7}>
+            <Text style={styles.sectionTitle}>News & Events</Text>
+            <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('NewsList' as never)}>
               <Text style={styles.viewAllText}>View All</Text>
             </TouchableOpacity>
           </View>
@@ -226,27 +208,26 @@ const HomeScreen = ({ onTabPress }: any) => {
             showsHorizontalScrollIndicator={false}
             style={styles.horizontalScroll}
           >
-            {currentAffairs.map((item, index) => (
+            {news.map(item => (
               <TouchableOpacity
-                key={index}
+                key={item.id}
                 style={styles.affairCard}
                 activeOpacity={0.7}
+                onPress={() => navigation.navigate('NewsDetail' as never, { item } as never)}
               >
-                <Image
-                  source={item.image}
-                  style={styles.affairImage}
-                  resizeMode="cover"
-                />
+                {item.image ? (
+                  <Image source={{ uri: item.image }} style={styles.affairImage} resizeMode="cover" />
+                ) : (
+                  <View style={[styles.affairImage, { backgroundColor: '#E5E7EB' }]} />
+                )}
                 <View style={styles.affairOverlay}>
-                  <View style={styles.categoryBadge}>
-                    <Text style={styles.categoryText}>{item.category}</Text>
-                  </View>
+                  {/* <View style={styles.categoryBadge}>
+                    <Text style={styles.categoryText}>{item.date}</Text>
+                  </View> */}
                 </View>
                 <View style={styles.affairInfo}>
-                  <Text style={styles.affairTitle} numberOfLines={2}>
-                    {item.title}
-                  </Text>
-                  <Text style={styles.affairDate}>{item.date}</Text>
+                  <Text style={styles.affairTitle} numberOfLines={2}>{item.title}</Text>
+                  <Text style={styles.affairDate}>{formattedDate(item.date)}</Text>
                 </View>
               </TouchableOpacity>
             ))}
@@ -444,6 +425,18 @@ const styles = StyleSheet.create({
     fontFamily: theme.fonts.medium,
     color: '#9CA3AF',
   },
+  caReadBadge: {
+    backgroundColor: '#E8F5E9',
+    paddingVertical: 8,
+    borderRadius: 6,
+    width: '100%',
+    alignItems: 'center',
+  },
+  caReadText: {
+    fontSize: 11,
+    fontFamily: theme.fonts.semiBold,
+    color: '#3DBE8B',
+  },
   continueCard: {
     backgroundColor: '#FFFFFF',
     marginHorizontal: 16,
@@ -585,7 +578,7 @@ const styles = StyleSheet.create({
   affairDate: {
     fontSize: 11,
     fontFamily: theme.fonts.regular,
-    color: '#9CA3AF',
+    color: '#10B981',
   },
 });
 

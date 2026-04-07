@@ -17,6 +17,11 @@ import VideoPlayerScreen from '../screens/VideoPlayerScreen';
 import MyCoursesScreen from '../screens/MyCoursesScreen';
 import EditProfileScreen from '../screens/EditProfileScreen';
 import EnrollmentScreen from '../screens/EnrollmentScreen';
+import DailyQuizScreen from '../screens/DailyQuizScreen';
+import CurrentAffairsScreen from '../screens/CurrentAffairsScreen';
+import PDFViewerScreen from '../screens/PDFViewerScreen';
+import NewsDetailScreen from '../screens/NewsDetailScreen';
+import NewsListScreen from '../screens/NewsListScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -72,6 +77,11 @@ const AppNavigator = () => {
         <Stack.Screen name="MyCourses" component={MyCoursesScreen} />
         <Stack.Screen name="EditProfile" component={EditProfileScreen} />
         <Stack.Screen name="Enrollment" component={EnrollmentScreen} />
+        <Stack.Screen name="DailyQuiz" component={DailyQuizScreen} />
+        <Stack.Screen name="CurrentAffairs" component={CurrentAffairsScreen} />
+        <Stack.Screen name="PDFViewer" component={PDFViewerScreen} />
+        <Stack.Screen name="NewsDetail" component={NewsDetailScreen} />
+        <Stack.Screen name="NewsList" component={NewsListScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

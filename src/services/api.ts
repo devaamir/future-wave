@@ -1,5 +1,19 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+  RegisterPayload,
+  LoginPayload,
+  LoginResponse,
+  UpdateProfilePayload,
+  UpdateProfileResponse,
+  PaginatedResponse,
+  PrelimQuestion,
+  StudyMaterial,
+  CurrentAffair,
+  News,
+} from './types';
+
+export * from './types';
 
 const api = axios.create({
   baseURL: 'https://beta.tipspscacademy.in/api/',
@@ -38,59 +52,6 @@ api.interceptors.response.use(
   },
 );
 
-export interface RegisterPayload {
-  username: string;
-  email: string;
-  password: string;
-  name: string;
-}
-
-export interface LoginUser {
-  id: number;
-  username: string;
-  email: string;
-  name: string;
-  mobile_number: string;
-  photo: string | null;
-  address: string | null;
-  course_name: string | null;
-  spouse_name: string | null;
-  spouse_number: string | null;
-  relation: string | null;
-  spouse_address: string | null;
-  app_access_expiry: string | null;
-}
-
-export interface LoginResponse {
-  refresh: string;
-  access: string;
-  user: LoginUser;
-}
-
-
-export interface LoginPayload {
-  username: string;
-  password: string;
-}
-
-
-export interface UpdateProfilePayload {
-  name?: string;
-  mobile_number?: string;
-  address?: string;
-  // photo?: string;
-}
-
-export interface UpdateProfileResponse {
-  id: number;
-  username: string;
-  email: string;
-  name: string;
-  mobile_number: string;
-  photo: string | null;
-  address: string | null;
-}
-
 export const register = (data: RegisterPayload) => api.post('register/', data);
 
 export const login = (data: LoginPayload) =>
@@ -98,5 +59,17 @@ export const login = (data: LoginPayload) =>
 
 export const updateProfile = (data: UpdateProfilePayload) =>
   api.patch<UpdateProfileResponse>('user/', data);
+
+export const getQuestions = (params?: Record<string, any>) =>
+  api.get<PaginatedResponse<PrelimQuestion>>('learning/prelims/questions/', { params });
+
+export const getStudyMaterials = (params?: Record<string, any>) =>
+  api.get<PaginatedResponse<StudyMaterial>>('study-materials/', { params });
+
+export const getCurrentAffairs = (params?: Record<string, any>) =>
+  api.get<CurrentAffair[]>('learning/current-affairs/', { params });
+
+export const getNews = (params?: Record<string, any>) =>
+  api.get<PaginatedResponse<News>>('news/', { params });
 
 export default api;
