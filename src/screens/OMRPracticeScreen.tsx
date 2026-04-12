@@ -97,6 +97,7 @@ const OMRPracticeScreen = ({ navigation }: any) => {
             activeOpacity={0.8}
             onPress={() => {
               if (opt.showModal) { setSelectedOption(opt.label); setModalVisible(true); }
+              else if (opt.label === 'History') { navigation.navigate('OMRHistory'); }
             }}
           >
             <View style={[styles.iconBox, { backgroundColor: opt.bg }]}>{opt.icon}</View>

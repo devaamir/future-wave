@@ -33,6 +33,12 @@ import {
   Book,
   PrevOMRQuestion,
   SearchResult,
+  UpcomingExam,
+  ExamHistory,
+  TimetableEntry,
+  ExamResult,
+  RankingEntry,
+  OMRPracticeHistory,
   NamedItem,
   CourseItem,
   SyllabusItem,
@@ -200,6 +206,24 @@ export const getMainsQuestions = (params?: Record<string, any>) =>
 
 export const search = (q: string) =>
   api.get<SearchResult[]>('search/', { params: { q } });
+
+export const getUpcomingExams = () =>
+  api.get<UpcomingExam[]>('exams/upcoming/');
+
+export const getExamHistory = (params?: { page?: number; page_size?: number }) =>
+  api.get<PaginatedResponse<ExamHistory>>('user/exam-history/', { params });
+
+export const getTimetable = () =>
+  api.get<TimetableEntry[]>('exams/timetable/');
+
+export const getExamResults = () =>
+  api.get<ExamResult[]>('exams/results/');
+
+export const getExamRankings = () =>
+  api.get<RankingEntry[]>('exams/rankings/');
+
+export const getOMRPracticeHistory = (params?: { page?: number; page_size?: number }) =>
+  api.get<PaginatedResponse<OMRPracticeHistory>>('user/omr-practice-history/', { params });
 
 export const generateOMR = () =>
   api.get<PrevOMRQuestion[]>('learning/omr/generate');

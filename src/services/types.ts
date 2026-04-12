@@ -387,3 +387,76 @@ export interface ScertQuestionsParams {
   page?: number;
   page_size?: number;
 }
+
+export interface ExamHistory {
+  id: number;
+  exam: number;
+  exam_name: string;
+  course_name: string;
+  marks_obtained: string;
+  rank: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface UpcomingExam {
+  id: number;
+  title: string;
+  subject: string;
+  date: string;
+  time: string;
+}
+
+export interface TimetableEntry {
+  id: number;
+  name: string;
+  level: string;
+  exam_type: string;
+  mode: string;
+  description: string;
+  date: string;
+  start_time: string;
+  end_time: string;
+  duration: string;
+  total_questions: number;
+  total_marks: string;
+  course_name: string;
+  batch_name: string;
+}
+
+export interface ExamResult {
+  id: number;
+  exam: number;
+  exam_name: string;
+  exam_date: string;
+  marks_obtained: string;
+  total_marks: string;
+  rank: number;
+  omr_sheet: string;
+  created_at: string;
+}
+
+export interface OMRPracticeHistory {
+  id: number;
+  test_type: string;
+  category_id: number;
+  subcategory_id: number;
+  score: number;
+  total_questions: number;
+  correct_count: number;
+  wrong_count: number;
+  unanswered_count: number;
+  time_taken: number;
+  is_omr: boolean;
+  created_at: string;
+  user: number;
+}
+
+export interface RankingEntry {
+  id: number;
+  rank: number;
+  name: string;
+  score: number;
+  exam: string;
+  is_me: boolean;
+}

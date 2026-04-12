@@ -42,6 +42,12 @@ import OMRSummaryScreen from '../screens/OMRSummaryScreen';
 import MultimediaVideosScreen from '../screens/MultimediaVideosScreen';
 import MyTasksScreen from '../screens/MyTasksScreen';
 import SearchScreen from '../screens/SearchScreen';
+import ExamsMenuScreen from '../screens/ExamsMenuScreen';
+import NextExamScreen from '../screens/NextExamScreen';
+import TimeTableScreen from '../screens/TimeTableScreen';
+import ExamResultScreen from '../screens/ExamResultScreen';
+import RankingScreen from '../screens/RankingScreen';
+import OMRHistoryScreen from '../screens/OMRHistoryScreen';
 import { getPrelimsCourseCategories, getPrelimsCourses, getPrelimsSyllabuses, getPrelimSubjects, getPrelimCategories, getQuestions, getMainsCourseCategories, getMainsCourses, getMainsSyllabuses, getMainsSubjects, getMainsCategories, getMainsQuestions } from '../services/api';
 
 const Stack = createNativeStackNavigator();
@@ -128,6 +134,12 @@ const AppNavigator = () => {
         <Stack.Screen name="MultimediaVideos" component={MultimediaVideosScreen} />
         <Stack.Screen name="MyTasks" component={MyTasksScreen} />
         <Stack.Screen name="Search" component={SearchScreen} />
+        <Stack.Screen name="ExamsMenu" component={ExamsMenuScreen} />
+        <Stack.Screen name="NextExam" component={NextExamScreen} />
+        <Stack.Screen name="TimeTable" component={TimeTableScreen} />
+        <Stack.Screen name="ExamResult" component={ExamResultScreen} />
+        <Stack.Screen name="Ranking" component={RankingScreen} />
+        <Stack.Screen name="OMRHistory" component={OMRHistoryScreen} />
         <Stack.Screen
           name="PrelimsCourseCategories"
           component={QAListScreen}

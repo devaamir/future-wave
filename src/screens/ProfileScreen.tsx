@@ -11,11 +11,7 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {
-  CoursesIcon,
-  ExamIcon,
   NotificationIcon,
-  DownloadIcon,
-  CardIcon,
   MoonIcon,
   QuestionIcon,
   LanguageIcon,
@@ -97,31 +93,9 @@ const ProfileScreen = ({ navigation, onTabPress }: any) => {
         {/* Main Content Cards */}
         <View style={styles.section}>
           <ProfileCard
-            icon={<CoursesIcon size={20} color="#6B7280" />}
-            title="My Courses"
-            onPress={() => navigation?.navigate('MyCourses')}
-          />
-          <ProfileCard
-            icon={<ExamIcon size={20} color="#6B7280" />}
-            title="My Exams"
-            onPress={() => {}}
-          />
-          <ProfileCard
-            icon={<DownloadIcon size={20} color="#6B7280" />}
-            title="Downloads"
-            onPress={() => {}}
-          />
-          <ProfileCard
-            icon={<CardIcon size={20} color="#6B7280" />}
-            title="Payment History"
-            onPress={() => {}}
-          />
-          <ProfileCard
             icon={<NotificationIcon size={20} color="#6B7280" />}
             title="Notifications"
-            onPress={() => {
-              navigation?.navigate('Notifications');
-            }}
+            onPress={() => navigation?.navigate('Notifications')}
           />
         </View>
 
@@ -163,16 +137,9 @@ const ProfileScreen = ({ navigation, onTabPress }: any) => {
         </View>
 
         {/* Logout Button */}
-        <LinearGradient
-          colors={['#4ECDC4', '#26A69A']}
-          style={styles.logoutButton}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-        >
-          <TouchableOpacity style={styles.logoutContent} onPress={handleLogout}>
-            <Text style={styles.logoutText}>Log Out</Text>
-          </TouchableOpacity>
-        </LinearGradient>
+        <TouchableOpacity style={styles.logoutButton} onPress={handleLogout} activeOpacity={0.8}>
+          <Text style={styles.logoutText}>Log Out</Text>
+        </TouchableOpacity>
 
         {/* Version Text */}
         <Text style={styles.versionText}>App Version 1.0.0</Text>
@@ -307,18 +274,21 @@ const styles = StyleSheet.create({
     fontFamily: theme.fonts.regular,
   },
   logoutButton: {
-    borderRadius: 12,
+    marginHorizontal: 16,
     marginTop: 20,
     marginBottom: 20,
-  },
-  logoutContent: {
-    paddingVertical: 16,
+    paddingVertical: 14,
+    borderRadius: 12,
+    backgroundColor: '#FEE2E2',
+    borderWidth: 1,
+    borderColor: '#FECACA',
     alignItems: 'center',
   },
+  logoutContent: {},
   logoutText: {
-    fontSize: 18,
+    fontSize: 15,
     fontFamily: theme.fonts.bold,
-    color: '#FFFFFF',
+    color: '#EF4444',
   },
   versionText: {
     fontSize: 12,

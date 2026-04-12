@@ -12,9 +12,15 @@ const MainHomeScreen = ({ navigation }: any) => {
   const [activeTab, setActiveTab] = useState('Home');
 
   const handleTabPress = (tab: string) => {
+    if (tab === 'Courses') {
+      navigation.navigate('MainsCourseCategories');
+      return;
+    }
+    if (tab === 'Exams') {
+      navigation.navigate('ExamsMenu');
+      return;
+    }
     setActiveTab(tab);
-    // Handle navigation to different screens based on tab
-    console.log(`Navigating to ${tab}`);
   };
 
   const renderContent = () => {

@@ -60,7 +60,6 @@ const HomeScreen = ({ onTabPress }: any) => {
     { title: 'Videos', icon: VideosIcon, color: '#F04F4F', screen: 'Videos' },
     { title: 'Achievements', icon: AchievementsIcon, color: '#4DB8AC', screen: 'Achievements' },
     { title: 'Our Books', icon: OurBooksIcon, color: '#2E9E45', screen: 'OurBooks' },
-    { title: '', icon: null, color: 'transparent', screen: null },
   ];
 
   const formattedDate = (date: string) => new Date(date).toLocaleDateString('en-US', {
@@ -176,73 +175,73 @@ const HomeScreen = ({ onTabPress }: any) => {
         </View>
 
         {announcements.length > 0 && (
-        <View style={styles.section}>
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Announcements</Text>
-            <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('Announcements' as never)}>
-              <Text style={styles.viewAllText}>View All</Text>
-            </TouchableOpacity>
-          </View>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.horizontalScroll}>
-            {announcements.map(item => (
-              <TouchableOpacity key={item.id} style={styles.affairCard} activeOpacity={0.7}>
-                {item.photo ? (
-                  <Image source={{ uri: item.photo }} style={styles.affairImage} resizeMode="cover" />
-                ) : (
-                  <View style={[styles.affairImage, { backgroundColor: '#E5E7EB' }]} />
-                )}
-                <View style={styles.affairOverlay}>
-                  <View style={[styles.categoryBadge, { backgroundColor: 'rgba(43,174,155,0.9)' }]}>
-                    <Text style={styles.categoryText}>{item.created_at.slice(0, 10)}</Text>
-                  </View>
-                </View>
-                <View style={styles.affairInfo}>
-                  <Text style={styles.affairTitle} numberOfLines={2}>{item.title}</Text>
-                </View>
+          <View style={styles.section}>
+            <View style={styles.sectionHeader}>
+              <Text style={styles.sectionTitle}>Announcements</Text>
+              <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('Announcements' as never)}>
+                <Text style={styles.viewAllText}>View All</Text>
               </TouchableOpacity>
-            ))}
-          </ScrollView>
-        </View>
+            </View>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.horizontalScroll}>
+              {announcements.map(item => (
+                <TouchableOpacity key={item.id} style={styles.affairCard} activeOpacity={0.7}>
+                  {item.photo ? (
+                    <Image source={{ uri: item.photo }} style={styles.affairImage} resizeMode="cover" />
+                  ) : (
+                    <View style={[styles.affairImage, { backgroundColor: '#E5E7EB' }]} />
+                  )}
+                  <View style={styles.affairOverlay}>
+                    <View style={[styles.categoryBadge, { backgroundColor: 'rgba(43,174,155,0.9)' }]}>
+                      <Text style={styles.categoryText}>{item.created_at.slice(0, 10)}</Text>
+                    </View>
+                  </View>
+                  <View style={styles.affairInfo}>
+                    <Text style={styles.affairTitle} numberOfLines={2}>{item.title}</Text>
+                  </View>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </View>
         )}
 
         {news.length > 0 && (
-        <View style={styles.section}>
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>News & Events</Text>
-            <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('NewsList' as never)}>
-              <Text style={styles.viewAllText}>View All</Text>
-            </TouchableOpacity>
-          </View>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            style={styles.horizontalScroll}
-          >
-            {news.map(item => (
-              <TouchableOpacity
-                key={item.id}
-                style={styles.affairCard}
-                activeOpacity={0.7}
-                onPress={() => navigation.navigate('NewsDetail' as never, { item } as never)}
-              >
-                {item.image ? (
-                  <Image source={{ uri: item.image }} style={styles.affairImage} resizeMode="cover" />
-                ) : (
-                  <View style={[styles.affairImage, { backgroundColor: '#E5E7EB' }]} />
-                )}
-                <View style={styles.affairOverlay}>
-                  {/* <View style={styles.categoryBadge}>
+          <View style={styles.section}>
+            <View style={styles.sectionHeader}>
+              <Text style={styles.sectionTitle}>News & Events</Text>
+              <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('NewsList' as never)}>
+                <Text style={styles.viewAllText}>View All</Text>
+              </TouchableOpacity>
+            </View>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              style={styles.horizontalScroll}
+            >
+              {news.map(item => (
+                <TouchableOpacity
+                  key={item.id}
+                  style={styles.affairCard}
+                  activeOpacity={0.7}
+                  onPress={() => navigation.navigate('NewsDetail' as never, { item } as never)}
+                >
+                  {item.image ? (
+                    <Image source={{ uri: item.image }} style={styles.affairImage} resizeMode="cover" />
+                  ) : (
+                    <View style={[styles.affairImage, { backgroundColor: '#E5E7EB' }]} />
+                  )}
+                  <View style={styles.affairOverlay}>
+                    {/* <View style={styles.categoryBadge}>
                     <Text style={styles.categoryText}>{item.date}</Text>
                   </View> */}
-                </View>
-                <View style={styles.affairInfo}>
-                  <Text style={styles.affairTitle} numberOfLines={2}>{item.title}</Text>
-                  <Text style={styles.affairDate}>{formattedDate(item.date)}</Text>
-                </View>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-        </View>
+                  </View>
+                  <View style={styles.affairInfo}>
+                    <Text style={styles.affairTitle} numberOfLines={2}>{item.title}</Text>
+                    <Text style={styles.affairDate}>{formattedDate(item.date)}</Text>
+                  </View>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </View>
         )}
 
       </ScrollView>
