@@ -34,7 +34,7 @@ import ScertNotesSubjectsScreen from '../screens/ScertNotesSubjectsScreen';
 import ScertNotesTopicsScreen from '../screens/ScertNotesTopicsScreen';
 import AchievementsScreen from '../screens/AchievementsScreen';
 import AchievementDetailScreen from '../screens/AchievementDetailScreen';
-import { getPrelimsCourseCategories, getPrelimsCourses, getPrelimsSyllabuses, getPrelimSubjects, getPrelimCategories, getQuestions } from '../services/api';
+import { getPrelimsCourseCategories, getPrelimsCourses, getPrelimsSyllabuses, getPrelimSubjects, getPrelimCategories, getQuestions, getMainsCourseCategories, getMainsCourses, getMainsSyllabuses, getMainsSubjects, getMainsCategories, getMainsQuestions } from '../services/api';
 
 const Stack = createNativeStackNavigator();
 
@@ -101,6 +101,7 @@ const AppNavigator = () => {
         <Stack.Screen name="QASubcategories" component={QAListScreen} />
         <Stack.Screen name="QAQuestions" component={QAQuestionsScreen} />
         <Stack.Screen name="PrelimQuestions" component={QAQuestionsScreen} />
+        <Stack.Screen name="MainsQuestions" component={QAQuestionsScreen} />
         <Stack.Screen name="PreviousQuestions" component={CollapsibleLevelScreen} />
         <Stack.Screen name="SCERTQuestions" component={CollapsibleLevelScreen} />
         <Stack.Screen name="Announcements" component={AnnouncementsScreen} />
@@ -148,6 +149,51 @@ const AppNavigator = () => {
                       color: '#7B5ACF',
                       bg: '#F3EEFF',
                       fetchFn: (params: any) => getQuestions({ ...params, subject_id: subject.id, category_id: category.id }),
+                    }),
+                  }),
+                }),
+              }),
+            }),
+          }}
+        />
+        <Stack.Screen
+          name="MainsCourseCategories"
+          component={QAListScreen}
+          initialParams={{
+            title: 'Mains',
+            color: '#F5B041',
+            bg: '#FFF8EC',
+            fetchFn: getMainsCourseCategories,
+            nextScreen: 'QACategories',
+            nextParams: (cat: any) => ({
+              title: cat.name,
+              color: '#F5B041',
+              bg: '#FFF8EC',
+              fetchFn: () => getMainsCourses({ course_category_id: cat.id }),
+              nextScreen: 'QACategories',
+              nextParams: (course: any) => ({
+                title: course.name,
+                color: '#F5B041',
+                bg: '#FFF8EC',
+                fetchFn: () => getMainsSyllabuses({ course_id: course.id }),
+                nextScreen: 'QACategories',
+                nextParams: (syllabus: any) => ({
+                  title: syllabus.name,
+                  color: '#F5B041',
+                  bg: '#FFF8EC',
+                  fetchFn: () => getMainsSubjects({ syllabus_id: syllabus.id }),
+                  nextScreen: 'QACategories',
+                  nextParams: (subject: any) => ({
+                    title: subject.name,
+                    color: '#F5B041',
+                    bg: '#FFF8EC',
+                    fetchFn: () => getMainsCategories({ subject_id: subject.id }),
+                    nextScreen: 'MainsQuestions',
+                    nextParams: (category: any) => ({
+                      title: category.name,
+                      color: '#F5B041',
+                      bg: '#FFF8EC',
+                      fetchFn: (params: any) => getMainsQuestions({ ...params, subject_id: subject.id, category_id: category.id }),
                     }),
                   }),
                 }),

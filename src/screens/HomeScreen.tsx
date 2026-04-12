@@ -55,7 +55,7 @@ const HomeScreen = ({ onTabPress }: any) => {
     { title: 'Learning Section', icon: LearningSectionIcon, color: '#3A8EDB', screen: 'LearningSection' },
     { title: 'OMR Practice', icon: OMRIcon, color: '#F39C12', screen: null },
     { title: 'Prelims', icon: PrelimsIcon, color: '#7B5ACF', screen: 'PrelimsCourseCategories' },
-    { title: 'Main Courses', icon: MainCoursesIcon, color: '#F5B041', screen: null },
+    { title: 'Main Courses', icon: MainCoursesIcon, color: '#F5B041', screen: 'MainsCourseCategories' },
     { title: 'Audio Class', icon: AudioClassIcon, color: '#FF5A7A', screen: null },
     { title: 'Videos', icon: VideosIcon, color: '#F04F4F', screen: 'RecordedVideos' },
     { title: 'Achievements', icon: AchievementsIcon, color: '#4DB8AC', screen: 'Achievements' },
