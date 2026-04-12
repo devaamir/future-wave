@@ -238,3 +238,35 @@ export interface Announcement {
   created_at: string;
   updated_at: string;
 }
+
+export interface Achievement {
+  id: number;
+  student_name: string;
+  exam_name: string;
+  rank: string;
+  photo: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ScertNote {
+  id: number;
+  topic: string;
+  pdf_note: string;
+  created_at: string;
+  subject: number;
+}
+
+export interface ScertNoteSubject {
+  id: number;
+  name: string;
+  created_at: string;
+  notes: ScertNote[];
+}
+
+export interface ScertNoteCategory {
+  id: number;
+  name: string;
+  created_at: string;
+  subjects: ScertNoteSubject[];
+}

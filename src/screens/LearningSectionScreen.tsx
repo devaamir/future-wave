@@ -8,7 +8,7 @@ import {
 import Svg, { Path } from 'react-native-svg';
 import { BackArrowIcon } from '../components/Icons';
 import { theme } from '../theme';
-import { getPrevLevels, getPrevExamCategories, getScertClasses, getScertCategories } from '../services/api';
+import { getPrevLevels, getPrevExamCategories, getScertClasses, getScertCategories, getScertNotesClasses } from '../services/api';
 
 const menus = [
   {
@@ -105,6 +105,14 @@ const LearningSectionScreen = ({ navigation }: any) => (
               categoriesFn: (classId: number) => getScertCategories({ class_id: classId }),
             });
             if (i === 3) navigation.navigate('CapsuleSubjects');
+            if (i === 4) navigation.navigate('QACategories', {
+              title: 'SCERT Notes',
+              color: '#EF4444',
+              bg: '#FEF2F2',
+              fetchFn: getScertNotesClasses,
+              nextScreen: 'ScertNotesSubjects',
+              nextParams: (cls: any) => ({ classId: cls.id, className: cls.name }),
+            });
           }}
         >
           <View style={[styles.iconBox, { backgroundColor: item.bg }]}>

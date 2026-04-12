@@ -27,6 +27,7 @@ import {
   CapsuleSubcategory,
   CapsuleType,
   CapsuleQuestion,
+  ScertNoteCategory,
 } from './types';
 
 export * from './types';
@@ -111,6 +112,12 @@ export const getPrevYears = (params?: { exam_cat_id?: number }) =>
 export const getScertClasses = () =>
   api.get<ScertClass[]>('learning/scert/classes/');
 
+export const getScertNotesClasses = () =>
+  api.get<ScertClass[]>('learning/scert-notes/classes/');
+
+export const getScertNotes = (params?: { class_id?: number }) =>
+  api.get<ScertNoteCategory[]>('learning/scert-notes/', { params });
+
 export const getScertCategories = (params?: { class_id?: number }) =>
   api.get<ScertCategory[]>('learning/scert/categories/', { params });
 
@@ -143,5 +150,23 @@ export const getNews = (params?: Record<string, any>) =>
 
 export const getAnnouncements = () =>
   api.get<Announcement[]>('announcements/');
+
+export const getAchievements = () =>
+  api.get<Achievement[]>('achievements/');
+
+export const getPrelimsCourseCategories = () =>
+  api.get<{ id: number; name: string }[]>('learning/prelims/course-categories/');
+
+export const getPrelimsCourses = (params?: { course_category_id?: number }) =>
+  api.get<{ id: number; name: string; category_id: number }[]>('learning/prelims/courses/', { params });
+
+export const getPrelimsSyllabuses = (params?: { course_id?: number }) =>
+  api.get<{ id: number; name: string; course_id: number }[]>('learning/prelims/syllabuses/', { params });
+
+export const getPrelimSubjects = (params?: { syllabus_id?: number }) =>
+  api.get<{ id: number; name: string; syllabus_id: number }[]>('learning/prelims/subjects/', { params });
+
+export const getPrelimCategories = (params?: { subject_id?: number }) =>
+  api.get<{ id: number; name: string; subject_id: number }[]>('learning/prelims/categories/', { params });
 
 export default api;

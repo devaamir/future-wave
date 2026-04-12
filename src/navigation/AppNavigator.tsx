@@ -30,6 +30,11 @@ import CollapsibleLevelScreen from '../screens/CollapsibleLevelScreen';
 import AnnouncementsScreen from '../screens/AnnouncementsScreen';
 import AnnouncementDetailScreen from '../screens/AnnouncementDetailScreen';
 import CapsuleSubjectsScreen from '../screens/CapsuleSubjectsScreen';
+import ScertNotesSubjectsScreen from '../screens/ScertNotesSubjectsScreen';
+import ScertNotesTopicsScreen from '../screens/ScertNotesTopicsScreen';
+import AchievementsScreen from '../screens/AchievementsScreen';
+import AchievementDetailScreen from '../screens/AchievementDetailScreen';
+import { getPrelimsCourseCategories, getPrelimsCourses, getPrelimsSyllabuses, getPrelimSubjects, getPrelimCategories, getQuestions } from '../services/api';
 
 const Stack = createNativeStackNavigator();
 
@@ -95,11 +100,61 @@ const AppNavigator = () => {
         <Stack.Screen name="QACategories" component={QAListScreen} />
         <Stack.Screen name="QASubcategories" component={QAListScreen} />
         <Stack.Screen name="QAQuestions" component={QAQuestionsScreen} />
+        <Stack.Screen name="PrelimQuestions" component={QAQuestionsScreen} />
         <Stack.Screen name="PreviousQuestions" component={CollapsibleLevelScreen} />
         <Stack.Screen name="SCERTQuestions" component={CollapsibleLevelScreen} />
         <Stack.Screen name="Announcements" component={AnnouncementsScreen} />
         <Stack.Screen name="AnnouncementDetail" component={AnnouncementDetailScreen} />
         <Stack.Screen name="CapsuleSubjects" component={CapsuleSubjectsScreen} />
+        <Stack.Screen name="ScertNotesSubjects" component={ScertNotesSubjectsScreen} />
+        <Stack.Screen name="ScertNotesTopics" component={ScertNotesTopicsScreen} />
+        <Stack.Screen name="Achievements" component={AchievementsScreen} />
+        <Stack.Screen name="AchievementDetail" component={AchievementDetailScreen} />
+        <Stack.Screen
+          name="PrelimsCourseCategories"
+          component={QAListScreen}
+          initialParams={{
+            title: 'Prelims',
+            color: '#7B5ACF',
+            bg: '#F3EEFF',
+            fetchFn: getPrelimsCourseCategories,
+            nextScreen: 'QACategories',
+            nextParams: (cat: any) => ({
+              title: cat.name,
+              color: '#7B5ACF',
+              bg: '#F3EEFF',
+              fetchFn: () => getPrelimsCourses({ course_category_id: cat.id }),
+              nextScreen: 'QACategories',
+              nextParams: (course: any) => ({
+                title: course.name,
+                color: '#7B5ACF',
+                bg: '#F3EEFF',
+                fetchFn: () => getPrelimsSyllabuses({ course_id: course.id }),
+                nextScreen: 'QACategories',
+                nextParams: (syllabus: any) => ({
+                  title: syllabus.name,
+                  color: '#7B5ACF',
+                  bg: '#F3EEFF',
+                  fetchFn: () => getPrelimSubjects({ syllabus_id: syllabus.id }),
+                  nextScreen: 'QACategories',
+                  nextParams: (subject: any) => ({
+                    title: subject.name,
+                    color: '#7B5ACF',
+                    bg: '#F3EEFF',
+                    fetchFn: () => getPrelimCategories({ subject_id: subject.id }),
+                    nextScreen: 'PrelimQuestions',
+                    nextParams: (category: any) => ({
+                      title: category.name,
+                      color: '#7B5ACF',
+                      bg: '#F3EEFF',
+                      fetchFn: (params: any) => getQuestions({ ...params, subject_id: subject.id, category_id: category.id }),
+                    }),
+                  }),
+                }),
+              }),
+            }),
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
