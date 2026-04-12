@@ -34,6 +34,14 @@ import ScertNotesSubjectsScreen from '../screens/ScertNotesSubjectsScreen';
 import ScertNotesTopicsScreen from '../screens/ScertNotesTopicsScreen';
 import AchievementsScreen from '../screens/AchievementsScreen';
 import AchievementDetailScreen from '../screens/AchievementDetailScreen';
+import OurBooksScreen from '../screens/OurBooksScreen';
+import VideosScreen from '../screens/VideosScreen';
+import OMRPracticeScreen from '../screens/OMRPracticeScreen';
+import OnlineOMRScreen from '../screens/OnlineOMRScreen';
+import OMRSummaryScreen from '../screens/OMRSummaryScreen';
+import MultimediaVideosScreen from '../screens/MultimediaVideosScreen';
+import MyTasksScreen from '../screens/MyTasksScreen';
+import SearchScreen from '../screens/SearchScreen';
 import { getPrelimsCourseCategories, getPrelimsCourses, getPrelimsSyllabuses, getPrelimSubjects, getPrelimCategories, getQuestions, getMainsCourseCategories, getMainsCourses, getMainsSyllabuses, getMainsSubjects, getMainsCategories, getMainsQuestions } from '../services/api';
 
 const Stack = createNativeStackNavigator();
@@ -111,6 +119,15 @@ const AppNavigator = () => {
         <Stack.Screen name="ScertNotesTopics" component={ScertNotesTopicsScreen} />
         <Stack.Screen name="Achievements" component={AchievementsScreen} />
         <Stack.Screen name="AchievementDetail" component={AchievementDetailScreen} />
+        <Stack.Screen name="OurBooks" component={OurBooksScreen} />
+        <Stack.Screen name="OMRPractice" component={OMRPracticeScreen} />
+        <Stack.Screen name="OnlineOMR" component={OnlineOMRScreen} />
+        <Stack.Screen name="OMRSummary" component={OMRSummaryScreen} />
+        <Stack.Screen name="Videos" component={VideosScreen} />
+        <Stack.Screen name="VideoSubjects" component={QAListScreen} />
+        <Stack.Screen name="MultimediaVideos" component={MultimediaVideosScreen} />
+        <Stack.Screen name="MyTasks" component={MyTasksScreen} />
+        <Stack.Screen name="Search" component={SearchScreen} />
         <Stack.Screen
           name="PrelimsCourseCategories"
           component={QAListScreen}

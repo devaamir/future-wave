@@ -51,15 +51,15 @@ const HomeScreen = ({ onTabPress }: any) => {
 
 
   const dashboardItems = [
-    { title: "My tasks", icon: TodayTaskIcon, color: '#37B38A', screen: null },
+    { title: "My tasks", icon: TodayTaskIcon, color: '#37B38A', screen: 'MyTasks' },
     { title: 'Learning Section', icon: LearningSectionIcon, color: '#3A8EDB', screen: 'LearningSection' },
-    { title: 'OMR Practice', icon: OMRIcon, color: '#F39C12', screen: null },
+    { title: 'OMR Practice', icon: OMRIcon, color: '#F39C12', screen: 'OMRPractice' },
     { title: 'Prelims', icon: PrelimsIcon, color: '#7B5ACF', screen: 'PrelimsCourseCategories' },
     { title: 'Main Courses', icon: MainCoursesIcon, color: '#F5B041', screen: 'MainsCourseCategories' },
     { title: 'Audio Class', icon: AudioClassIcon, color: '#FF5A7A', screen: null },
-    { title: 'Videos', icon: VideosIcon, color: '#F04F4F', screen: 'RecordedVideos' },
+    { title: 'Videos', icon: VideosIcon, color: '#F04F4F', screen: 'Videos' },
     { title: 'Achievements', icon: AchievementsIcon, color: '#4DB8AC', screen: 'Achievements' },
-    { title: 'Our Books', icon: OurBooksIcon, color: '#2E9E45', screen: null },
+    { title: 'Our Books', icon: OurBooksIcon, color: '#2E9E45', screen: 'OurBooks' },
     { title: '', icon: null, color: 'transparent', screen: null },
   ];
 
@@ -91,14 +91,10 @@ const HomeScreen = ({ onTabPress }: any) => {
         </View>
       </View>
 
-      <View style={styles.searchContainer}>
+      <TouchableOpacity style={styles.searchContainer} activeOpacity={0.8} onPress={() => navigation.navigate('Search' as never)}>
         <SearchIcon size={18} color="#9CA3AF" />
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search courses, exams, materials..."
-          placeholderTextColor="#9CA3AF"
-        />
-      </View>
+        <Text style={styles.searchPlaceholder}>Search courses, exams, materials...</Text>
+      </TouchableOpacity>
 
 
 
@@ -176,24 +172,6 @@ const HomeScreen = ({ onTabPress }: any) => {
                 </TouchableOpacity>
               );
             })}
-          </View>
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Continue Learning</Text>
-          <View style={styles.continueCard}>
-            <View style={styles.continueContent}>
-              <Text style={styles.continueTitle}>Kerala PSC Polity Notes</Text>
-              <View style={styles.progressContainer}>
-                <View style={styles.progressBar}>
-                  <View style={[styles.progressFill, { width: '45%' }]} />
-                </View>
-                <Text style={styles.progressText}>45%</Text>
-              </View>
-            </View>
-            <TouchableOpacity style={styles.resumeButton} activeOpacity={0.7}>
-              <Text style={styles.resumeText}>Resume →</Text>
-            </TouchableOpacity>
           </View>
         </View>
 
@@ -328,6 +306,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: theme.fonts.regular,
     color: '#2D2D2D',
+    marginLeft: 8,
+  },
+  searchPlaceholder: {
+    flex: 1,
+    fontSize: 14,
+    fontFamily: theme.fonts.regular,
+    color: '#9CA3AF',
     marginLeft: 8,
   },
   scrollView: {

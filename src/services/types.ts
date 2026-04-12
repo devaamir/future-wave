@@ -249,6 +249,36 @@ export interface Achievement {
   updated_at: string;
 }
 
+export interface MultimediaVideo {
+  id: number;
+  level: string;
+  privacy: string;
+  player_type: 'YOUTUBE' | 'FILE';
+  title: string;
+  description: string;
+  video_id: string;
+  video_url: string;
+  thumbnail: string;
+  video_file: string;
+  created_at: string;
+  subject: number;
+}
+
+
+export interface Book {
+  id: number;
+  title: string;
+  author: string;
+  description: string;
+  price: string;
+  purchase_link: string;
+  cover_image: string;
+  pdf_file: string;
+  is_free: boolean;
+  is_active: boolean;
+  created_at: string;
+}
+
 export interface ScertNote {
   id: number;
   topic: string;
@@ -269,4 +299,91 @@ export interface ScertNoteCategory {
   name: string;
   created_at: string;
   subjects: ScertNoteSubject[];
+}
+
+export interface SearchResult {
+  id: number;
+  question: string;
+  type: string;
+  category_name: string;
+  breadcrumb_info: Record<string, string>;
+  answer: string;
+  pdf_url: string;
+}
+
+export interface PrevOMRQuestion {
+  id: number;
+  question: string;
+  option_1: string;
+  option_2: string;
+  option_3: string;
+  option_4: string;
+}
+
+export interface NamedItem {
+  id: number;
+  name: string;
+}
+
+export interface CourseItem extends NamedItem {
+  category_id: number;
+}
+
+export interface SyllabusItem extends NamedItem {
+  course_id: number;
+}
+
+export interface SubjectItem extends NamedItem {
+  syllabus_id: number;
+}
+
+export interface CategoryItem extends NamedItem {
+  subject_id: number;
+}
+
+export interface OMREvaluatePayload {
+  answers: { id: number; selected_option: string }[];
+  seconds_taken: number;
+}
+
+export interface OMREvaluateResponse {
+  total_questions: number;
+  correct_count: number;
+  wrong_count: number;
+  unanswered_count: number;
+  score: number;
+  score_percentage: number;
+  seconds_taken: number;
+  average_seconds_per_question: number;
+  results: Record<string, string>[];
+}
+
+export interface Notification {
+  id: number;
+  title: string;
+  description: string;
+  created_at: string;
+}
+
+export interface QAQuestionsParams {
+  page?: number;
+  page_size?: number;
+  subcategory_id?: number;
+  [key: string]: any;
+}
+
+export interface CapsuleQuestionsParams {
+  page?: number;
+  page_size?: number;
+  subcategory_id?: number;
+  subject_id?: number;
+  type_id?: number;
+}
+
+export interface ScertQuestionsParams {
+  class_id?: number;
+  category_id?: number;
+  subject_id?: number;
+  page?: number;
+  page_size?: number;
 }

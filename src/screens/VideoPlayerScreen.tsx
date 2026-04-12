@@ -10,6 +10,7 @@ import {
   Image,
 } from 'react-native';
 import Video from 'react-native-video';
+import WebView from 'react-native-webview';
 import Orientation from 'react-native-orientation-locker';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { BackArrowIcon, PlayIcon, BackwardIcon, ForwardIcon, PauseIcon, ExpandIcon, CompressIcon, VolumeMaxIcon, VolumeXMarkIcon } from '../components/Icons';
@@ -30,8 +31,14 @@ const VideoPlayerScreen = () => {
   const [shouldSeek, setShouldSeek] = useState(false);
   const savedTimeRef = useRef(0);
 
-  const videoUrl =
-    'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
+  const { videoUrl: paramUrl, videoId, playerType, title: paramTitle, description: paramDescription } = (route.params as any) || {};
+  const isYoutube = playerType === 'YOUTUBE' || !!videoId;
+  const videoUrl = isYoutube
+    ? null
+    : (paramUrl || 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4');
+  const youtubeEmbedUrl = isYoutube
+    ? `https://www.youtube.com/embed/${videoId}?autoplay=1&playsinline=1`
+    : null;
 
   useEffect(() => {
     const onChange = result => {
@@ -85,12 +92,11 @@ const VideoPlayerScreen = () => {
   });
 
   const videoData = {
-    title: 'Mathematics: Calculus Integration',
-    tutor: 'Dr. Priya Sharma',
-    duration: '52 min',
-    description:
-      'Learn the fundamentals of calculus integration with step-by-step examples and practice problems.',
-    uploadDate: 'Oct 18, 2024',
+    title: paramTitle || 'Video',
+    tutor: '',
+    duration: '',
+    description: paramDescription || '',
+    uploadDate: '',
   };
 
   const relatedVideos = [
@@ -165,112 +171,66 @@ const VideoPlayerScreen = () => {
     }
   };
 
+  const VideoPlayer = ({ style }: { style: any }) =>
+    isYoutube ? (
+      <WebView source={{ uri: youtubeEmbedUrl! }} style={style} allowsFullscreenVideo javaScriptEnabled />
+    ) : (
+      <Video
+        ref={videoRef}
+        source={{ uri: videoUrl! }}
+        style={style}
+        controls={false}
+        paused={paused}
+        muted={muted}
+        resizeMode="contain"
+        onLoad={data => {
+          setDuration(data.duration);
+          if (shouldSeek && savedTimeRef.current > 0) {
+            setTimeout(() => { videoRef.current?.seek(savedTimeRef.current); setShouldSeek(false); }, 100);
+          }
+        }}
+        onProgress={data => setCurrentTime(data.currentTime)}
+        onError={error => console.log('Video Error:', error)}
+      />
+    );
+
   if (isLandscape) {
     return (
       <View style={styles.landscapeContainer}>
-        <TouchableOpacity
-          style={styles.landscapeVideoWrapper}
-          onPress={handleVideoPress}
-          activeOpacity={1}
-        >
-          <Video
-            ref={videoRef}
-            source={{ uri: videoUrl }}
-            style={styles.landscapeVideoPlayer}
-            controls={false}
-            paused={paused}
-            muted={muted}
-            resizeMode="contain"
-            onLoad={data => {
-              setDuration(data.duration);
-              if (shouldSeek && savedTimeRef.current > 0) {
-                setTimeout(() => {
-                  videoRef.current?.seek(savedTimeRef.current);
-                  setShouldSeek(false);
-                }, 100);
-              }
-            }}
-            onProgress={data => setCurrentTime(data.currentTime)}
-            onError={error => console.log('Video Error:', error)}
-          />
-
-          <View
-            style={[
-              styles.landscapeControlsOverlay,
-              {
-                backgroundColor: showControls
-                  ? 'rgba(0,0,0,0.3)'
-                  : 'transparent',
-              },
-            ]}
-          >
-            <TouchableOpacity
-              style={styles.landscapeBackButton}
-              onPress={handleBackPress}
-            >
+        <TouchableOpacity style={styles.landscapeVideoWrapper} onPress={handleVideoPress} activeOpacity={1}>
+          <VideoPlayer style={styles.landscapeVideoPlayer} />
+          {(!isYoutube && showControls) && (
+            <View style={[styles.landscapeControlsOverlay, { backgroundColor: 'rgba(0,0,0,0.3)' }]}>
+              <TouchableOpacity style={styles.landscapeBackButton} onPress={handleBackPress}>
+                <BackArrowIcon size={20} color="#FFFFFF" />
+              </TouchableOpacity>
+              <View style={styles.landscapeCenterControls}>
+                <TouchableOpacity style={styles.skipButton} onPress={skipBackward}><ForwardIcon size={24} color="#FFFFFF" /></TouchableOpacity>
+                <TouchableOpacity style={styles.playButton} onPress={togglePlayPause}>
+                  {paused ? <PlayIcon size={32} color="#FFFFFF" /> : <PauseIcon size={32} color="#FFFFFF" />}
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.skipButton} onPress={skipForward}><ForwardIcon size={24} color="#FFFFFF" /></TouchableOpacity>
+              </View>
+              <View style={styles.landscapeBottomControls}>
+                <TouchableOpacity style={styles.controlButton} onPress={toggleMute}>
+                  {muted ? <VolumeXMarkIcon size={16} color="#FFFFFF" /> : <VolumeMaxIcon size={16} color="#FFFFFF" />}
+                </TouchableOpacity>
+                <Text style={styles.timeText}>{formatTime(currentTime)}</Text>
+                <TouchableOpacity style={styles.landscapeProgressBar} onPress={e => onSeek(e.nativeEvent.locationX / (screenData.width - 120))}>
+                  <View style={styles.progressBar}>
+                    <View style={[styles.progressFill, { width: `${duration > 0 ? (currentTime / duration) * 100 : 0}%` }]} />
+                  </View>
+                </TouchableOpacity>
+                <Text style={styles.timeText}>{formatTime(duration)}</Text>
+                <TouchableOpacity style={styles.controlButton} onPress={toggleOrientation}><CompressIcon size={16} color="#FFFFFF" /></TouchableOpacity>
+              </View>
+            </View>
+          )}
+          {isYoutube && (
+            <TouchableOpacity style={styles.landscapeBackButton} onPress={handleBackPress}>
               <BackArrowIcon size={20} color="#FFFFFF" />
             </TouchableOpacity>
-
-
-
-            <View style={styles.landscapeCenterControls}>
-              <TouchableOpacity
-                style={styles.skipButton}
-                onPress={skipBackward}
-              >
-                <ForwardIcon size={24} color="#FFFFFF" />
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.playButton}
-                onPress={togglePlayPause}
-              >
-                {paused ? <PlayIcon size={32} color="#FFFFFF" /> : <PauseIcon size={32} color="#FFFFFF" />}
-              </TouchableOpacity>
-
-              <TouchableOpacity style={styles.skipButton} onPress={skipForward}>
-                <ForwardIcon size={24} color="#FFFFFF" />
-              </TouchableOpacity>
-            </View>
-
-            <View style={styles.landscapeBottomControls}>
-              <TouchableOpacity
-                style={styles.controlButton}
-                onPress={toggleMute}
-              >
-                {muted ? <VolumeXMarkIcon size={16} color="#FFFFFF" /> : <VolumeMaxIcon size={16} color="#FFFFFF" />}
-              </TouchableOpacity>
-              <Text style={styles.timeText}>{formatTime(currentTime)}</Text>
-              <TouchableOpacity
-                style={styles.landscapeProgressBar}
-                onPress={e => {
-                  const { locationX } = e.nativeEvent;
-                  const progress = locationX / (screenData.width - 120);
-                  onSeek(progress);
-                }}
-              >
-                <View style={styles.progressBar}>
-                  <View
-                    style={[
-                      styles.progressFill,
-                      {
-                        width: `${
-                          duration > 0 ? (currentTime / duration) * 100 : 0
-                        }%`,
-                      },
-                    ]}
-                  />
-                </View>
-              </TouchableOpacity>
-              <Text style={styles.timeText}>{formatTime(duration)}</Text>
-              <TouchableOpacity
-                style={styles.controlButton}
-                onPress={toggleOrientation}
-              >
-                <CompressIcon size={16} color="#FFFFFF" />
-              </TouchableOpacity>
-            </View>
-          </View>
+          )}
         </TouchableOpacity>
       </View>
     );
@@ -293,48 +253,18 @@ const VideoPlayerScreen = () => {
             onPress={handleVideoPress}
             activeOpacity={1}
           >
-            <Video
-              ref={videoRef}
-              source={{ uri: videoUrl }}
-              style={dynamicStyles.videoPlayer}
-              controls={false}
-              paused={paused}
-              muted={muted}
-              resizeMode="contain"
-              onLoad={data => {
-                setDuration(data.duration);
-                if (shouldSeek && savedTimeRef.current > 0) {
-                  setTimeout(() => {
-                    videoRef.current?.seek(savedTimeRef.current);
-                    setShouldSeek(false);
-                  }, 100);
-                }
-              }}
-              onProgress={data => setCurrentTime(data.currentTime)}
-              onError={error => console.log('Video Error:', error)}
-            />
+            <VideoPlayer style={dynamicStyles.videoPlayer} />
 
-            {showControls && (
+            {(!isYoutube && showControls) && (
               <View style={styles.controlsOverlay}>
                 <View style={styles.centerControls}>
-                  <TouchableOpacity
-                    style={styles.skipButton}
-                    onPress={skipBackward}
-                  >
+                  <TouchableOpacity style={styles.skipButton} onPress={skipBackward}>
                     <ForwardIcon size={24} color="#FFFFFF" />
                   </TouchableOpacity>
-
-                  <TouchableOpacity
-                    style={styles.playButton}
-                    onPress={togglePlayPause}
-                  >
+                  <TouchableOpacity style={styles.playButton} onPress={togglePlayPause}>
                     {paused ? <PlayIcon size={32} color="#FFFFFF" /> : <PauseIcon size={32} color="#FFFFFF" />}
                   </TouchableOpacity>
-
-                  <TouchableOpacity
-                    style={styles.skipButton}
-                    onPress={skipForward}
-                  >
+                  <TouchableOpacity style={styles.skipButton} onPress={skipForward}>
                     <ForwardIcon size={24} color="#FFFFFF" />
                   </TouchableOpacity>
                 </View>
@@ -342,63 +272,38 @@ const VideoPlayerScreen = () => {
             )}
           </TouchableOpacity>
 
+          {!isYoutube && (
           <View style={styles.customControls}>
-            <TouchableOpacity
-              style={styles.controlButton}
-              onPress={toggleMute}
-            >
+            <TouchableOpacity style={styles.controlButton} onPress={toggleMute}>
               {muted ? <VolumeXMarkIcon size={16} color="#FFFFFF" /> : <VolumeMaxIcon size={16} color="#FFFFFF" />}
             </TouchableOpacity>
-
             <View style={styles.progressSection}>
               <Text style={styles.timeText}>{formatTime(currentTime)}</Text>
-
-              <TouchableOpacity
-                style={styles.progressBarContainer}
-                onPress={e => {
-                  const { locationX } = e.nativeEvent;
-                  const progress = locationX / (screenData.width - 120);
-                  onSeek(progress);
-                }}
-              >
+              <TouchableOpacity style={styles.progressBarContainer} onPress={e => onSeek(e.nativeEvent.locationX / (screenData.width - 120))}>
                 <View style={styles.progressBar}>
-                  <View
-                    style={[
-                      styles.progressFill,
-                      {
-                        width: `${
-                          duration > 0 ? (currentTime / duration) * 100 : 0
-                        }%`,
-                      },
-                    ]}
-                  />
+                  <View style={[styles.progressFill, { width: `${duration > 0 ? (currentTime / duration) * 100 : 0}%` }]} />
                 </View>
               </TouchableOpacity>
-
               <Text style={styles.timeText}>{formatTime(duration)}</Text>
             </View>
-
-            <TouchableOpacity
-              style={styles.controlButton}
-              onPress={toggleOrientation}
-            >
+            <TouchableOpacity style={styles.controlButton} onPress={toggleOrientation}>
               <ExpandIcon size={16} color="#FFFFFF" />
             </TouchableOpacity>
           </View>
+          )}
         </View>
 
         <View style={styles.videoInfo}>
           <Text style={styles.videoTitle}>{videoData.title}</Text>
-          <Text style={styles.tutorName}>By {videoData.tutor}</Text>
-          <Text style={styles.videoMeta}>
-            {videoData.duration} • Uploaded: {videoData.uploadDate}
-          </Text>
+          {!!videoData.tutor && <Text style={styles.tutorName}>By {videoData.tutor}</Text>}
         </View>
 
+        {!!videoData.description && (
         <View style={styles.descriptionSection}>
           <Text style={styles.sectionTitle}>Description</Text>
           <Text style={styles.description}>{videoData.description}</Text>
         </View>
+        )}
 
         <View style={styles.relatedSection}>
           <Text style={styles.sectionTitle}>Related Videos</Text>
