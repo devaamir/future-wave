@@ -33,7 +33,7 @@ import { theme } from '../theme';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
-import { getNews, News } from '../services/api';
+import { getNews, getAnnouncements, News, Announcement } from '../services/api';
 
 
 
@@ -42,17 +42,18 @@ const HomeScreen = ({ onTabPress }: any) => {
   const insets = useSafeAreaInsets();
   const statusBarHeight = insets.top;
   const [news, setNews] = useState<News[]>([]);
+  const [announcements, setAnnouncements] = useState<Announcement[]>([]);
 
   useEffect(() => {
     getNews({ page: 1 }).then(({ data }) => setNews(data.results)).catch(() => { });
+    getAnnouncements().then(({ data }) => setAnnouncements(data)).catch(() => { });
   }, []);
 
 
   const dashboardItems = [
     { title: "My tasks", icon: TodayTaskIcon, color: '#37B38A', screen: null },
-    { title: 'Learning Section', icon: LearningSectionIcon, color: '#3A8EDB', screen: null },
+    { title: 'Learning Section', icon: LearningSectionIcon, color: '#3A8EDB', screen: 'LearningSection' },
     { title: 'OMR Practice', icon: OMRIcon, color: '#F39C12', screen: null },
-    { title: 'Announcements', icon: MegaphoneIcon, color: '#2BAE9B', screen: null },
     { title: 'Prelims', icon: PrelimsIcon, color: '#7B5ACF', screen: null },
     { title: 'Main Courses', icon: MainCoursesIcon, color: '#F5B041', screen: null },
     { title: 'Audio Class', icon: AudioClassIcon, color: '#FF5A7A', screen: null },
@@ -196,6 +197,37 @@ const HomeScreen = ({ onTabPress }: any) => {
           </View>
         </View>
 
+        {announcements.length > 0 && (
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Announcements</Text>
+            <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('Announcements' as never)}>
+              <Text style={styles.viewAllText}>View All</Text>
+            </TouchableOpacity>
+          </View>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.horizontalScroll}>
+            {announcements.map(item => (
+              <TouchableOpacity key={item.id} style={styles.affairCard} activeOpacity={0.7}>
+                {item.photo ? (
+                  <Image source={{ uri: item.photo }} style={styles.affairImage} resizeMode="cover" />
+                ) : (
+                  <View style={[styles.affairImage, { backgroundColor: '#E5E7EB' }]} />
+                )}
+                <View style={styles.affairOverlay}>
+                  <View style={[styles.categoryBadge, { backgroundColor: 'rgba(43,174,155,0.9)' }]}>
+                    <Text style={styles.categoryText}>{item.created_at.slice(0, 10)}</Text>
+                  </View>
+                </View>
+                <View style={styles.affairInfo}>
+                  <Text style={styles.affairTitle} numberOfLines={2}>{item.title}</Text>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </View>
+        )}
+
+        {news.length > 0 && (
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>News & Events</Text>
@@ -233,6 +265,7 @@ const HomeScreen = ({ onTabPress }: any) => {
             ))}
           </ScrollView>
         </View>
+        )}
 
       </ScrollView>
     </ImageBackground>
@@ -480,6 +513,42 @@ const styles = StyleSheet.create({
     fontFamily: theme.fonts.medium,
     color: '#6B7280',
     minWidth: 35,
+  },
+  announcementCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    padding: 14,
+    marginHorizontal: 16,
+    marginBottom: 8,
+    borderLeftWidth: 3,
+    borderLeftColor: '#2BAE9B',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.06,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  announcementIcon: {
+    width: 36,
+    height: 36,
+    borderRadius: 10,
+    backgroundColor: '#E6F7F5',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+  },
+  announcementTitle: {
+    fontSize: 13,
+    fontFamily: theme.fonts.semiBold,
+    color: '#1F2937',
+    marginBottom: 3,
+  },
+  announcementDate: {
+    fontSize: 11,
+    fontFamily: theme.fonts.regular,
+    color: '#9CA3AF',
   },
   resumeButton: {
     paddingHorizontal: 12,

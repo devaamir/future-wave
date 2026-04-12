@@ -11,6 +11,22 @@ import {
   StudyMaterial,
   CurrentAffair,
   News,
+  QAQuestion,
+  QASubject,
+  QACategory,
+  QASubcategory,
+  Announcement,
+  PrevLevel,
+  PrevExamCategory,
+  ScertClass,
+  ScertCategory,
+  ScertSubject,
+  ScertQuestion,
+  PrevYear,
+  CapsuleSubject,
+  CapsuleSubcategory,
+  CapsuleType,
+  CapsuleQuestion,
 } from './types';
 
 export * from './types';
@@ -45,6 +61,8 @@ api.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${data.access}`;
         return api(originalRequest);
       } catch {
+        console.log(error.response, 'refresh failed');
+
         // refresh failed — let the error propagate
       }
     }
@@ -69,7 +87,61 @@ export const getStudyMaterials = (params?: Record<string, any>) =>
 export const getCurrentAffairs = (params?: Record<string, any>) =>
   api.get<CurrentAffair[]>('learning/current-affairs/', { params });
 
+export const getQAQuestions = (params?: { page?: number; page_size?: number; subcategory_id?: number;[key: string]: any }) =>
+  api.get<PaginatedResponse<QAQuestion>>('learning/qa/questions/', { params });
+
+export const getQASubjects = () =>
+  api.get<QASubject[]>('learning/qa/subjects/');
+
+export const getQACategories = (params?: { subject_id?: number }) =>
+  api.get<QACategory[]>('learning/qa/categories/', { params });
+
+export const getQASubcategories = (params?: { category_id?: number }) =>
+  api.get<QASubcategory[]>('learning/qa/subcategories/', { params });
+
+export const getPrevLevels = () =>
+  api.get<PrevLevel[]>('learning/prev/levels/');
+
+export const getPrevExamCategories = (params?: { level_id?: number }) =>
+  api.get<PrevExamCategory[]>('learning/prev/exam-categories/', { params });
+
+export const getPrevYears = (params?: { exam_cat_id?: number }) =>
+  api.get<PrevYear[]>('learning/prev/years/', { params });
+
+export const getScertClasses = () =>
+  api.get<ScertClass[]>('learning/scert/classes/');
+
+export const getScertCategories = (params?: { class_id?: number }) =>
+  api.get<ScertCategory[]>('learning/scert/categories/', { params });
+
+export const getScertSubjects = (params?: { category_id?: number }) =>
+  api.get<ScertSubject[]>('learning/scert/subjects/', { params });
+
+export const getCapsuleSubjects = () =>
+  api.get<CapsuleSubject[]>('learning/capsules/subjects/');
+
+export const getCapsuleSubcategories = (params?: { subject_id?: number }) =>
+  api.get<CapsuleSubcategory[]>('learning/capsules/subcategories/', { params });
+
+export const getCapsuleTypes = (params?: { subcategory_id?: number }) => {
+  return api.get<CapsuleType[]>('learning/capsules/types/', { params });
+};
+
+export const getCapsuleQuestions = (params?: { page?: number; page_size?: number; subcategory_id?: number; subject_id?: number; type_id?: number }) =>
+  api.get<PaginatedResponse<CapsuleQuestion>>('learning/capsules/questions/', { params });
+
+export const getScertQuestions = (params?: {
+  class_id?: number;
+  category_id?: number;
+  subject_id?: number;
+  page?: number;
+  page_size?: number;
+}) => api.get<PaginatedResponse<ScertQuestion>>('learning/scert/questions/', { params });
+
 export const getNews = (params?: Record<string, any>) =>
   api.get<PaginatedResponse<News>>('news/', { params });
+
+export const getAnnouncements = () =>
+  api.get<Announcement[]>('announcements/');
 
 export default api;

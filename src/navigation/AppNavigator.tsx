@@ -22,6 +22,14 @@ import CurrentAffairsScreen from '../screens/CurrentAffairsScreen';
 import PDFViewerScreen from '../screens/PDFViewerScreen';
 import NewsDetailScreen from '../screens/NewsDetailScreen';
 import NewsListScreen from '../screens/NewsListScreen';
+import LearningSectionScreen from '../screens/LearningSectionScreen';
+import QASubjectsScreen from '../screens/QASubjectsScreen';
+import QAListScreen from '../screens/QAListScreen';
+import QAQuestionsScreen from '../screens/QAQuestionsScreen';
+import CollapsibleLevelScreen from '../screens/CollapsibleLevelScreen';
+import AnnouncementsScreen from '../screens/AnnouncementsScreen';
+import AnnouncementDetailScreen from '../screens/AnnouncementDetailScreen';
+import CapsuleSubjectsScreen from '../screens/CapsuleSubjectsScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -82,6 +90,16 @@ const AppNavigator = () => {
         <Stack.Screen name="PDFViewer" component={PDFViewerScreen} />
         <Stack.Screen name="NewsDetail" component={NewsDetailScreen} />
         <Stack.Screen name="NewsList" component={NewsListScreen} />
+        <Stack.Screen name="LearningSection" component={LearningSectionScreen} />
+        <Stack.Screen name="QASubjects" component={QASubjectsScreen} />
+        <Stack.Screen name="QACategories" component={QAListScreen} />
+        <Stack.Screen name="QASubcategories" component={QAListScreen} />
+        <Stack.Screen name="QAQuestions" component={QAQuestionsScreen} />
+        <Stack.Screen name="PreviousQuestions" component={CollapsibleLevelScreen} />
+        <Stack.Screen name="SCERTQuestions" component={CollapsibleLevelScreen} />
+        <Stack.Screen name="Announcements" component={AnnouncementsScreen} />
+        <Stack.Screen name="AnnouncementDetail" component={AnnouncementDetailScreen} />
+        <Stack.Screen name="CapsuleSubjects" component={CapsuleSubjectsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

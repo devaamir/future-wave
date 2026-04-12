@@ -104,6 +104,120 @@ export interface CurrentAffair {
   created_at: string;
 }
 
+export interface QASubject {
+  id: number;
+  name: string;
+}
+
+export interface PrevLevel {
+  id: number;
+  name: string;
+}
+
+export interface PrevExamCategory {
+  id: number;
+  name: string;
+}
+
+export interface PrevYear {
+  id: number;
+  name: string;
+}
+
+export interface ScertClass {
+  id: number;
+  name: string;
+}
+
+export interface ScertCategory {
+  id: number;
+  name: string;
+}
+
+export interface ScertSubject {
+  id: number;
+  name: string;
+}
+
+export interface CapsuleSubject {
+  id: number;
+  name: string;
+}
+
+export interface CapsuleSubcategory {
+  id: number;
+  name: string;
+  subject_id: number;
+}
+
+export interface CapsuleType {
+  id: number;
+  name: string;
+  subcategory_id: number;
+}
+
+export interface CapsuleQuestion {
+  id: number;
+  type_cat: {
+    id: number;
+    name: string;
+    subcategory: {
+      id: number;
+      name: string;
+      subject: { id: number; name: string };
+    };
+  };
+  question: string;
+  answer: string;
+  created_at: string;
+}
+
+export interface ScertQuestion {
+  id: number;
+  class_cat: { id: number; name: string };
+  cat: { id: number; name: string };
+  subject: { id: number; name: string };
+  question: string;
+  answer: string;
+  option_1: string;
+  option_2: string;
+  option_3: string;
+  option_4: string;
+  created_at: string;
+}
+
+export interface QACategory {
+  id: number;
+  name: string;
+  subject_id: number;
+}
+
+export interface QASubcategory {
+  id: number;
+  name: string;
+  category_id: number;
+}
+
+export interface QAQuestion {
+  id: number;
+  subcategory: {
+    id: number;
+    name: string;
+    category: {
+      id: number;
+      name: string;
+      subject: { id: number; name: string };
+    };
+  };
+  question: string;
+  answer: string;
+  option_1: string;
+  option_2: string;
+  option_3: string;
+  option_4: string;
+  created_at: string;
+}
+
 export interface News {
   id: number;
   author: string;
@@ -114,4 +228,13 @@ export interface News {
   image: string;
   is_active: boolean;
   created_at: string;
+}
+
+export interface Announcement {
+  id: number;
+  title: string;
+  description: string;
+  photo: string;
+  created_at: string;
+  updated_at: string;
 }
