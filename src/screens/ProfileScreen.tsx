@@ -65,7 +65,7 @@ const ProfileScreen = ({ navigation, onTabPress }: any) => {
         <Text style={styles.headerTitle}>Profile</Text>
       </View>
 
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+      <ScrollView style={styles.content} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 80 }}>
         {/* Profile Info Card */}
         <View style={styles.profileCard}>
           <TouchableOpacity
@@ -127,12 +127,12 @@ const ProfileScreen = ({ navigation, onTabPress }: any) => {
           <ProfileCard
             icon={<QuestionIcon size={20} color="#6B7280" />}
             title="Help & Support"
-            onPress={() => {}}
+            onPress={() => { }}
           />
           <ProfileCard
             icon={<InfoIcon size={20} color="#6B7280" />}
-            title="About Future Wave"
-            onPress={() => {}}
+            title="About Tips PSC"
+            onPress={() => { }}
           />
         </View>
 
@@ -143,6 +143,7 @@ const ProfileScreen = ({ navigation, onTabPress }: any) => {
 
         {/* Version Text */}
         <Text style={styles.versionText}>App Version 1.0.0</Text>
+        <Text style={styles.poweredBy}>Powered by D H BUSINESS DEVELOPERS</Text>
       </ScrollView>
     </View>
   );
@@ -294,6 +295,13 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: theme.fonts.regular,
     color: '#6B7280',
+    textAlign: 'center',
+    marginBottom: 6,
+  },
+  poweredBy: {
+    fontSize: 11,
+    fontFamily: theme.fonts.regular,
+    color: '#9CA3AF',
     textAlign: 'center',
     marginBottom: 30,
   },

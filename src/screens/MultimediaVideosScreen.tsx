@@ -34,11 +34,10 @@ const MultimediaVideosScreen = ({ route, navigation }: any) => {
 
   const handlePress = (item: MultimediaVideo) => {
     navigation.navigate('VideoPlayer', {
-      videoId: item.player_type === 'YOUTUBE' ? item.video_id : undefined,
+      videoId: item.player_type === 'YOUTUBE' ? item.video_url : undefined,
       videoUrl: item.player_type !== 'YOUTUBE' ? (item.video_file || item.video_url) : undefined,
       playerType: item.player_type,
       title: item.title,
-      description: item.description,
     });
   };
 
