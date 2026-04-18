@@ -41,390 +41,390 @@ const HomeScreen = ({ onTabPress }: any) => {
   const colors = useColors();
   const { isDark } = useTheme();
   const styles = useMemo(() => StyleSheet.create({
-  container: {
-    flex: 1,
-    // backgroundColor: colors.greyLight,
-  },
-  linearGradient: {
-    flex: 1,
-  },
-  headerContainer: {
-    // backgroundColor: colors.white,
-    paddingBottom: 20,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-  },
-  logoIcon: {
-    width: 60,
-    height: 60,
-    borderRadius: 8,
-  },
-  headerCenter: {
-    flex: 1,
-    marginLeft: 12,
-  },
-  greetingText: {
-    fontSize: 18,
-    fontFamily: theme.fonts.semiBold,
-    color: colors.textDark,
-  },
-  subGreetingText: {
-    fontSize: 13,
-    fontFamily: theme.fonts.regular,
-    color: colors.textTertiary,
-    marginTop: 2,
-  },
-  searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.backgroundGrey,
-    marginHorizontal: 16,
-    marginTop: 16,
-    marginBottom: 16,
-    borderRadius: 10,
-    paddingHorizontal: 14,
-    height: 44,
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  searchInput: {
-    flex: 1,
-    fontSize: 14,
-    fontFamily: theme.fonts.regular,
-    color: colors.textDark,
-    marginLeft: 8,
-  },
-  searchPlaceholder: {
-    flex: 1,
-    fontSize: 14,
-    fontFamily: theme.fonts.regular,
-    color: colors.textDisabled,
-    marginLeft: 8,
-  },
-  scrollView: {
-    flex: 1,
-    marginBottom: 50,
-  },
-  section: {
-    marginBottom: 24,
-  },
-  sectionHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginHorizontal: 16,
-    marginBottom: 12,
-  },
-  sectionTitle: {
-    fontSize: 16,
-    fontFamily: theme.fonts.bold,
-    color: colors.textDark,
-  },
-  viewAllText: {
-    fontSize: 13,
-    fontFamily: theme.fonts.medium,
-    color: colors.primaryDark,
-  },
-  tasksHorizontal: {
-    paddingHorizontal: 16,
-    gap: 12,
-  },
-  taskCard: {
-    backgroundColor: colors.white,
-    borderRadius: 12,
-    padding: 16,
-    width: 140,
-    justifyContent: 'space-between',
-    minHeight: 140,
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  taskHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    // marginBottom: 0,
-  },
-  taskIconContainer: {
-    marginRight: 8,
-  },
-  taskTitle: {
-    fontSize: 14,
-    fontFamily: theme.fonts.semiBold,
-    color: colors.textDark,
-    flex: 1,
-  },
-  taskProgress: {
-    fontSize: 11,
-    fontFamily: theme.fonts.medium,
-    color: colors.successGreen,
-    textAlign: 'center',
-    marginBottom: 4,
-  },
-  taskProgressIncomplete: {
-    fontSize: 11,
-    fontFamily: theme.fonts.medium,
-    color: colors.orange,
-    textAlign: 'center',
-    marginBottom: 4,
-  },
-  continueButtonSmall: {
-    backgroundColor: colors.orange,
-    paddingVertical: 8,
-    borderRadius: 6,
-    width: '100%',
-    alignItems: 'center',
-  },
-  continueButtonText: {
-    color: colors.white,
-    fontSize: 11,
-    fontFamily: theme.fonts.semiBold,
-  },
-  taskCompleted: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    backgroundColor: colors.successGreen,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  checkmark: {
-    color: colors.white,
-    fontSize: 12,
-    fontFamily: theme.fonts.bold,
-  },
-  startButton: {
-    backgroundColor: colors.primaryDark,
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    borderRadius: 6,
-  },
-  startButtonFull: {
-    backgroundColor: colors.primaryDark,
-    paddingVertical: 8,
-    borderRadius: 6,
-    width: '100%',
-    alignItems: 'center',
-  },
-  startButtonText: {
-    color: colors.white,
-    fontSize: 11,
-    fontFamily: theme.fonts.semiBold,
-  },
-  taskProgressPending: {
-    fontSize: 11,
-    fontFamily: theme.fonts.medium,
-    color: colors.textDisabled,
-    textAlign: 'center',
-    marginBottom: 4,
-  },
-  pendingBadge: {
-    backgroundColor: colors.borderLight,
-    paddingVertical: 8,
-    borderRadius: 6,
-    width: '100%',
-    alignItems: 'center',
-  },
-  pendingText: {
-    fontSize: 11,
-    fontFamily: theme.fonts.medium,
-    color: colors.textDisabled,
-  },
-  caReadBadge: {
-    backgroundColor: colors.greenBg,
-    paddingVertical: 8,
-    borderRadius: 6,
-    width: '100%',
-    alignItems: 'center',
-  },
-  caReadText: {
-    fontSize: 11,
-    fontFamily: theme.fonts.semiBold,
-    color: colors.successGreenDark,
-  },
-  continueCard: {
-    backgroundColor: colors.white,
-    marginHorizontal: 16,
-    borderRadius: 12,
-    padding: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  continueContent: {
-    flex: 1,
-    marginRight: 12,
-  },
-  continueTitle: {
-    fontSize: 14,
-    fontFamily: theme.fonts.semiBold,
-    color: colors.textDark,
-    marginBottom: 8,
-  },
-  progressContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  progressBar: {
-    flex: 1,
-    height: 6,
-    backgroundColor: colors.border,
-    borderRadius: 3,
-    marginRight: 8,
-    overflow: 'hidden',
-  },
-  progressFill: {
-    height: '100%',
-    backgroundColor: colors.primaryDark,
-    borderRadius: 3,
-  },
-  progressText: {
-    fontSize: 12,
-    fontFamily: theme.fonts.medium,
-    color: colors.textTertiary,
-    minWidth: 35,
-  },
-  announcementCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.white,
-    borderRadius: 12,
-    padding: 14,
-    marginHorizontal: 16,
-    marginBottom: 8,
-    borderLeftWidth: 3,
-    borderLeftColor: colors.primaryDeep,
-    shadowColor: colors.blackShort,
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.06,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  announcementIcon: {
-    width: 36,
-    height: 36,
-    borderRadius: 10,
-    backgroundColor: colors.tealBg,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 12,
-  },
-  announcementTitle: {
-    fontSize: 13,
-    fontFamily: theme.fonts.semiBold,
-    color: colors.textPrimary,
-    marginBottom: 3,
-  },
-  announcementDate: {
-    fontSize: 11,
-    fontFamily: theme.fonts.regular,
-    color: colors.textDisabled,
-  },
-  resumeButton: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-  },
-  resumeText: {
-    fontSize: 13,
-    fontFamily: theme.fonts.semiBold,
-    color: colors.primaryDark,
-  },
-  dashboardCard: {
-    backgroundColor: colors.white,
-    marginHorizontal: 16,
-    marginBottom: 20,
-    borderRadius: 16,
-    padding: 16,
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  dashboardGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-  },
-  dashboardItem: {
-    width: '31%',
-    alignItems: 'center',
-    marginBottom: 28,
-  },
-  iconContainer: {
-    marginBottom: 8,
-    width: 40,
-    height: 40,
-    borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  dashboardText: {
-    fontSize: 12,
-    fontFamily: theme.fonts.semiBold,
-    color: colors.textMutedAlt,
-    textAlign: 'center',
-  },
-  section: {
-    marginBottom: 24,
-  },
-  sectionTitle: {
-    fontSize: 16,
-    fontFamily: theme.fonts.bold,
-    color: colors.textDark,
-    marginHorizontal: 16,
-    marginBottom: 12,
-  },
-  horizontalScroll: {
-    paddingLeft: 16,
-  },
-  affairCard: {
-    width: 160,
-    marginRight: 12,
-    borderRadius: 12,
-    overflow: 'hidden',
-    backgroundColor: colors.white,
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  affairImage: {
-    width: '100%',
-    height: 110,
-  },
-  affairOverlay: {
-    position: 'absolute',
-    top: 8,
-    left: 8,
-  },
-  categoryBadge: {
-    backgroundColor: colors.tealOverlay09,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 6,
-  },
-  categoryText: {
-    fontSize: 10,
-    fontFamily: theme.fonts.semiBold,
-    color: colors.white,
-  },
-  affairInfo: {
-    padding: 12,
-  },
-  affairTitle: {
-    fontSize: 14,
-    fontFamily: theme.fonts.semiBold,
-    color: colors.textDark,
-    marginBottom: 6,
-    lineHeight: 18,
-  },
-  affairDate: {
-    fontSize: 11,
-    fontFamily: theme.fonts.regular,
-    color: colors.successGreen,
-  },
-}), [colors]);
+    container: {
+      flex: 1,
+      // backgroundColor: colors.greyLight,
+    },
+    linearGradient: {
+      flex: 1,
+    },
+    headerContainer: {
+      // backgroundColor: colors.white,
+      paddingBottom: 20,
+    },
+    header: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingHorizontal: 16,
+    },
+    logoIcon: {
+      width: 60,
+      height: 60,
+      borderRadius: 8,
+    },
+    headerCenter: {
+      flex: 1,
+      marginLeft: 12,
+    },
+    greetingText: {
+      fontSize: 18,
+      fontFamily: theme.fonts.semiBold,
+      color: colors.textDark,
+    },
+    subGreetingText: {
+      fontSize: 13,
+      fontFamily: theme.fonts.regular,
+      color: colors.textTertiary,
+      marginTop: 2,
+    },
+    searchContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: colors.backgroundGrey,
+      marginHorizontal: 16,
+      marginTop: 16,
+      marginBottom: 16,
+      borderRadius: 10,
+      paddingHorizontal: 14,
+      height: 44,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+    searchInput: {
+      flex: 1,
+      fontSize: 14,
+      fontFamily: theme.fonts.regular,
+      color: colors.textDark,
+      marginLeft: 8,
+    },
+    searchPlaceholder: {
+      flex: 1,
+      fontSize: 14,
+      fontFamily: theme.fonts.regular,
+      color: colors.textDisabled,
+      marginLeft: 8,
+    },
+    scrollView: {
+      flex: 1,
+      marginBottom: 50,
+    },
+    section: {
+      marginBottom: 24,
+    },
+    sectionHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginHorizontal: 16,
+      marginBottom: 12,
+    },
+    sectionTitle: {
+      fontSize: 16,
+      fontFamily: theme.fonts.bold,
+      color: colors.textDark,
+    },
+    viewAllText: {
+      fontSize: 13,
+      fontFamily: theme.fonts.medium,
+      color: colors.primaryDark,
+    },
+    tasksHorizontal: {
+      paddingHorizontal: 16,
+      gap: 12,
+    },
+    taskCard: {
+      backgroundColor: colors.white,
+      borderRadius: 12,
+      padding: 16,
+      width: 140,
+      justifyContent: 'space-between',
+      minHeight: 140,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+    taskHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      // marginBottom: 0,
+    },
+    taskIconContainer: {
+      marginRight: 8,
+    },
+    taskTitle: {
+      fontSize: 14,
+      fontFamily: theme.fonts.semiBold,
+      color: colors.textDark,
+      flex: 1,
+    },
+    taskProgress: {
+      fontSize: 11,
+      fontFamily: theme.fonts.medium,
+      color: colors.successGreen,
+      textAlign: 'center',
+      marginBottom: 4,
+    },
+    taskProgressIncomplete: {
+      fontSize: 11,
+      fontFamily: theme.fonts.medium,
+      color: colors.orange,
+      textAlign: 'center',
+      marginBottom: 4,
+    },
+    continueButtonSmall: {
+      backgroundColor: colors.orange,
+      paddingVertical: 8,
+      borderRadius: 6,
+      width: '100%',
+      alignItems: 'center',
+    },
+    continueButtonText: {
+      color: colors.white,
+      fontSize: 11,
+      fontFamily: theme.fonts.semiBold,
+    },
+    taskCompleted: {
+      width: 20,
+      height: 20,
+      borderRadius: 10,
+      backgroundColor: colors.successGreen,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    checkmark: {
+      color: colors.white,
+      fontSize: 12,
+      fontFamily: theme.fonts.bold,
+    },
+    startButton: {
+      backgroundColor: colors.primaryDark,
+      paddingHorizontal: 12,
+      paddingVertical: 4,
+      borderRadius: 6,
+    },
+    startButtonFull: {
+      backgroundColor: colors.primaryDark,
+      paddingVertical: 8,
+      borderRadius: 6,
+      width: '100%',
+      alignItems: 'center',
+    },
+    startButtonText: {
+      color: colors.white,
+      fontSize: 11,
+      fontFamily: theme.fonts.semiBold,
+    },
+    taskProgressPending: {
+      fontSize: 11,
+      fontFamily: theme.fonts.medium,
+      color: colors.textDisabled,
+      textAlign: 'center',
+      marginBottom: 4,
+    },
+    pendingBadge: {
+      backgroundColor: colors.borderLight,
+      paddingVertical: 8,
+      borderRadius: 6,
+      width: '100%',
+      alignItems: 'center',
+    },
+    pendingText: {
+      fontSize: 11,
+      fontFamily: theme.fonts.medium,
+      color: colors.textDisabled,
+    },
+    caReadBadge: {
+      backgroundColor: colors.greenBg,
+      paddingVertical: 8,
+      borderRadius: 6,
+      width: '100%',
+      alignItems: 'center',
+    },
+    caReadText: {
+      fontSize: 11,
+      fontFamily: theme.fonts.semiBold,
+      color: colors.successGreenDark,
+    },
+    continueCard: {
+      backgroundColor: colors.white,
+      marginHorizontal: 16,
+      borderRadius: 12,
+      padding: 16,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+    continueContent: {
+      flex: 1,
+      marginRight: 12,
+    },
+    continueTitle: {
+      fontSize: 14,
+      fontFamily: theme.fonts.semiBold,
+      color: colors.textDark,
+      marginBottom: 8,
+    },
+    progressContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    progressBar: {
+      flex: 1,
+      height: 6,
+      backgroundColor: colors.border,
+      borderRadius: 3,
+      marginRight: 8,
+      overflow: 'hidden',
+    },
+    progressFill: {
+      height: '100%',
+      backgroundColor: colors.primaryDark,
+      borderRadius: 3,
+    },
+    progressText: {
+      fontSize: 12,
+      fontFamily: theme.fonts.medium,
+      color: colors.textTertiary,
+      minWidth: 35,
+    },
+    announcementCard: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: colors.white,
+      borderRadius: 12,
+      padding: 14,
+      marginHorizontal: 16,
+      marginBottom: 8,
+      borderLeftWidth: 3,
+      borderLeftColor: colors.primaryDeep,
+      shadowColor: colors.blackShort,
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.06,
+      shadowRadius: 4,
+      elevation: 2,
+    },
+    announcementIcon: {
+      width: 36,
+      height: 36,
+      borderRadius: 10,
+      backgroundColor: colors.tealBg,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginRight: 12,
+    },
+    announcementTitle: {
+      fontSize: 13,
+      fontFamily: theme.fonts.semiBold,
+      color: colors.textPrimary,
+      marginBottom: 3,
+    },
+    announcementDate: {
+      fontSize: 11,
+      fontFamily: theme.fonts.regular,
+      color: colors.textDisabled,
+    },
+    resumeButton: {
+      paddingHorizontal: 12,
+      paddingVertical: 6,
+    },
+    resumeText: {
+      fontSize: 13,
+      fontFamily: theme.fonts.semiBold,
+      color: colors.primaryDark,
+    },
+    dashboardCard: {
+      backgroundColor: colors.white,
+      marginHorizontal: 16,
+      marginBottom: 20,
+      borderRadius: 16,
+      padding: 16,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+    dashboardGrid: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: 'space-between',
+    },
+    dashboardItem: {
+      width: '31%',
+      alignItems: 'center',
+      marginBottom: 28,
+    },
+    iconContainer: {
+      marginBottom: 8,
+      width: 40,
+      height: 40,
+      borderRadius: 12,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    dashboardText: {
+      fontSize: 12,
+      fontFamily: theme.fonts.semiBold,
+      color: colors.textMutedAlt,
+      textAlign: 'center',
+    },
+    section: {
+      marginBottom: 24,
+    },
+    sectionTitle: {
+      fontSize: 16,
+      fontFamily: theme.fonts.bold,
+      color: colors.textDark,
+      marginHorizontal: 16,
+      marginBottom: 12,
+    },
+    horizontalScroll: {
+      paddingLeft: 16,
+    },
+    affairCard: {
+      width: 160,
+      marginRight: 12,
+      borderRadius: 12,
+      overflow: 'hidden',
+      backgroundColor: colors.white,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+    affairImage: {
+      width: '100%',
+      height: 110,
+    },
+    affairOverlay: {
+      position: 'absolute',
+      top: 8,
+      left: 8,
+    },
+    categoryBadge: {
+      backgroundColor: colors.tealOverlay09,
+      paddingHorizontal: 8,
+      paddingVertical: 4,
+      borderRadius: 6,
+    },
+    categoryText: {
+      fontSize: 10,
+      fontFamily: theme.fonts.semiBold,
+      color: colors.white,
+    },
+    affairInfo: {
+      padding: 12,
+    },
+    affairTitle: {
+      fontSize: 14,
+      fontFamily: theme.fonts.semiBold,
+      color: colors.textDark,
+      marginBottom: 6,
+      lineHeight: 18,
+    },
+    affairDate: {
+      fontSize: 11,
+      fontFamily: theme.fonts.regular,
+      color: colors.successGreen,
+    },
+  }), [colors]);
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
   const statusBarHeight = insets.top;
@@ -504,9 +504,9 @@ const HomeScreen = ({ onTabPress }: any) => {
               </View>
               <View>
                 {/* <Text style={styles.taskProgressIncomplete}>1/3 completed</Text> */}
-                <TouchableOpacity style={styles.continueButtonSmall} activeOpacity={0.7}>
+                <View style={styles.continueButtonSmall} >
                   <Text style={styles.continueButtonText}>View</Text>
-                </TouchableOpacity>
+                </View>
               </View>
             </TouchableOpacity>
 
@@ -518,9 +518,9 @@ const HomeScreen = ({ onTabPress }: any) => {
                 <Text style={styles.taskTitle}>Daily Quiz</Text>
               </View>
               <View>
-                <TouchableOpacity style={styles.startButtonFull} activeOpacity={0.7} onPress={() => navigation.navigate('DailyQuiz' as never)}>
+                <View style={styles.startButtonFull}>
                   <Text style={styles.startButtonText}>Start</Text>
-                </TouchableOpacity>
+                </View>
               </View>
             </TouchableOpacity>
 
