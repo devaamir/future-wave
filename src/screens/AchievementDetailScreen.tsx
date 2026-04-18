@@ -65,16 +65,16 @@ const AchievementDetailScreen = ({ route, navigation }: any) => {
         </View>
 
         <View style={styles.card}>
-          <Row label="Exam" value={item.exam_name} />
-          <Row label="Rank" value={item.rank} />
-          <Row label="Date" value={new Date(item.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })} />
+          <Row label="Exam" value={item.exam_name} styles={styles} />
+          <Row label="Rank" value={item.rank} styles={styles} />
+          <Row label="Date" value={new Date(item.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })} styles={styles} />
         </View>
       </ScrollView>
     </View>
   );
 };
 
-const Row = ({ label, value }: { label: string; value: string }) => (
+const Row = ({ label, value, styles }: { label: string; value: string; styles: any }) => (
   <View style={styles.row}>
     <Text style={styles.label}>{label}</Text>
     <Text style={styles.value}>{value}</Text>
