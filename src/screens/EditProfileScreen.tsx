@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   View,
   Text,
@@ -17,7 +17,7 @@ import {
   launchCamera,
   ImagePickerResponse,
 } from 'react-native-image-picker';
-import { theme, buttonStyles, buttonColors } from '../theme';
+import { theme, buttonStyles, buttonColors, useColors } from '../theme';
 import {
   BackArrowIcon,
   ProfileIcon,
@@ -31,6 +31,159 @@ import { updateProfile } from '../services/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const EditProfileScreen = ({ navigation }: any) => {
+  const colors = useColors();
+  const styles = useMemo(() => StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.backgroundLight,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingTop: 50,
+    paddingBottom: 16,
+    backgroundColor: colors.white,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.surfaceAlt,
+  },
+  backButton: {
+    padding: 8,
+    marginRight: 12,
+  },
+  headerTitle: {
+    fontSize: 16,
+    fontFamily: theme.fonts.bold,
+    color: colors.textBody,
+  },
+  content: {
+    flex: 1,
+  },
+  profileSection: {
+    alignItems: 'center',
+    paddingVertical: 30,
+    backgroundColor: colors.white,
+    marginBottom: 16,
+  },
+  avatarContainer: {
+    position: 'relative',
+    marginBottom: 16,
+  },
+  avatar: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: colors.borderLight,
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+  },
+  profileImage: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 50,
+  },
+  editIcon: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    backgroundColor: colors.white,
+    borderRadius: 16,
+    padding: 8,
+    borderWidth: 2,
+    borderColor: colors.surfaceAlt,
+  },
+  changePhotoButton: {
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+  },
+  changePhotoText: {
+    fontSize: 14,
+    fontFamily: theme.fonts.medium,
+    color: colors.primary,
+  },
+  formSection: {
+    backgroundColor: colors.white,
+    paddingHorizontal: 20,
+    paddingVertical: 24,
+    marginBottom: 16,
+  },
+  inputContainer: {
+    marginBottom: 20,
+  },
+  inputLabel: {
+    fontSize: 14,
+    fontFamily: theme.fonts.medium,
+    color: colors.textBodyAlt,
+    marginBottom: 8,
+  },
+  textInput: {
+    borderWidth: 1,
+    borderColor: colors.borderMuted,
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    fontSize: 16,
+    fontFamily: theme.fonts.regular,
+    color: colors.textPrimary,
+    backgroundColor: colors.white,
+  },
+  buttonSection: {
+    paddingHorizontal: 20,
+    paddingVertical: 24,
+  },
+  modal: {
+    justifyContent: 'flex-end',
+    marginBottom: -10,
+    marginHorizontal: 0,
+  },
+  modalContent: {
+    backgroundColor: colors.white,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 24,
+  },
+  modalHeader: {
+    // flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontFamily: theme.fonts.bold,
+    color: colors.textBody,
+  },
+  modalSubtitle: {
+    fontSize: 14,
+    fontFamily: theme.fonts.regular,
+    color: colors.textMuted,
+    textAlign: 'center',
+    marginBottom: 24,
+  },
+  modalOptionsRow: {
+    flexDirection: 'row',
+    gap: 12,
+    marginBottom: 12,
+  },
+  modalOptionHalf: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 16,
+    paddingHorizontal: 12,
+    backgroundColor: colors.backgroundLight,
+    borderRadius: 12,
+  },
+  modalOptionText: {
+    fontSize: 16,
+    fontFamily: theme.fonts.medium,
+    color: colors.textBody,
+    marginLeft: 12,
+  },
+}), [colors]);
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [isModalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -141,7 +294,7 @@ const EditProfileScreen = ({ navigation }: any) => {
         onChangeText={onChangeText}
         placeholder={placeholder}
         keyboardType={keyboardType}
-        placeholderTextColor="#9CA3AF"
+        placeholderTextColor={colors.textDisabled}
       />
     </View>
   );
@@ -154,7 +307,7 @@ const EditProfileScreen = ({ navigation }: any) => {
           style={styles.backButton}
           onPress={() => navigation.goBack()}
         >
-          <BackArrowIcon size={24} color="#1E293B" />
+          <BackArrowIcon size={24} color={colors.textBody} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Edit Profile</Text>
       </View>
@@ -170,14 +323,14 @@ const EditProfileScreen = ({ navigation }: any) => {
                   style={styles.profileImage}
                 />
               ) : (
-                <ProfileIcon size={48} color="#6B7280" />
+                <ProfileIcon size={48} color={colors.textTertiary} />
               )}
             </View>
             {/* <TouchableOpacity
               style={styles.editIcon}
               onPress={handleImagePicker}
             >
-              <EditIcon size={16} color="#4ECDC4" />
+              <EditIcon size={16} color={colors.primary} />
             </TouchableOpacity> */}
           </View>
           <TouchableOpacity
@@ -252,7 +405,7 @@ const EditProfileScreen = ({ navigation }: any) => {
               disabled={loading}
             >
               {loading ? (
-                <ActivityIndicator color="#fff" />
+                <ActivityIndicator color={colors.white} />
               ) : (
                 <Text style={buttonStyles.buttonText}>Save Changes</Text>
               )}
@@ -269,7 +422,7 @@ const EditProfileScreen = ({ navigation }: any) => {
       >
         <View style={styles.modalContent}>
           <TouchableOpacity onPress={closeModal}>
-            <XMarkIcon size={20} color="#64748B" />
+            <XMarkIcon size={20} color={colors.textMuted} />
           </TouchableOpacity>
           <View style={styles.modalHeader}>
             <Text style={styles.modalTitle}>Select Profile Photo</Text>
@@ -283,7 +436,7 @@ const EditProfileScreen = ({ navigation }: any) => {
               style={styles.modalOptionHalf}
               onPress={openCamera}
             >
-              <CameraIcon size={20} color="#4ECDC4" />
+              <CameraIcon size={20} color={colors.primary} />
               <Text style={styles.modalOptionText}>Camera</Text>
             </TouchableOpacity>
 
@@ -291,7 +444,7 @@ const EditProfileScreen = ({ navigation }: any) => {
               style={styles.modalOptionHalf}
               onPress={openGallery}
             >
-              <GalleryIcon size={20} color="#4ECDC4" />
+              <GalleryIcon size={20} color={colors.primary} />
               <Text style={styles.modalOptionText}>Gallery</Text>
             </TouchableOpacity>
           </View>
@@ -301,157 +454,5 @@ const EditProfileScreen = ({ navigation }: any) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F8FAFC',
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingTop: 50,
-    paddingBottom: 16,
-    backgroundColor: '#FFFFFF',
-    borderBottomWidth: 1,
-    borderBottomColor: '#F1F5F9',
-  },
-  backButton: {
-    padding: 8,
-    marginRight: 12,
-  },
-  headerTitle: {
-    fontSize: 16,
-    fontFamily: theme.fonts.bold,
-    color: '#1E293B',
-  },
-  content: {
-    flex: 1,
-  },
-  profileSection: {
-    alignItems: 'center',
-    paddingVertical: 30,
-    backgroundColor: '#FFFFFF',
-    marginBottom: 16,
-  },
-  avatarContainer: {
-    position: 'relative',
-    marginBottom: 16,
-  },
-  avatar: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: '#F3F4F6',
-    alignItems: 'center',
-    justifyContent: 'center',
-    overflow: 'hidden',
-  },
-  profileImage: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 50,
-  },
-  editIcon: {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 16,
-    padding: 8,
-    borderWidth: 2,
-    borderColor: '#F1F5F9',
-  },
-  changePhotoButton: {
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-  },
-  changePhotoText: {
-    fontSize: 14,
-    fontFamily: theme.fonts.medium,
-    color: '#4ECDC4',
-  },
-  formSection: {
-    backgroundColor: '#FFFFFF',
-    paddingHorizontal: 20,
-    paddingVertical: 24,
-    marginBottom: 16,
-  },
-  inputContainer: {
-    marginBottom: 20,
-  },
-  inputLabel: {
-    fontSize: 14,
-    fontFamily: theme.fonts.medium,
-    color: '#374151',
-    marginBottom: 8,
-  },
-  textInput: {
-    borderWidth: 1,
-    borderColor: '#D1D5DB',
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    fontSize: 16,
-    fontFamily: theme.fonts.regular,
-    color: '#1F2937',
-    backgroundColor: '#FFFFFF',
-  },
-  buttonSection: {
-    paddingHorizontal: 20,
-    paddingVertical: 24,
-  },
-  modal: {
-    justifyContent: 'flex-end',
-    marginBottom: -10,
-    marginHorizontal: 0,
-  },
-  modalContent: {
-    backgroundColor: '#FFFFFF',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    paddingHorizontal: 20,
-    paddingVertical: 24,
-  },
-  modalHeader: {
-    // flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  modalTitle: {
-    fontSize: 18,
-    fontFamily: theme.fonts.bold,
-    color: '#1E293B',
-  },
-  modalSubtitle: {
-    fontSize: 14,
-    fontFamily: theme.fonts.regular,
-    color: '#64748B',
-    textAlign: 'center',
-    marginBottom: 24,
-  },
-  modalOptionsRow: {
-    flexDirection: 'row',
-    gap: 12,
-    marginBottom: 12,
-  },
-  modalOptionHalf: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 16,
-    paddingHorizontal: 12,
-    backgroundColor: '#F8FAFC',
-    borderRadius: 12,
-  },
-  modalOptionText: {
-    fontSize: 16,
-    fontFamily: theme.fonts.medium,
-    color: '#1E293B',
-    marginLeft: 12,
-  },
-});
 
 export default EditProfileScreen;

@@ -1,23 +1,43 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { BackArrowIcon, ClockIcon, AnalyticsIcon, AchievementsIcon } from '../components/Icons';
-import { theme } from '../theme';
-
-const EXAM_ITEMS = [
-  { title: 'Time Table', icon: ClockIcon, color: '#F39C12', bg: '#FFF8EC', screen: 'TimeTable' },
-  { title: 'Exam Result', icon: AnalyticsIcon, color: '#10B981', bg: '#ECFDF5', screen: 'ExamResult' },
-  { title: 'Ranking', icon: AchievementsIcon, color: '#7B5ACF', bg: '#F3EEFF', screen: 'Ranking' },
-];
+import { theme, useColors } from '../theme';
 
 const ExamsMenuScreen = () => {
+  const colors = useColors();
+  const EXAM_ITEMS = useMemo(() => [
+    { title: 'Time Table', icon: ClockIcon, color: colors.accent, bg: colors.amberBg, screen: 'TimeTable' },
+    { title: 'Exam Result', icon: AnalyticsIcon, color: colors.successGreen, bg: colors.greenBgLight, screen: 'ExamResult' },
+    { title: 'Ranking', icon: AchievementsIcon, color: colors.purple, bg: colors.purpleBg, screen: 'Ranking' },
+  ], [colors]);
+  const styles = useMemo(() => StyleSheet.create({
+  container: { flex: 1, backgroundColor: colors.backgroundGrey },
+  header: {
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+    paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
+    backgroundColor: colors.white, borderBottomWidth: 1, borderBottomColor: colors.border,
+  },
+  back: { padding: 8 },
+  headerTitle: { flex: 1, textAlign: 'center', fontSize: 18, fontFamily: theme.fonts.bold, color: colors.textDark },
+  list: { padding: 16 },
+  card: {
+    flexDirection: 'row', alignItems: 'center', backgroundColor: colors.white,
+    borderRadius: 14, padding: 16, marginBottom: 12,
+    shadowColor: colors.blackShort, shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.06, shadowRadius: 4, elevation: 2,
+  },
+  iconBox: { width: 50, height: 50, borderRadius: 14, justifyContent: 'center', alignItems: 'center', marginRight: 14 },
+  cardTitle: { flex: 1, fontSize: 15, fontFamily: theme.fonts.semiBold, color: colors.textPrimary },
+  arrow: { fontSize: 22, color: colors.textDisabled },
+}), [colors]);
   const navigation = useNavigation<any>();
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.back}>
-          <BackArrowIcon size={24} color="#2D2D2D" />
+          <BackArrowIcon size={24} color={colors.textDark} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Exams</Text>
         <View style={{ width: 40 }} />
@@ -48,25 +68,5 @@ const ExamsMenuScreen = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F9FAFB' },
-  header: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
-    backgroundColor: '#FFFFFF', borderBottomWidth: 1, borderBottomColor: '#E5E7EB',
-  },
-  back: { padding: 8 },
-  headerTitle: { flex: 1, textAlign: 'center', fontSize: 18, fontFamily: theme.fonts.bold, color: '#2D2D2D' },
-  list: { padding: 16 },
-  card: {
-    flexDirection: 'row', alignItems: 'center', backgroundColor: '#FFFFFF',
-    borderRadius: 14, padding: 16, marginBottom: 12,
-    shadowColor: '#000', shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.06, shadowRadius: 4, elevation: 2,
-  },
-  iconBox: { width: 50, height: 50, borderRadius: 14, justifyContent: 'center', alignItems: 'center', marginRight: 14 },
-  cardTitle: { flex: 1, fontSize: 15, fontFamily: theme.fonts.semiBold, color: '#1F2937' },
-  arrow: { fontSize: 22, color: '#9CA3AF' },
-});
 
 export default ExamsMenuScreen;

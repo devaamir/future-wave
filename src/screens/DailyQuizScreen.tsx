@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import {
   View,
   Text,
@@ -11,7 +11,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getQuestions, PrelimQuestion } from '../services/api';
 import { BackArrowIcon } from '../components/Icons';
-import { theme } from '../theme';
+import { theme, useColors } from '../theme';
 
 const QUIZ_KEY = 'daily_quiz_';
 
@@ -31,6 +31,107 @@ interface QuizResult {
 }
 
 const DailyQuizScreen = ({ navigation }: any) => {
+  const colors = useColors();
+  const styles = useMemo(() => StyleSheet.create({
+  container: { flex: 1, backgroundColor: colors.backgroundGrey },
+  center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingTop: 50,
+    paddingBottom: 16,
+    backgroundColor: colors.white,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+  },
+  back: { padding: 8 },
+  headerTitle: {
+    fontSize: 18,
+    fontFamily: theme.fonts.bold,
+    color: colors.textDark,
+  },
+  content: { padding: 16 },
+  questionCard: {
+    backgroundColor: colors.white,
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 20,
+    shadowColor: colors.blackShort,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 3,
+  },
+  questionLabel: {
+    fontSize: 10,
+    fontFamily: theme.fonts.medium,
+    color: colors.purple,
+    marginBottom: 6,
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+  },
+  questionText: {
+    fontSize: 13,
+    fontFamily: theme.fonts.semiBold,
+    color: colors.textPrimary,
+    lineHeight: 20,
+  },
+  option: {
+    backgroundColor: colors.white,
+    borderRadius: 12,
+    padding: 12,
+    marginBottom: 10,
+    borderWidth: 1.5,
+    borderColor: colors.border,
+  },
+  correct: {
+    backgroundColor: colors.successGreen,
+    borderColor: colors.successGreen,
+  },
+  wrong: {
+    backgroundColor: colors.error,
+    borderColor: colors.error,
+  },
+  optionText: {
+    fontSize: 13,
+    fontFamily: theme.fonts.medium,
+    color: colors.textPrimary,
+    lineHeight: 19,
+  },
+  optionTextWhite: { color: colors.white },
+  tag: {
+    fontSize: 11,
+    fontFamily: theme.fonts.medium,
+    color: colors.white,
+    marginTop: 3,
+    opacity: 0.9,
+  },
+  resultBadge: {
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  resultEmoji: { fontSize: 40, marginBottom: 6 },
+  resultLabel: {
+    fontSize: 18,
+    fontFamily: theme.fonts.bold,
+    color: colors.textPrimary,
+  },
+  empty: {
+    textAlign: 'center',
+    color: colors.textTertiary,
+    fontFamily: theme.fonts.regular,
+    marginTop: 40,
+  },
+  note: {
+    textAlign: 'center',
+    fontSize: 12,
+    fontFamily: theme.fonts.regular,
+    color: colors.textDisabled,
+    marginTop: 20,
+  },
+}), [colors]);
   const [loading, setLoading] = useState(true);
   const [question, setQuestion] = useState<PrelimQuestion | null>(null);
   const [result, setResult] = useState<QuizResult | null>(null);
@@ -109,7 +210,7 @@ const DailyQuizScreen = ({ navigation }: any) => {
   if (loading) {
     return (
       <View style={styles.center}>
-        <ActivityIndicator size="large" color="#7B5ACF" />
+        <ActivityIndicator size="large" color={colors.purple} />
       </View>
     );
   }
@@ -118,7 +219,7 @@ const DailyQuizScreen = ({ navigation }: any) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.back}>
-          <BackArrowIcon size={24} color="#2D2D2D" />
+          <BackArrowIcon size={24} color={colors.textDark} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Daily Quiz</Text>
         <View style={{ width: 40 }} />
@@ -204,105 +305,5 @@ const DailyQuizScreen = ({ navigation }: any) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F9FAFB' },
-  center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingTop: 50,
-    paddingBottom: 16,
-    backgroundColor: '#FFFFFF',
-    borderBottomWidth: 1,
-    borderBottomColor: '#E5E7EB',
-  },
-  back: { padding: 8 },
-  headerTitle: {
-    fontSize: 18,
-    fontFamily: theme.fonts.bold,
-    color: '#2D2D2D',
-  },
-  content: { padding: 16 },
-  questionCard: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    elevation: 3,
-  },
-  questionLabel: {
-    fontSize: 10,
-    fontFamily: theme.fonts.medium,
-    color: '#7B5ACF',
-    marginBottom: 6,
-    textTransform: 'uppercase',
-    letterSpacing: 1,
-  },
-  questionText: {
-    fontSize: 13,
-    fontFamily: theme.fonts.semiBold,
-    color: '#1F2937',
-    lineHeight: 20,
-  },
-  option: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    padding: 12,
-    marginBottom: 10,
-    borderWidth: 1.5,
-    borderColor: '#E5E7EB',
-  },
-  correct: {
-    backgroundColor: '#10B981',
-    borderColor: '#10B981',
-  },
-  wrong: {
-    backgroundColor: '#EF4444',
-    borderColor: '#EF4444',
-  },
-  optionText: {
-    fontSize: 13,
-    fontFamily: theme.fonts.medium,
-    color: '#1F2937',
-    lineHeight: 19,
-  },
-  optionTextWhite: { color: '#FFFFFF' },
-  tag: {
-    fontSize: 11,
-    fontFamily: theme.fonts.medium,
-    color: '#FFFFFF',
-    marginTop: 3,
-    opacity: 0.9,
-  },
-  resultBadge: {
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  resultEmoji: { fontSize: 40, marginBottom: 6 },
-  resultLabel: {
-    fontSize: 18,
-    fontFamily: theme.fonts.bold,
-    color: '#1F2937',
-  },
-  empty: {
-    textAlign: 'center',
-    color: '#6B7280',
-    fontFamily: theme.fonts.regular,
-    marginTop: 40,
-  },
-  note: {
-    textAlign: 'center',
-    fontSize: 12,
-    fontFamily: theme.fonts.regular,
-    color: '#9CA3AF',
-    marginTop: 20,
-  },
-});
 
 export default DailyQuizScreen;

@@ -49,10 +49,12 @@ import ExamResultScreen from '../screens/ExamResultScreen';
 import RankingScreen from '../screens/RankingScreen';
 import OMRHistoryScreen from '../screens/OMRHistoryScreen';
 import { getPrelimsCourseCategories, getPrelimsCourses, getPrelimsSyllabuses, getPrelimSubjects, getPrelimCategories, getQuestions, getMainsCourseCategories, getMainsCourses, getMainsSyllabuses, getMainsSubjects, getMainsCategories, getMainsQuestions } from '../services/api';
+import { useColors } from '../theme';
 
 const Stack = createNativeStackNavigator();
 
 const AppNavigator = () => {
+  const colors = useColors();
   const [initialRoute, setInitialRoute] = useState<string | null>(null);
 
   useEffect(() => {
@@ -145,38 +147,38 @@ const AppNavigator = () => {
           component={QAListScreen}
           initialParams={{
             title: 'Prelims',
-            color: '#7B5ACF',
-            bg: '#F3EEFF',
+            color: colors.purple,
+            bg: colors.purpleBg,
             fetchFn: getPrelimsCourseCategories,
             nextScreen: 'QACategories',
             nextParams: (cat: any) => ({
               title: cat.name,
-              color: '#7B5ACF',
-              bg: '#F3EEFF',
+              color: colors.purple,
+              bg: colors.purpleBg,
               fetchFn: () => getPrelimsCourses({ course_category_id: cat.id }),
               nextScreen: 'QACategories',
               nextParams: (course: any) => ({
                 title: course.name,
-                color: '#7B5ACF',
-                bg: '#F3EEFF',
+                color: colors.purple,
+                bg: colors.purpleBg,
                 fetchFn: () => getPrelimsSyllabuses({ course_id: course.id }),
                 nextScreen: 'QACategories',
                 nextParams: (syllabus: any) => ({
                   title: syllabus.name,
-                  color: '#7B5ACF',
-                  bg: '#F3EEFF',
+                  color: colors.purple,
+                  bg: colors.purpleBg,
                   fetchFn: () => getPrelimSubjects({ syllabus_id: syllabus.id }),
                   nextScreen: 'QACategories',
                   nextParams: (subject: any) => ({
                     title: subject.name,
-                    color: '#7B5ACF',
-                    bg: '#F3EEFF',
+                    color: colors.purple,
+                    bg: colors.purpleBg,
                     fetchFn: () => getPrelimCategories({ subject_id: subject.id }),
                     nextScreen: 'PrelimQuestions',
                     nextParams: (category: any) => ({
                       title: category.name,
-                      color: '#7B5ACF',
-                      bg: '#F3EEFF',
+                      color: colors.purple,
+                      bg: colors.purpleBg,
                       fetchFn: (params: any) => getQuestions({ ...params, subject_id: subject.id, category_id: category.id }),
                     }),
                   }),
@@ -190,38 +192,38 @@ const AppNavigator = () => {
           component={QAListScreen}
           initialParams={{
             title: 'Mains',
-            color: '#F5B041',
-            bg: '#FFF8EC',
+            color: colors.amber,
+            bg: colors.amberBg,
             fetchFn: getMainsCourseCategories,
             nextScreen: 'QACategories',
             nextParams: (cat: any) => ({
               title: cat.name,
-              color: '#F5B041',
-              bg: '#FFF8EC',
+              color: colors.amber,
+              bg: colors.amberBg,
               fetchFn: () => getMainsCourses({ course_category_id: cat.id }),
               nextScreen: 'QACategories',
               nextParams: (course: any) => ({
                 title: course.name,
-                color: '#F5B041',
-                bg: '#FFF8EC',
+                color: colors.amber,
+                bg: colors.amberBg,
                 fetchFn: () => getMainsSyllabuses({ course_id: course.id }),
                 nextScreen: 'QACategories',
                 nextParams: (syllabus: any) => ({
                   title: syllabus.name,
-                  color: '#F5B041',
-                  bg: '#FFF8EC',
+                  color: colors.amber,
+                  bg: colors.amberBg,
                   fetchFn: () => getMainsSubjects({ syllabus_id: syllabus.id }),
                   nextScreen: 'QACategories',
                   nextParams: (subject: any) => ({
                     title: subject.name,
-                    color: '#F5B041',
-                    bg: '#FFF8EC',
+                    color: colors.amber,
+                    bg: colors.amberBg,
                     fetchFn: () => getMainsCategories({ subject_id: subject.id }),
                     nextScreen: 'MainsQuestions',
                     nextParams: (category: any) => ({
                       title: category.name,
-                      color: '#F5B041',
-                      bg: '#FFF8EC',
+                      color: colors.amber,
+                      bg: colors.amberBg,
                       fetchFn: (params: any) => getMainsQuestions({ ...params, subject_id: subject.id, category_id: category.id }),
                     }),
                   }),

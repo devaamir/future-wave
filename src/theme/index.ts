@@ -1,6 +1,7 @@
-import { colors } from './colors';
+import { colors, darkColors, useColors } from './colors';
 import { fonts, fontSizes } from './fonts';
 import { buttonStyles, buttonColors } from './buttonStyles';
+import { ThemeProvider, useTheme } from './ThemeContext';
 
 export const theme = {
   colors,
@@ -11,10 +12,10 @@ export const theme = {
 
 // Gradient presets matching logo colors
 export const gradients = {
-  flame: ['#E74C3C', '#F39C12', '#F1C40F'],
-  teal: ['#4ECDC4', '#26A69A'],
-  green: ['#27AE60', '#1E8449'],
-  redOrange: ['#E74C3C', '#F39C12'],
+  flame: [colors.secondary, colors.accent, colors.yellow],
+  teal: [colors.primary, colors.tealActive],
+  green: [colors.leafGreen, colors.darkGreen],
+  redOrange: [colors.secondary, colors.accent],
 };
 
-export { colors, fonts, fontSizes, buttonStyles, buttonColors };
+export { colors, darkColors, useColors, fonts, fontSizes, buttonStyles, buttonColors, ThemeProvider, useTheme };

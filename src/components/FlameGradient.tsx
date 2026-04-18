@@ -1,6 +1,7 @@
 import React from 'react';
 import { ViewStyle } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import { colors } from '../theme';
 
 interface FlameGradientProps {
   children: React.ReactNode;
@@ -10,7 +11,7 @@ interface FlameGradientProps {
 export const FlameGradient: React.FC<FlameGradientProps> = ({ children, style }) => {
   return (
     <LinearGradient
-      colors={['#E74C3C', '#F39C12', '#F1C40F']}
+      colors={[colors.secondary, colors.accent, colors.yellow]}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 0 }}
       style={style}
@@ -23,7 +24,7 @@ export const FlameGradient: React.FC<FlameGradientProps> = ({ children, style })
 export const TealGradient: React.FC<FlameGradientProps> = ({ children, style }) => {
   return (
     <LinearGradient
-      colors={['#4ECDC4', '#26A69A']}
+      colors={[colors.primary, colors.tealActive]}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 0 }}
       style={style}

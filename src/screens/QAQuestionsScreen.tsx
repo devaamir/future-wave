@@ -1,10 +1,46 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native';
 import { BackArrowIcon } from '../components/Icons';
-import { theme } from '../theme';
+import { theme, useColors } from '../theme';
 import { getQAQuestions, QAQuestion } from '../services/api';
 
 const QAQuestionsScreen = ({ route, navigation }: any) => {
+  const colors = useColors();
+  const styles = useMemo(() => StyleSheet.create({
+  container: { flex: 1, backgroundColor: colors.backgroundGrey },
+  header: {
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+    paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
+    backgroundColor: colors.white, borderBottomWidth: 1, borderBottomColor: colors.border,
+  },
+  back: { padding: 8 },
+  headerTitle: { flex: 1, textAlign: 'center', fontSize: 16, fontFamily: theme.fonts.bold, color: colors.textDark },
+  toggle: {
+    flexDirection: 'row', margin: 16, backgroundColor: colors.borderLight,
+    borderRadius: 10, padding: 4,
+  },
+  toggleBtn: {
+    flex: 1, paddingVertical: 8, borderRadius: 8, alignItems: 'center',
+  },
+  toggleText: { fontSize: 13, fontFamily: theme.fonts.semiBold, color: colors.textTertiary },
+  list: { paddingHorizontal: 16, paddingBottom: 16 },
+  card: {
+    backgroundColor: colors.white, borderRadius: 12, padding: 14, marginBottom: 10,
+    shadowColor: colors.blackShort, shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.06, shadowRadius: 4, elevation: 2,
+  },
+  qRow: { flexDirection: 'row', alignItems: 'flex-start' },
+  badge: { width: 26, height: 26, borderRadius: 13, justifyContent: 'center', alignItems: 'center', marginRight: 10, marginTop: 1 },
+  badgeText: { fontSize: 11, fontFamily: theme.fonts.bold },
+  question: { flex: 1, fontSize: 13, fontFamily: theme.fonts.semiBold, color: colors.textPrimary, lineHeight: 20 },
+  answerBox: { marginTop: 12, borderWidth: 1.5, borderRadius: 10, padding: 12 },
+  answerLabel: { fontSize: 10, fontFamily: theme.fonts.bold, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 4 },
+  answerText: { fontSize: 14, fontFamily: theme.fonts.semiBold },
+  options: { marginTop: 12, gap: 6 },
+  option: { flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: colors.border, borderRadius: 8, paddingHorizontal: 12, paddingVertical: 10 },
+  optionText: { flex: 1, fontSize: 12, fontFamily: theme.fonts.regular, color: colors.textBodyAlt },
+  tick: { fontSize: 14, fontFamily: theme.fonts.bold, color: colors.white },
+  empty: { textAlign: 'center', color: colors.textTertiary, fontFamily: theme.fonts.regular, marginTop: 40 },
+}), [colors]);
   const { subcategory, subcategoryId, color, bg, fetchFn, readOnly } = route.params;
   const [questions, setQuestions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -75,8 +111,8 @@ const QAQuestionsScreen = ({ route, navigation }: any) => {
             let optStyle = styles.option;
             let textStyle = styles.optionText;
             if (picked) {
-              if (isCorrect) { optStyle = { ...styles.option, backgroundColor: '#10B981', borderColor: '#10B981' } as any; textStyle = { ...styles.optionText, color: '#fff' } as any; }
-              else if (isPicked) { optStyle = { ...styles.option, backgroundColor: '#EF4444', borderColor: '#EF4444' } as any; textStyle = { ...styles.optionText, color: '#fff' } as any; }
+              if (isCorrect) { optStyle = { ...styles.option, backgroundColor: colors.successGreen, borderColor: colors.successGreen } as any; textStyle = { ...styles.optionText, color: colors.white } as any; }
+              else if (isPicked) { optStyle = { ...styles.option, backgroundColor: colors.error, borderColor: colors.error } as any; textStyle = { ...styles.optionText, color: colors.white } as any; }
             } else if (isPicked) {
               optStyle = { ...styles.option, backgroundColor: bg, borderColor: color } as any;
             }
@@ -103,7 +139,7 @@ const QAQuestionsScreen = ({ route, navigation }: any) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.back}>
-          <BackArrowIcon size={24} color="#2D2D2D" />
+          <BackArrowIcon size={24} color={colors.textDark} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>{route.params.title || subcategory}</Text>
         <View style={{ width: 40 }} />
@@ -115,13 +151,13 @@ const QAQuestionsScreen = ({ route, navigation }: any) => {
             style={[styles.toggleBtn, mode === 'read' && { backgroundColor: color }]}
             onPress={() => setMode('read')}
           >
-            <Text style={[styles.toggleText, mode === 'read' && { color: '#fff' }]}>Read</Text>
+            <Text style={[styles.toggleText, mode === 'read' && { color: colors.white }]}>Read</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.toggleBtn, mode === 'play' && { backgroundColor: color }]}
             onPress={() => { setMode('play'); setSelected({}); }}
           >
-            <Text style={[styles.toggleText, mode === 'play' && { color: '#fff' }]}>Play</Text>
+            <Text style={[styles.toggleText, mode === 'play' && { color: colors.white }]}>Play</Text>
           </TouchableOpacity>
         </View>
       )}
@@ -145,40 +181,5 @@ const QAQuestionsScreen = ({ route, navigation }: any) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F9FAFB' },
-  header: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
-    backgroundColor: '#FFFFFF', borderBottomWidth: 1, borderBottomColor: '#E5E7EB',
-  },
-  back: { padding: 8 },
-  headerTitle: { flex: 1, textAlign: 'center', fontSize: 16, fontFamily: theme.fonts.bold, color: '#2D2D2D' },
-  toggle: {
-    flexDirection: 'row', margin: 16, backgroundColor: '#F3F4F6',
-    borderRadius: 10, padding: 4,
-  },
-  toggleBtn: {
-    flex: 1, paddingVertical: 8, borderRadius: 8, alignItems: 'center',
-  },
-  toggleText: { fontSize: 13, fontFamily: theme.fonts.semiBold, color: '#6B7280' },
-  list: { paddingHorizontal: 16, paddingBottom: 16 },
-  card: {
-    backgroundColor: '#FFFFFF', borderRadius: 12, padding: 14, marginBottom: 10,
-    shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.06, shadowRadius: 4, elevation: 2,
-  },
-  qRow: { flexDirection: 'row', alignItems: 'flex-start' },
-  badge: { width: 26, height: 26, borderRadius: 13, justifyContent: 'center', alignItems: 'center', marginRight: 10, marginTop: 1 },
-  badgeText: { fontSize: 11, fontFamily: theme.fonts.bold },
-  question: { flex: 1, fontSize: 13, fontFamily: theme.fonts.semiBold, color: '#1F2937', lineHeight: 20 },
-  answerBox: { marginTop: 12, borderWidth: 1.5, borderRadius: 10, padding: 12 },
-  answerLabel: { fontSize: 10, fontFamily: theme.fonts.bold, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 4 },
-  answerText: { fontSize: 14, fontFamily: theme.fonts.semiBold },
-  options: { marginTop: 12, gap: 6 },
-  option: { flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: '#E5E7EB', borderRadius: 8, paddingHorizontal: 12, paddingVertical: 10 },
-  optionText: { flex: 1, fontSize: 12, fontFamily: theme.fonts.regular, color: '#374151' },
-  tick: { fontSize: 14, fontFamily: theme.fonts.bold, color: '#fff' },
-  empty: { textAlign: 'center', color: '#6B7280', fontFamily: theme.fonts.regular, marginTop: 40 },
-});
 
 export default QAQuestionsScreen;

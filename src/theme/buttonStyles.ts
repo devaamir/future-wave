@@ -1,12 +1,13 @@
 import { StyleSheet } from 'react-native';
 import { theme } from './index';
+import { colors } from './';
 
 export const buttonStyles = StyleSheet.create({
   // Primary gradient button (main actions) - Teal to darker teal
   primaryGradient: {
     borderRadius: 12,
   },
-  primaryGradientColors: ['#4ECDC4', '#26A69A'],
+  primaryGradientColors: [colors.primary, colors.tealActive],
   primaryGradientStart: { x: 0, y: 0 },
   primaryGradientEnd: { x: 1, y: 0 },
   
@@ -14,7 +15,7 @@ export const buttonStyles = StyleSheet.create({
   secondaryGradient: {
     borderRadius: 12,
   },
-  secondaryGradientColors: ['#E74C3C', '#F39C12'],
+  secondaryGradientColors: [colors.secondary, colors.accent],
   secondaryGradientStart: { x: 0, y: 0 },
   secondaryGradientEnd: { x: 1, y: 0 },
   
@@ -22,7 +23,7 @@ export const buttonStyles = StyleSheet.create({
   accentGradient: {
     borderRadius: 12,
   },
-  accentGradientColors: ['#E74C3C', '#F39C12', '#F1C40F'],
+  accentGradientColors: [colors.secondary, colors.accent, colors.yellow],
   accentGradientStart: { x: 0, y: 0 },
   accentGradientEnd: { x: 1, y: 0 },
   
@@ -38,13 +39,13 @@ export const buttonStyles = StyleSheet.create({
   buttonText: {
     fontSize: 14,
     fontFamily: theme.fonts.bold,
-    color: '#FFFFFF',
+    color: colors.white,
   },
   
   // Outlined button
   outlinedButton: {
     borderWidth: 1,
-    borderColor: '#4ECDC4',
+    borderColor: colors.primary,
     borderRadius: 12,
     paddingVertical: 12,
     paddingHorizontal: 24,
@@ -55,7 +56,7 @@ export const buttonStyles = StyleSheet.create({
   outlinedButtonText: {
     fontSize: 14,
     fontFamily: theme.fonts.medium,
-    color: '#4ECDC4',
+    color: colors.primary,
   },
   
   // Small button variants
@@ -67,7 +68,7 @@ export const buttonStyles = StyleSheet.create({
   smallButtonText: {
     fontSize: 12,
     fontFamily: theme.fonts.bold,
-    color: '#FFFFFF',
+    color: colors.white,
   },
   
   // Floating action button
@@ -78,7 +79,7 @@ export const buttonStyles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 28,
-    shadowColor: '#000',
+    shadowColor: colors.blackShort,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 8,
@@ -95,10 +96,10 @@ export const buttonStyles = StyleSheet.create({
 });
 
 export const buttonColors = {
-  primary: ['#4ECDC4', '#26A69A'],        // Teal gradient
-  secondary: ['#E74C3C', '#F39C12'],      // Red to orange
-  accent: ['#E74C3C', '#F39C12', '#F1C40F'], // Full flame gradient
-  success: '#27AE60',                     // Green from logo
-  warning: '#F39C12',                     // Orange from flame
-  error: '#E74C3C',                       // Red from logo
+  primary: [colors.primary, colors.tealActive],        // Teal gradient
+  secondary: [colors.secondary, colors.accent],      // Red to orange
+  accent: [colors.secondary, colors.accent, colors.yellow], // Full flame gradient
+  success: colors.leafGreen,                     // Green from logo
+  warning: colors.accent,                     // Orange from flame
+  error: colors.secondary,                       // Red from logo
 };

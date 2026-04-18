@@ -1,10 +1,37 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native';
 import { BackArrowIcon } from '../components/Icons';
-import { theme } from '../theme';
+import { theme, useColors } from '../theme';
 import { getExamResults, ExamResult } from '../services/api';
 
 const ExamResultScreen = ({ navigation }: any) => {
+  const colors = useColors();
+  const styles = useMemo(() => StyleSheet.create({
+  container: { flex: 1, backgroundColor: colors.backgroundGrey },
+  header: {
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+    paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
+    backgroundColor: colors.white, borderBottomWidth: 1, borderBottomColor: colors.border,
+  },
+  back: { padding: 8 },
+  headerTitle: { flex: 1, textAlign: 'center', fontSize: 18, fontFamily: theme.fonts.bold, color: colors.textDark },
+  list: { padding: 16 },
+  card: {
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+    backgroundColor: colors.white, borderRadius: 14, padding: 16, marginBottom: 10,
+    shadowColor: colors.blackShort, shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.06, shadowRadius: 4, elevation: 2,
+  },
+  cardLeft: { flex: 1, marginRight: 12, gap: 3 },
+  title: { fontSize: 14, fontFamily: theme.fonts.semiBold, color: colors.textPrimary },
+  date: { fontSize: 12, fontFamily: theme.fonts.regular, color: colors.textDisabled },
+  rank: { fontSize: 12, fontFamily: theme.fonts.semiBold, color: colors.purple },
+  cardRight: { alignItems: 'center', gap: 8 },
+  score: { fontSize: 20, fontFamily: theme.fonts.bold, color: colors.textPrimary },
+  total: { fontSize: 13, fontFamily: theme.fonts.regular, color: colors.textDisabled },
+  omrBtn: { backgroundColor: colors.blueBg, borderRadius: 8, paddingHorizontal: 12, paddingVertical: 4 },
+  omrBtnText: { fontSize: 11, fontFamily: theme.fonts.bold, color: colors.blue },
+  empty: { textAlign: 'center', color: colors.textDisabled, fontFamily: theme.fonts.regular, marginTop: 40 },
+}), [colors]);
   const [items, setItems] = useState<ExamResult[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -16,12 +43,12 @@ const ExamResultScreen = ({ navigation }: any) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.back}>
-          <BackArrowIcon size={24} color="#2D2D2D" />
+          <BackArrowIcon size={24} color={colors.textDark} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Exam Result</Text>
         <View style={{ width: 40 }} />
       </View>
-      {loading ? <ActivityIndicator style={{ flex: 1 }} size="large" color="#10B981" /> : (
+      {loading ? <ActivityIndicator style={{ flex: 1 }} size="large" color={colors.successGreen} /> : (
         <FlatList
           data={items}
           keyExtractor={item => item.id.toString()}
@@ -56,31 +83,5 @@ const ExamResultScreen = ({ navigation }: any) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F9FAFB' },
-  header: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
-    backgroundColor: '#FFFFFF', borderBottomWidth: 1, borderBottomColor: '#E5E7EB',
-  },
-  back: { padding: 8 },
-  headerTitle: { flex: 1, textAlign: 'center', fontSize: 18, fontFamily: theme.fonts.bold, color: '#2D2D2D' },
-  list: { padding: 16 },
-  card: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    backgroundColor: '#FFFFFF', borderRadius: 14, padding: 16, marginBottom: 10,
-    shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.06, shadowRadius: 4, elevation: 2,
-  },
-  cardLeft: { flex: 1, marginRight: 12, gap: 3 },
-  title: { fontSize: 14, fontFamily: theme.fonts.semiBold, color: '#1F2937' },
-  date: { fontSize: 12, fontFamily: theme.fonts.regular, color: '#9CA3AF' },
-  rank: { fontSize: 12, fontFamily: theme.fonts.semiBold, color: '#7B5ACF' },
-  cardRight: { alignItems: 'center', gap: 8 },
-  score: { fontSize: 20, fontFamily: theme.fonts.bold, color: '#1F2937' },
-  total: { fontSize: 13, fontFamily: theme.fonts.regular, color: '#9CA3AF' },
-  omrBtn: { backgroundColor: '#EBF4FF', borderRadius: 8, paddingHorizontal: 12, paddingVertical: 4 },
-  omrBtnText: { fontSize: 11, fontFamily: theme.fonts.bold, color: '#3A8EDB' },
-  empty: { textAlign: 'center', color: '#9CA3AF', fontFamily: theme.fonts.regular, marginTop: 40 },
-});
 
 export default ExamResultScreen;

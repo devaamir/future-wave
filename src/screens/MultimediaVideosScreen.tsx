@@ -1,14 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import {
   View, Text, StyleSheet, FlatList, Image,
   TouchableOpacity, ActivityIndicator,
 } from 'react-native';
 import { BackArrowIcon } from '../components/Icons';
-import { theme } from '../theme';
+import { theme, useColors } from '../theme';
 import { getMultimediaVideos, MultimediaVideo } from '../services/api';
 
 const MultimediaVideosScreen = ({ route, navigation }: any) => {
-  const { title, subjectId, privacy, color = '#F04F4F', bg = '#FFF0F0' } = route.params;
+  const colors = useColors();
+  const styles = useMemo(() => StyleSheet.create({
+  container: { flex: 1, backgroundColor: colors.backgroundGrey },
+  header: {
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+    paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
+    backgroundColor: colors.white, borderBottomWidth: 1, borderBottomColor: colors.border,
+  },
+  back: { padding: 8 },
+  headerTitle: { flex: 1, textAlign: 'center', fontSize: 18, fontFamily: theme.fonts.bold, color: colors.textDark },
+  list: { padding: 16 },
+  card: {
+    flexDirection: 'row', backgroundColor: colors.white, borderRadius: 14,
+    marginBottom: 12, overflow: 'hidden',
+    shadowColor: colors.blackShort, shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.07, shadowRadius: 6, elevation: 2,
+  },
+  thumb: { width: 110, height: 80 },
+  thumbPlaceholder: { justifyContent: 'center', alignItems: 'center' },
+  playIcon: { fontSize: 28 },
+  info: { flex: 1, padding: 10, justifyContent: 'center' },
+  videoTitle: { fontSize: 13, fontFamily: theme.fonts.bold, color: colors.textHeading, marginBottom: 4 },
+  desc: { fontSize: 11, fontFamily: theme.fonts.regular, color: colors.textTertiary, marginBottom: 6 },
+  badge: { alignSelf: 'flex-start', backgroundColor: colors.borderLight, borderRadius: 6, paddingHorizontal: 6, paddingVertical: 2 },
+  badgeText: { fontSize: 10, fontFamily: theme.fonts.semiBold },
+  empty: { textAlign: 'center', color: colors.textTertiary, fontFamily: theme.fonts.regular, marginTop: 40 },
+}), [colors]);
+  const { title, subjectId, privacy, color = colors.errorAlt, bg = colors.errorBgAlt } = route.params;
   const [videos, setVideos] = useState<MultimediaVideo[]>([]);
   const [loading, setLoading] = useState(true);
   const [nextPage, setNextPage] = useState<string | null>(null);
@@ -64,7 +90,7 @@ const MultimediaVideosScreen = ({ route, navigation }: any) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.back}>
-          <BackArrowIcon size={24} color="#2D2D2D" />
+          <BackArrowIcon size={24} color={colors.textDark} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>{title}</Text>
         <View style={{ width: 40 }} />
@@ -89,30 +115,5 @@ const MultimediaVideosScreen = ({ route, navigation }: any) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F9FAFB' },
-  header: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
-    backgroundColor: '#FFFFFF', borderBottomWidth: 1, borderBottomColor: '#E5E7EB',
-  },
-  back: { padding: 8 },
-  headerTitle: { flex: 1, textAlign: 'center', fontSize: 18, fontFamily: theme.fonts.bold, color: '#2D2D2D' },
-  list: { padding: 16 },
-  card: {
-    flexDirection: 'row', backgroundColor: '#FFFFFF', borderRadius: 14,
-    marginBottom: 12, overflow: 'hidden',
-    shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.07, shadowRadius: 6, elevation: 2,
-  },
-  thumb: { width: 110, height: 80 },
-  thumbPlaceholder: { justifyContent: 'center', alignItems: 'center' },
-  playIcon: { fontSize: 28 },
-  info: { flex: 1, padding: 10, justifyContent: 'center' },
-  videoTitle: { fontSize: 13, fontFamily: theme.fonts.bold, color: '#111827', marginBottom: 4 },
-  desc: { fontSize: 11, fontFamily: theme.fonts.regular, color: '#6B7280', marginBottom: 6 },
-  badge: { alignSelf: 'flex-start', backgroundColor: '#F3F4F6', borderRadius: 6, paddingHorizontal: 6, paddingVertical: 2 },
-  badgeText: { fontSize: 10, fontFamily: theme.fonts.semiBold },
-  empty: { textAlign: 'center', color: '#6B7280', fontFamily: theme.fonts.regular, marginTop: 40 },
-});
 
 export default MultimediaVideosScreen;

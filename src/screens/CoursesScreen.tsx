@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   View,
   Text,
@@ -10,7 +10,7 @@ import {
   TextInput,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { theme } from '../theme';
+import { theme, useColors } from '../theme';
 import { SearchIcon, NotificationIcon } from '../components/Icons';
 import { useNavigation } from '@react-navigation/native';
 
@@ -26,6 +26,193 @@ interface Course {
 }
 
 const CoursesScreen = ({ navigation }: any) => {
+  const colors = useColors();
+  const styles = useMemo(() => StyleSheet.create({
+  container: {
+    backgroundColor: colors.white,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingTop: 20,
+    paddingBottom: 16,
+    backgroundColor: colors.white,
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontFamily: theme.fonts.bold,
+    color: colors.textDark,
+  },
+  headerIcons: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  headerIcon: {
+    marginLeft: 16,
+  },
+  filterIcon: {
+    fontSize: 20,
+    fontFamily: theme.fonts.regular,
+    color: colors.textDark,
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.borderLight,
+    marginHorizontal: 16,
+    marginBottom: 16,
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 16,
+    fontFamily: theme.fonts.regular,
+    color: colors.textDark,
+    marginLeft: 8,
+  },
+  closeButton: {
+    padding: 4,
+  },
+  closeIcon: {
+    fontSize: 16,
+    fontFamily: theme.fonts.regular,
+    color: colors.textTertiary,
+  },
+  categoryContainer: {
+    paddingHorizontal: 16,
+    marginBottom: 16,
+    height: 48,
+  },
+  categoryTab: {
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+    marginRight: 12,
+    borderBottomWidth: 2,
+    borderBottomColor: 'transparent',
+  },
+  activeCategoryTab: {
+    borderBottomColor: colors.primary,
+  },
+  categoryText: {
+    fontSize: 16,
+    fontFamily: theme.fonts.medium,
+    color: colors.textTertiary,
+  },
+  activeCategoryText: {
+    fontFamily: theme.fonts.bold,
+    color: colors.primary,
+  },
+  sortContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    marginBottom: 16,
+  },
+  sortLabel: {
+    fontSize: 14,
+    fontFamily: theme.fonts.regular,
+    color: colors.textTertiary,
+    marginRight: 8,
+  },
+  sortDropdown: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    backgroundColor: colors.borderLight,
+    borderRadius: 8,
+  },
+  sortText: {
+    fontSize: 14,
+    fontFamily: theme.fonts.medium,
+    color: colors.textDark,
+    marginRight: 4,
+  },
+  dropdownIcon: {
+    fontSize: 12,
+    fontFamily: theme.fonts.regular,
+    color: colors.textTertiary,
+  },
+  coursesContainer: {
+    paddingHorizontal: 16,
+    paddingBottom: 180,
+  },
+  row: {
+    justifyContent: 'space-between',
+  },
+  courseCard: {
+    width: '48%',
+    backgroundColor: colors.backgroundGrey,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: colors.border,
+    marginBottom: 16,
+    overflow: 'hidden',
+  },
+  thumbnail: {
+    aspectRatio: 1,
+    backgroundColor: colors.borderLight,
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
+  },
+  thumbnailImage: {
+    width: '100%',
+    height: '100%',
+  },
+  courseInfo: {
+    padding: 12,
+  },
+  courseTitle: {
+    fontSize: 16,
+    fontFamily: theme.fonts.bold,
+    color: colors.textDark,
+    marginBottom: 4,
+    lineHeight: 20,
+  },
+  teacherName: {
+    fontSize: 12,
+    fontFamily: theme.fonts.regular,
+    color: colors.textTertiary,
+    marginBottom: 2,
+  },
+  duration: {
+    fontSize: 12,
+    fontFamily: theme.fonts.regular,
+    color: colors.textTertiary,
+    marginBottom: 8,
+  },
+  priceRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  price: {
+    fontSize: 16,
+    fontFamily: theme.fonts.bold,
+    color: colors.primary,
+  },
+  freePrice: {
+    color: colors.primary,
+  },
+  enrollButton: {
+    borderRadius: 6,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+  },
+  enrollButtonContent: {
+    alignItems: 'center',
+  },
+  enrollButtonText: {
+    fontSize: 12,
+    fontFamily: theme.fonts.bold,
+    color: colors.white,
+  },
+}), [colors]);
   const nav = useNavigation();
   const [activeCategory, setActiveCategory] = useState('All');
   const [sortBy, setSortBy] = useState('Popular');
@@ -129,7 +316,7 @@ const CoursesScreen = ({ navigation }: any) => {
             {item.price}
           </Text>
           <LinearGradient
-            colors={['#4ECDC4', '#26A69A']}
+            colors={[colors.primary, colors.tealActive]}
             style={styles.enrollButton}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
@@ -158,17 +345,17 @@ const CoursesScreen = ({ navigation }: any) => {
             style={styles.headerIcon}
             onPress={() => setShowSearch(!showSearch)}
           >
-            <SearchIcon size={20} color="#2D2D2D" />
+            <SearchIcon size={20} color={colors.textDark} />
           </TouchableOpacity>
         </View>
       </View>
       {showSearch && (
         <View style={styles.searchContainer}>
-          <SearchIcon size={16} color="#6B7280" />
+          <SearchIcon size={16} color={colors.textTertiary} />
           <TextInput
             style={styles.searchInput}
             placeholder="Search courses, teachers..."
-            placeholderTextColor="#6B7280"
+            placeholderTextColor={colors.textTertiary}
             value={searchQuery}
             onChangeText={setSearchQuery}
             autoFocus
@@ -229,191 +416,5 @@ const CoursesScreen = ({ navigation }: any) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#FFFFFF',
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingTop: 20,
-    paddingBottom: 16,
-    backgroundColor: '#FFFFFF',
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontFamily: theme.fonts.bold,
-    color: '#2D2D2D',
-  },
-  headerIcons: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  headerIcon: {
-    marginLeft: 16,
-  },
-  filterIcon: {
-    fontSize: 20,
-    fontFamily: theme.fonts.regular,
-    color: '#2D2D2D',
-  },
-  searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#F3F4F6',
-    marginHorizontal: 16,
-    marginBottom: 16,
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-  },
-  searchInput: {
-    flex: 1,
-    fontSize: 16,
-    fontFamily: theme.fonts.regular,
-    color: '#2D2D2D',
-    marginLeft: 8,
-  },
-  closeButton: {
-    padding: 4,
-  },
-  closeIcon: {
-    fontSize: 16,
-    fontFamily: theme.fonts.regular,
-    color: '#6B7280',
-  },
-  categoryContainer: {
-    paddingHorizontal: 16,
-    marginBottom: 16,
-    height: 48,
-  },
-  categoryTab: {
-    paddingHorizontal: 20,
-    paddingVertical: 8,
-    marginRight: 12,
-    borderBottomWidth: 2,
-    borderBottomColor: 'transparent',
-  },
-  activeCategoryTab: {
-    borderBottomColor: '#4ECDC4',
-  },
-  categoryText: {
-    fontSize: 16,
-    fontFamily: theme.fonts.medium,
-    color: '#6B7280',
-  },
-  activeCategoryText: {
-    fontFamily: theme.fonts.bold,
-    color: '#4ECDC4',
-  },
-  sortContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    marginBottom: 16,
-  },
-  sortLabel: {
-    fontSize: 14,
-    fontFamily: theme.fonts.regular,
-    color: '#6B7280',
-    marginRight: 8,
-  },
-  sortDropdown: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    backgroundColor: '#F3F4F6',
-    borderRadius: 8,
-  },
-  sortText: {
-    fontSize: 14,
-    fontFamily: theme.fonts.medium,
-    color: '#2D2D2D',
-    marginRight: 4,
-  },
-  dropdownIcon: {
-    fontSize: 12,
-    fontFamily: theme.fonts.regular,
-    color: '#6B7280',
-  },
-  coursesContainer: {
-    paddingHorizontal: 16,
-    paddingBottom: 180,
-  },
-  row: {
-    justifyContent: 'space-between',
-  },
-  courseCard: {
-    width: '48%',
-    backgroundColor: '#F9FAFB',
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
-    marginBottom: 16,
-    overflow: 'hidden',
-  },
-  thumbnail: {
-    aspectRatio: 1,
-    backgroundColor: '#F3F4F6',
-    justifyContent: 'center',
-    alignItems: 'center',
-    overflow: 'hidden',
-  },
-  thumbnailImage: {
-    width: '100%',
-    height: '100%',
-  },
-  courseInfo: {
-    padding: 12,
-  },
-  courseTitle: {
-    fontSize: 16,
-    fontFamily: theme.fonts.bold,
-    color: '#2D2D2D',
-    marginBottom: 4,
-    lineHeight: 20,
-  },
-  teacherName: {
-    fontSize: 12,
-    fontFamily: theme.fonts.regular,
-    color: '#6B7280',
-    marginBottom: 2,
-  },
-  duration: {
-    fontSize: 12,
-    fontFamily: theme.fonts.regular,
-    color: '#6B7280',
-    marginBottom: 8,
-  },
-  priceRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  price: {
-    fontSize: 16,
-    fontFamily: theme.fonts.bold,
-    color: '#4ECDC4',
-  },
-  freePrice: {
-    color: '#4ECDC4',
-  },
-  enrollButton: {
-    borderRadius: 6,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-  },
-  enrollButtonContent: {
-    alignItems: 'center',
-  },
-  enrollButtonText: {
-    fontSize: 12,
-    fontFamily: theme.fonts.bold,
-    color: '#FFFFFF',
-  },
-});
 
 export default CoursesScreen;

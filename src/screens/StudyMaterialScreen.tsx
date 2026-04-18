@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   View,
   Text,
@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { BackArrowIcon } from '../components/Icons';
 import Svg, { Path } from 'react-native-svg';
-import { theme } from '../theme';
+import { theme, useColors } from '../theme';
 import { getStudyMaterials, StudyMaterial } from '../services/api';
 
 const DownloadIcon = ({ size = 16, color = '#FFFFFF' }) => (
@@ -26,6 +26,73 @@ const DownloadIcon = ({ size = 16, color = '#FFFFFF' }) => (
 );
 
 const StudyMaterialScreen = ({ navigation }: any) => {
+  const colors = useColors();
+  const styles = useMemo(() => StyleSheet.create({
+  container: { flex: 1, backgroundColor: colors.backgroundGrey },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingTop: 50,
+    paddingBottom: 16,
+    backgroundColor: colors.white,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+  },
+  backButton: { padding: 8 },
+  headerTitle: {
+    flex: 1,
+    textAlign: 'center',
+    fontSize: 18,
+    fontFamily: theme.fonts.bold,
+    color: colors.textDark,
+  },
+  list: { padding: 16 },
+  materialCard: {
+    backgroundColor: colors.white,
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    shadowColor: colors.blackShort,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 3,
+  },
+  iconContainer: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: colors.blueBg,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+  },
+  iconText: { fontSize: 22 },
+  materialInfo: { flex: 1 },
+  materialTitle: {
+    fontSize: 13,
+    fontFamily: theme.fonts.bold,
+    color: colors.textHeading,
+    marginBottom: 3,
+  },
+  materialSubtitle: {
+    fontSize: 11,
+    fontFamily: theme.fonts.regular,
+    color: colors.textTertiary,
+  },
+  actionButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: colors.blueAlt,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+}), [colors]);
   const [materials, setMaterials] = useState<StudyMaterial[]>([]);
   const [loading, setLoading] = useState(true);
   const [nextPage, setNextPage] = useState<string | null>(null);
@@ -73,7 +140,7 @@ const StudyMaterialScreen = ({ navigation }: any) => {
         <Text style={styles.materialSubtitle} numberOfLines={1}>{item.subject.name} • {item.date}</Text>
       </View>
       <View style={styles.actionButton}>
-        <DownloadIcon size={16} color="#FFFFFF" />
+        <DownloadIcon size={16} color={colors.white} />
       </View>
     </TouchableOpacity>
   );
@@ -82,14 +149,14 @@ const StudyMaterialScreen = ({ navigation }: any) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-          <BackArrowIcon size={24} color="#2D2D2D" />
+          <BackArrowIcon size={24} color={colors.textDark} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Study Material</Text>
         <View style={{ width: 40 }} />
       </View>
 
       {loading ? (
-        <ActivityIndicator style={{ flex: 1 }} size="large" color="#0056FF" />
+        <ActivityIndicator style={{ flex: 1 }} size="large" color={colors.blueAlt} />
       ) : (
         <FlatList
           data={materials}
@@ -98,7 +165,7 @@ const StudyMaterialScreen = ({ navigation }: any) => {
           contentContainerStyle={styles.list}
           onEndReached={fetchMore}
           onEndReachedThreshold={0.3}
-          ListFooterComponent={loadingMore ? <ActivityIndicator color="#0056FF" style={{ marginVertical: 16 }} /> : null}
+          ListFooterComponent={loadingMore ? <ActivityIndicator color={colors.blueAlt} style={{ marginVertical: 16 }} /> : null}
           showsVerticalScrollIndicator={false}
         />
       )}
@@ -106,71 +173,5 @@ const StudyMaterialScreen = ({ navigation }: any) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F9FAFB' },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingTop: 50,
-    paddingBottom: 16,
-    backgroundColor: '#FFFFFF',
-    borderBottomWidth: 1,
-    borderBottomColor: '#E5E7EB',
-  },
-  backButton: { padding: 8 },
-  headerTitle: {
-    flex: 1,
-    textAlign: 'center',
-    fontSize: 18,
-    fontFamily: theme.fonts.bold,
-    color: '#2D2D2D',
-  },
-  list: { padding: 16 },
-  materialCard: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 12,
-    flexDirection: 'row',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    elevation: 3,
-  },
-  iconContainer: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: '#EBF4FF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 12,
-  },
-  iconText: { fontSize: 22 },
-  materialInfo: { flex: 1 },
-  materialTitle: {
-    fontSize: 13,
-    fontFamily: theme.fonts.bold,
-    color: '#111827',
-    marginBottom: 3,
-  },
-  materialSubtitle: {
-    fontSize: 11,
-    fontFamily: theme.fonts.regular,
-    color: '#6B7280',
-  },
-  actionButton: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: '#0056FF',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
 
 export default StudyMaterialScreen;

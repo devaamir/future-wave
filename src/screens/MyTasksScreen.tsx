@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   View, Text, StyleSheet, FlatList, TouchableOpacity,
 } from 'react-native';
 import { BackArrowIcon } from '../components/Icons';
-import { theme } from '../theme';
+import { theme, useColors } from '../theme';
 
 interface Task {
   id: number;
@@ -20,6 +20,42 @@ const INITIAL_TASKS: Task[] = [
 ];
 
 const MyTasksScreen = ({ navigation }: any) => {
+  const colors = useColors();
+  const styles = useMemo(() => StyleSheet.create({
+  container: { flex: 1, backgroundColor: colors.backgroundGrey },
+  header: {
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+    paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
+    backgroundColor: colors.white, borderBottomWidth: 1, borderBottomColor: colors.border,
+  },
+  back: { padding: 8 },
+  headerTitle: { flex: 1, textAlign: 'center', fontSize: 18, fontFamily: theme.fonts.bold, color: colors.textDark },
+  statsRow: { flexDirection: 'row', gap: 12, padding: 16 },
+  statBox: {
+    flex: 1, borderRadius: 12, padding: 14, alignItems: 'center',
+  },
+  statNum: { fontSize: 24, fontFamily: theme.fonts.bold },
+  statLabel: { fontSize: 12, fontFamily: theme.fonts.regular, color: colors.textTertiary, marginTop: 2 },
+  list: { paddingHorizontal: 16, paddingBottom: 24 },
+  card: {
+    flexDirection: 'row', alignItems: 'center', backgroundColor: colors.white,
+    borderRadius: 12, padding: 14, marginBottom: 10,
+    shadowColor: colors.blackShort, shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.06, shadowRadius: 4, elevation: 2,
+  },
+  cardDone: { opacity: 0.6 },
+  checkbox: {
+    width: 24, height: 24, borderRadius: 12, borderWidth: 2,
+    borderColor: colors.borderMuted, justifyContent: 'center', alignItems: 'center', marginRight: 12,
+  },
+  checkboxDone: { backgroundColor: colors.successGreenDeep, borderColor: colors.successGreenDeep },
+  checkmark: { color: colors.white, fontSize: 13, fontFamily: theme.fonts.bold },
+  taskInfo: { flex: 1 },
+  taskTitle: { fontSize: 14, fontFamily: theme.fonts.semiBold, color: colors.textPrimary },
+  taskTitleDone: { textDecorationLine: 'line-through', color: colors.textDisabled },
+  taskDesc: { fontSize: 12, fontFamily: theme.fonts.regular, color: colors.textTertiary, marginTop: 2 },
+  empty: { textAlign: 'center', color: colors.textTertiary, fontFamily: theme.fonts.regular, marginTop: 40 },
+}), [colors]);
   const [tasks, setTasks] = useState<Task[]>(INITIAL_TASKS);
 
   const toggleTask = (id: number) =>
@@ -48,19 +84,19 @@ const MyTasksScreen = ({ navigation }: any) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.back}>
-          <BackArrowIcon size={24} color="#2D2D2D" />
+          <BackArrowIcon size={24} color={colors.textDark} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>My Tasks</Text>
         <View style={{ width: 40 }} />
       </View>
 
       <View style={styles.statsRow}>
-        <View style={[styles.statBox, { backgroundColor: '#EBF4FF' }]}>
-          <Text style={[styles.statNum, { color: '#3A8EDB' }]}>{pending.length}</Text>
+        <View style={[styles.statBox, { backgroundColor: colors.blueBg }]}>
+          <Text style={[styles.statNum, { color: colors.blue }]}>{pending.length}</Text>
           <Text style={styles.statLabel}>Pending</Text>
         </View>
-        <View style={[styles.statBox, { backgroundColor: '#ECFDF5' }]}>
-          <Text style={[styles.statNum, { color: '#37B38A' }]}>{completed.length}</Text>
+        <View style={[styles.statBox, { backgroundColor: colors.greenBgLight }]}>
+          <Text style={[styles.statNum, { color: colors.successGreenDeep }]}>{completed.length}</Text>
           <Text style={styles.statLabel}>Completed</Text>
         </View>
       </View>
@@ -77,40 +113,5 @@ const MyTasksScreen = ({ navigation }: any) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F9FAFB' },
-  header: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
-    backgroundColor: '#FFFFFF', borderBottomWidth: 1, borderBottomColor: '#E5E7EB',
-  },
-  back: { padding: 8 },
-  headerTitle: { flex: 1, textAlign: 'center', fontSize: 18, fontFamily: theme.fonts.bold, color: '#2D2D2D' },
-  statsRow: { flexDirection: 'row', gap: 12, padding: 16 },
-  statBox: {
-    flex: 1, borderRadius: 12, padding: 14, alignItems: 'center',
-  },
-  statNum: { fontSize: 24, fontFamily: theme.fonts.bold },
-  statLabel: { fontSize: 12, fontFamily: theme.fonts.regular, color: '#6B7280', marginTop: 2 },
-  list: { paddingHorizontal: 16, paddingBottom: 24 },
-  card: {
-    flexDirection: 'row', alignItems: 'center', backgroundColor: '#FFFFFF',
-    borderRadius: 12, padding: 14, marginBottom: 10,
-    shadowColor: '#000', shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.06, shadowRadius: 4, elevation: 2,
-  },
-  cardDone: { opacity: 0.6 },
-  checkbox: {
-    width: 24, height: 24, borderRadius: 12, borderWidth: 2,
-    borderColor: '#D1D5DB', justifyContent: 'center', alignItems: 'center', marginRight: 12,
-  },
-  checkboxDone: { backgroundColor: '#37B38A', borderColor: '#37B38A' },
-  checkmark: { color: '#FFFFFF', fontSize: 13, fontFamily: theme.fonts.bold },
-  taskInfo: { flex: 1 },
-  taskTitle: { fontSize: 14, fontFamily: theme.fonts.semiBold, color: '#1F2937' },
-  taskTitleDone: { textDecorationLine: 'line-through', color: '#9CA3AF' },
-  taskDesc: { fontSize: 12, fontFamily: theme.fonts.regular, color: '#6B7280', marginTop: 2 },
-  empty: { textAlign: 'center', color: '#6B7280', fontFamily: theme.fonts.regular, marginTop: 40 },
-});
 
 export default MyTasksScreen;

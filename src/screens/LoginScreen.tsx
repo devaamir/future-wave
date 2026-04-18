@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   View,
   Text,
@@ -9,11 +9,62 @@ import {
   Alert,
   ActivityIndicator,
 } from 'react-native';
-import { theme } from '../theme';
+import { theme, useColors} from '../theme';
 import { login } from '../services/api';
 import { saveSession } from '../services/storage';
 
 const LoginScreen = ({ navigation }: any) => {
+  const colors = useColors();
+  const styles = useMemo(() => StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: theme.colors.background,
+    padding: 20,
+    justifyContent: 'center',
+  },
+  logo: {
+    width: 160,
+    height: 160,
+    alignSelf: 'center',
+    marginBottom: 20,
+  },
+  title: {
+    fontSize: 28,
+    fontFamily: theme.fonts.bold,
+    color: theme.colors.text,
+    textAlign: 'center',
+    marginBottom: 40,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: theme.colors.primary,
+    borderRadius: 10,
+    padding: 15,
+    marginBottom: 15,
+    fontSize: 16,
+    fontFamily: theme.fonts.regular,
+    backgroundColor: theme.colors.white,
+  },
+  loginButton: {
+    backgroundColor: theme.colors.accent,
+    paddingVertical: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  loginButtonText: {
+    color: theme.colors.white,
+    fontSize: 18,
+    fontFamily: theme.fonts.semiBold,
+  },
+  linkText: {
+    color: theme.colors.secondary,
+    textAlign: 'center',
+    fontSize: 16,
+    fontFamily: theme.fonts.regular,
+  },
+}), [colors]);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -79,55 +130,5 @@ const LoginScreen = ({ navigation }: any) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: theme.colors.background,
-    padding: 20,
-    justifyContent: 'center',
-  },
-  logo: {
-    width: 160,
-    height: 160,
-    alignSelf: 'center',
-    marginBottom: 20,
-  },
-  title: {
-    fontSize: 28,
-    fontFamily: theme.fonts.bold,
-    color: theme.colors.text,
-    textAlign: 'center',
-    marginBottom: 40,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: theme.colors.primary,
-    borderRadius: 10,
-    padding: 15,
-    marginBottom: 15,
-    fontSize: 16,
-    fontFamily: theme.fonts.regular,
-    backgroundColor: theme.colors.white,
-  },
-  loginButton: {
-    backgroundColor: theme.colors.accent,
-    paddingVertical: 15,
-    borderRadius: 10,
-    alignItems: 'center',
-    marginTop: 20,
-    marginBottom: 20,
-  },
-  loginButtonText: {
-    color: theme.colors.white,
-    fontSize: 18,
-    fontFamily: theme.fonts.semiBold,
-  },
-  linkText: {
-    color: theme.colors.secondary,
-    textAlign: 'center',
-    fontSize: 16,
-    fontFamily: theme.fonts.regular,
-  },
-});
 
 export default LoginScreen;

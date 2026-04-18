@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import HomeScreen from './HomeScreen';
@@ -7,8 +7,20 @@ import LiveClassesScreen from './LiveClassesScreen';
 import ExamsScreen from './ExamsScreen';
 import ProfileScreen from './ProfileScreen';
 import BottomNavigation from '../components/BottomNavigation';
+import { useColors } from '../theme';
 
 const MainHomeScreen = ({ navigation }: any) => {
+  const colors = useColors();
+  const styles = useMemo(() => StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.white,
+  },
+  content: {
+    flex: 1,
+    // paddingBottom: 60,
+  },
+}), [colors]);
   const [activeTab, setActiveTab] = useState('Home');
 
   const handleTabPress = (tab: string) => {
@@ -50,15 +62,5 @@ const MainHomeScreen = ({ navigation }: any) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-  },
-  content: {
-    flex: 1,
-    // paddingBottom: 60,
-  },
-});
 
 export default MainHomeScreen;

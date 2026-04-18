@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   View,
   Text,
@@ -8,10 +8,106 @@ import {
   Image,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { theme, buttonStyles, buttonColors } from '../theme';
+import { theme, buttonStyles, buttonColors, useColors } from '../theme';
 import { ClockIcon, PlayIcon, BackArrowIcon } from '../components/Icons';
 
 const MyCoursesScreen = ({ navigation }: any) => {
+  const colors = useColors();
+  const styles = useMemo(() => StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.backgroundLight,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingTop: 50,
+    paddingBottom: 16,
+    backgroundColor: colors.white,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.surfaceAlt,
+  },
+  backButton: {
+    padding: 8,
+    marginRight: 12,
+  },
+  headerTitle: {
+    fontSize: 16,
+    fontFamily: theme.fonts.bold,
+    color: colors.textBody,
+  },
+  content: {
+    flex: 1,
+  },
+  section: {
+    padding: 20,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontFamily: theme.fonts.bold,
+    color: colors.textBody,
+    marginBottom: 16,
+  },
+  courseCard: {
+    backgroundColor: colors.white,
+    borderRadius: 16,
+    marginBottom: 16,
+    shadowColor: colors.blackShort,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 4,
+    overflow: 'hidden',
+  },
+  thumbnail: {
+    width: '100%',
+    height: 120,
+    resizeMode: 'cover',
+  },
+  courseContent: {
+    padding: 16,
+  },
+  courseTitle: {
+    fontSize: 16,
+    fontFamily: theme.fonts.bold,
+    color: colors.textBody,
+    marginBottom: 4,
+  },
+  teacherName: {
+    fontSize: 14,
+    fontFamily: theme.fonts.regular,
+    color: colors.textMuted,
+    marginBottom: 12,
+  },
+  progressContainer: {
+    marginBottom: 12,
+  },
+  progressBar: {
+    height: 6,
+    backgroundColor: colors.borderSlate,
+    borderRadius: 3,
+    marginBottom: 6,
+  },
+  progressFill: {
+    height: '100%',
+    backgroundColor: colors.primary,
+    borderRadius: 3,
+  },
+  progressText: {
+    fontSize: 12,
+    fontFamily: theme.fonts.medium,
+    color: colors.textMuted,
+  },
+  lessonInfo: {
+    marginBottom: 16,
+  },
+  lessonText: {
+    fontSize: 14,
+    fontFamily: theme.fonts.regular,
+    color: colors.textMuted,
+  },
+}), [colors]);
   const enrolledCourses = [
     {
       id: '1',
@@ -84,7 +180,7 @@ const MyCoursesScreen = ({ navigation }: any) => {
           style={styles.backButton}
           onPress={() => navigation.goBack()}
         >
-          <BackArrowIcon size={24} color="#1E293B" />
+          <BackArrowIcon size={24} color={colors.textBody} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>My Courses</Text>
       </View>
@@ -99,100 +195,5 @@ const MyCoursesScreen = ({ navigation }: any) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F8FAFC',
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingTop: 50,
-    paddingBottom: 16,
-    backgroundColor: '#FFFFFF',
-    borderBottomWidth: 1,
-    borderBottomColor: '#F1F5F9',
-  },
-  backButton: {
-    padding: 8,
-    marginRight: 12,
-  },
-  headerTitle: {
-    fontSize: 16,
-    fontFamily: theme.fonts.bold,
-    color: '#1E293B',
-  },
-  content: {
-    flex: 1,
-  },
-  section: {
-    padding: 20,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontFamily: theme.fonts.bold,
-    color: '#1E293B',
-    marginBottom: 16,
-  },
-  courseCard: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 16,
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    elevation: 4,
-    overflow: 'hidden',
-  },
-  thumbnail: {
-    width: '100%',
-    height: 120,
-    resizeMode: 'cover',
-  },
-  courseContent: {
-    padding: 16,
-  },
-  courseTitle: {
-    fontSize: 16,
-    fontFamily: theme.fonts.bold,
-    color: '#1E293B',
-    marginBottom: 4,
-  },
-  teacherName: {
-    fontSize: 14,
-    fontFamily: theme.fonts.regular,
-    color: '#64748B',
-    marginBottom: 12,
-  },
-  progressContainer: {
-    marginBottom: 12,
-  },
-  progressBar: {
-    height: 6,
-    backgroundColor: '#E2E8F0',
-    borderRadius: 3,
-    marginBottom: 6,
-  },
-  progressFill: {
-    height: '100%',
-    backgroundColor: '#4ECDC4',
-    borderRadius: 3,
-  },
-  progressText: {
-    fontSize: 12,
-    fontFamily: theme.fonts.medium,
-    color: '#64748B',
-  },
-  lessonInfo: {
-    marginBottom: 16,
-  },
-  lessonText: {
-    fontSize: 14,
-    fontFamily: theme.fonts.regular,
-    color: '#64748B',
-  },
-});
 
 export default MyCoursesScreen;

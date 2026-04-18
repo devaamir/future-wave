@@ -1,13 +1,42 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import {
   View, Text, StyleSheet, FlatList, Image,
   TouchableOpacity, ActivityIndicator, Linking,
 } from 'react-native';
 import { BackArrowIcon } from '../components/Icons';
-import { theme } from '../theme';
+import { theme, useColors } from '../theme';
 import { getBooks, Book } from '../services/api';
 
 const OurBooksScreen = ({ navigation }: any) => {
+  const colors = useColors();
+  const styles = useMemo(() => StyleSheet.create({
+  container: { flex: 1, backgroundColor: colors.backgroundGrey },
+  header: {
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+    paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
+    backgroundColor: colors.white, borderBottomWidth: 1, borderBottomColor: colors.border,
+  },
+  back: { padding: 8 },
+  headerTitle: { flex: 1, textAlign: 'center', fontSize: 18, fontFamily: theme.fonts.bold, color: colors.textDark },
+  list: { padding: 16 },
+  card: {
+    flexDirection: 'row', backgroundColor: colors.white, borderRadius: 14,
+    marginBottom: 12, overflow: 'hidden',
+    shadowColor: colors.blackShort, shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.07, shadowRadius: 6, elevation: 2,
+  },
+  cover: { width: 90, height: 120 },
+  coverPlaceholder: { backgroundColor: colors.greenBgLight, justifyContent: 'center', alignItems: 'center' },
+  coverEmoji: { fontSize: 36 },
+  info: { flex: 1, padding: 12, justifyContent: 'space-between' },
+  title: { fontSize: 14, fontFamily: theme.fonts.bold, color: colors.textHeading, marginBottom: 4 },
+  author: { fontSize: 12, fontFamily: theme.fonts.semiBold, color: colors.successGreenAlt, marginBottom: 4 },
+  desc: { fontSize: 11, fontFamily: theme.fonts.regular, color: colors.textTertiary, lineHeight: 16, marginBottom: 6 },
+  footer: { flexDirection: 'row', alignItems: 'center' },
+  freeBadge: { backgroundColor: colors.greenBgLight, borderRadius: 6, paddingHorizontal: 8, paddingVertical: 2 },
+  freeText: { fontSize: 11, fontFamily: theme.fonts.bold, color: colors.successGreenAlt },
+  price: { fontSize: 13, fontFamily: theme.fonts.bold, color: colors.textHeading },
+  empty: { textAlign: 'center', color: colors.textTertiary, fontFamily: theme.fonts.regular, marginTop: 40 },
+}), [colors]);
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -51,14 +80,14 @@ const OurBooksScreen = ({ navigation }: any) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.back}>
-          <BackArrowIcon size={24} color="#2D2D2D" />
+          <BackArrowIcon size={24} color={colors.textDark} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Our Books</Text>
         <View style={{ width: 40 }} />
       </View>
 
       {loading ? (
-        <ActivityIndicator style={{ flex: 1 }} size="large" color="#2E9E45" />
+        <ActivityIndicator style={{ flex: 1 }} size="large" color={colors.successGreenAlt} />
       ) : (
         <FlatList
           data={books}
@@ -73,33 +102,5 @@ const OurBooksScreen = ({ navigation }: any) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F9FAFB' },
-  header: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
-    backgroundColor: '#FFFFFF', borderBottomWidth: 1, borderBottomColor: '#E5E7EB',
-  },
-  back: { padding: 8 },
-  headerTitle: { flex: 1, textAlign: 'center', fontSize: 18, fontFamily: theme.fonts.bold, color: '#2D2D2D' },
-  list: { padding: 16 },
-  card: {
-    flexDirection: 'row', backgroundColor: '#FFFFFF', borderRadius: 14,
-    marginBottom: 12, overflow: 'hidden',
-    shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.07, shadowRadius: 6, elevation: 2,
-  },
-  cover: { width: 90, height: 120 },
-  coverPlaceholder: { backgroundColor: '#ECFDF5', justifyContent: 'center', alignItems: 'center' },
-  coverEmoji: { fontSize: 36 },
-  info: { flex: 1, padding: 12, justifyContent: 'space-between' },
-  title: { fontSize: 14, fontFamily: theme.fonts.bold, color: '#111827', marginBottom: 4 },
-  author: { fontSize: 12, fontFamily: theme.fonts.semiBold, color: '#2E9E45', marginBottom: 4 },
-  desc: { fontSize: 11, fontFamily: theme.fonts.regular, color: '#6B7280', lineHeight: 16, marginBottom: 6 },
-  footer: { flexDirection: 'row', alignItems: 'center' },
-  freeBadge: { backgroundColor: '#ECFDF5', borderRadius: 6, paddingHorizontal: 8, paddingVertical: 2 },
-  freeText: { fontSize: 11, fontFamily: theme.fonts.bold, color: '#2E9E45' },
-  price: { fontSize: 13, fontFamily: theme.fonts.bold, color: '#111827' },
-  empty: { textAlign: 'center', color: '#6B7280', fontFamily: theme.fonts.regular, marginTop: 40 },
-});
 
 export default OurBooksScreen;

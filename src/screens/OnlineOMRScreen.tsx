@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import {
   View, Text, StyleSheet, FlatList, TouchableOpacity, Alert, ActivityIndicator,
 } from 'react-native';
 import { BackArrowIcon } from '../components/Icons';
-import { theme } from '../theme';
+import { theme, useColors } from '../theme';
 import { generateOMR, generatePrevOMR, evaluateOMR, evaluatePrevOMR } from '../services/api';
 
 interface Question {
@@ -27,6 +27,53 @@ const MARKS_PER_QUESTION = 1;
 const TIME_PER_QUESTION = 60;
 
 const OnlineOMRScreen = ({ navigation, route }: any) => {
+  const colors = useColors();
+  const styles = useMemo(() => StyleSheet.create({
+  container: { flex: 1, backgroundColor: colors.backgroundGrey },
+  header: {
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+    paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
+    backgroundColor: colors.white, borderBottomWidth: 1, borderBottomColor: colors.border,
+  },
+  back: { padding: 8 },
+  headerTitle: { flex: 1, textAlign: 'center', fontSize: 16, fontFamily: theme.fonts.bold, color: colors.textDark },
+  doneBtn: { backgroundColor: colors.blue, paddingHorizontal: 16, paddingVertical: 7, borderRadius: 8 },
+  doneBtnText: { fontSize: 13, fontFamily: theme.fonts.bold, color: colors.white },
+  statsBar: {
+    flexDirection: 'row', backgroundColor: colors.white, paddingVertical: 14,
+    borderBottomWidth: 1, borderBottomColor: colors.border,
+  },
+  statItem: { flex: 1, alignItems: 'center' },
+  statValue: { fontSize: 18, fontFamily: theme.fonts.bold, color: colors.textHeading },
+  statLabel: { fontSize: 11, fontFamily: theme.fonts.regular, color: colors.textTertiary, marginTop: 2 },
+  divider: { width: 1, backgroundColor: colors.border },
+  list: { padding: 16 },
+  card: {
+    backgroundColor: colors.white, borderRadius: 12, padding: 14, marginBottom: 12,
+    shadowColor: colors.blackShort, shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.06, shadowRadius: 4, elevation: 2,
+  },
+  qRow: { flexDirection: 'row', alignItems: 'flex-start', marginBottom: 12 },
+  badge: {
+    width: 26, height: 26, borderRadius: 13, backgroundColor: colors.blueBg,
+    justifyContent: 'center', alignItems: 'center', marginRight: 10, marginTop: 1,
+  },
+  badgeText: { fontSize: 11, fontFamily: theme.fonts.bold, color: colors.blue },
+  question: { flex: 1, fontSize: 13, fontFamily: theme.fonts.semiBold, color: colors.textPrimary, lineHeight: 20 },
+  options: { gap: 8 },
+  option: {
+    flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: colors.border,
+    borderRadius: 8, paddingHorizontal: 12, paddingVertical: 10,
+  },
+  optionSelected: { borderColor: colors.blue, backgroundColor: colors.blueBg },
+  radio: {
+    width: 18, height: 18, borderRadius: 9, borderWidth: 2, borderColor: colors.borderMuted,
+    justifyContent: 'center', alignItems: 'center', marginRight: 10,
+  },
+  radioSelected: { borderColor: colors.blue },
+  radioDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: colors.blue },
+  optionText: { flex: 1, fontSize: 13, fontFamily: theme.fonts.regular, color: colors.textBodyAlt },
+  optionTextSelected: { color: colors.indigoDeep, fontFamily: theme.fonts.semiBold },
+}), [colors]);
   const isPracticeOMR = route?.params?.type === 'Practice OMR';
   const isPrevOMR = route?.params?.type === 'Practice PQ OMR';
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -147,7 +194,7 @@ const OnlineOMRScreen = ({ navigation, route }: any) => {
   if (loading) {
     return (
       <View style={[styles.container, { justifyContent: 'center' }]}>
-        <ActivityIndicator size="large" color="#3A8EDB" />
+        <ActivityIndicator size="large" color={colors.blue} />
       </View>
     );
   }
@@ -156,7 +203,7 @@ const OnlineOMRScreen = ({ navigation, route }: any) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.back}>
-          <BackArrowIcon size={24} color="#2D2D2D" />
+          <BackArrowIcon size={24} color={colors.textDark} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Online OMR</Text>
         <TouchableOpacity style={styles.doneBtn} onPress={() => handleDone()}>
@@ -176,7 +223,7 @@ const OnlineOMRScreen = ({ navigation, route }: any) => {
         </View>
         <View style={styles.divider} />
         <View style={styles.statItem}>
-          <Text style={[styles.statValue, { color: isWarning ? '#EF4444' : '#10B981' }]}>{formatTime(timeLeft)}</Text>
+          <Text style={[styles.statValue, { color: isWarning ? colors.error : colors.successGreen }]}>{formatTime(timeLeft)}</Text>
           <Text style={styles.statLabel}>Time Left</Text>
         </View>
       </View>
@@ -192,51 +239,5 @@ const OnlineOMRScreen = ({ navigation, route }: any) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F9FAFB' },
-  header: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
-    backgroundColor: '#FFFFFF', borderBottomWidth: 1, borderBottomColor: '#E5E7EB',
-  },
-  back: { padding: 8 },
-  headerTitle: { flex: 1, textAlign: 'center', fontSize: 16, fontFamily: theme.fonts.bold, color: '#2D2D2D' },
-  doneBtn: { backgroundColor: '#3A8EDB', paddingHorizontal: 16, paddingVertical: 7, borderRadius: 8 },
-  doneBtnText: { fontSize: 13, fontFamily: theme.fonts.bold, color: '#FFFFFF' },
-  statsBar: {
-    flexDirection: 'row', backgroundColor: '#FFFFFF', paddingVertical: 14,
-    borderBottomWidth: 1, borderBottomColor: '#E5E7EB',
-  },
-  statItem: { flex: 1, alignItems: 'center' },
-  statValue: { fontSize: 18, fontFamily: theme.fonts.bold, color: '#111827' },
-  statLabel: { fontSize: 11, fontFamily: theme.fonts.regular, color: '#6B7280', marginTop: 2 },
-  divider: { width: 1, backgroundColor: '#E5E7EB' },
-  list: { padding: 16 },
-  card: {
-    backgroundColor: '#FFFFFF', borderRadius: 12, padding: 14, marginBottom: 12,
-    shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.06, shadowRadius: 4, elevation: 2,
-  },
-  qRow: { flexDirection: 'row', alignItems: 'flex-start', marginBottom: 12 },
-  badge: {
-    width: 26, height: 26, borderRadius: 13, backgroundColor: '#EBF4FF',
-    justifyContent: 'center', alignItems: 'center', marginRight: 10, marginTop: 1,
-  },
-  badgeText: { fontSize: 11, fontFamily: theme.fonts.bold, color: '#3A8EDB' },
-  question: { flex: 1, fontSize: 13, fontFamily: theme.fonts.semiBold, color: '#1F2937', lineHeight: 20 },
-  options: { gap: 8 },
-  option: {
-    flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: '#E5E7EB',
-    borderRadius: 8, paddingHorizontal: 12, paddingVertical: 10,
-  },
-  optionSelected: { borderColor: '#3A8EDB', backgroundColor: '#EBF4FF' },
-  radio: {
-    width: 18, height: 18, borderRadius: 9, borderWidth: 2, borderColor: '#D1D5DB',
-    justifyContent: 'center', alignItems: 'center', marginRight: 10,
-  },
-  radioSelected: { borderColor: '#3A8EDB' },
-  radioDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: '#3A8EDB' },
-  optionText: { flex: 1, fontSize: 13, fontFamily: theme.fonts.regular, color: '#374151' },
-  optionTextSelected: { color: '#1D4ED8', fontFamily: theme.fonts.semiBold },
-});
 
 export default OnlineOMRScreen;

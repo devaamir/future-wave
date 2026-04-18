@@ -1,10 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, ActivityIndicator, Image } from 'react-native';
 import { BackArrowIcon } from '../components/Icons';
-import { theme } from '../theme';
+import { theme, useColors } from '../theme';
 import { getAchievements, Achievement } from '../services/api';
 
 const AchievementsScreen = ({ navigation }: any) => {
+  const colors = useColors();
+  const styles = useMemo(() => StyleSheet.create({
+  container: { flex: 1, backgroundColor: colors.backgroundGrey },
+  header: {
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+    paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
+    backgroundColor: colors.white, borderBottomWidth: 1, borderBottomColor: colors.border,
+  },
+  back: { padding: 8 },
+  headerTitle: { flex: 1, textAlign: 'center', fontSize: 18, fontFamily: theme.fonts.bold, color: colors.textDark },
+  list: { padding: 16 },
+  card: {
+    flexDirection: 'row', alignItems: 'center', backgroundColor: colors.white,
+    borderRadius: 14, padding: 14, marginBottom: 12,
+    shadowColor: colors.blackShort, shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.07, shadowRadius: 6, elevation: 2,
+  },
+  photo: { width: 64, height: 64, borderRadius: 32, marginRight: 14 },
+  photoPlaceholder: { backgroundColor: colors.primaryDark, justifyContent: 'center', alignItems: 'center' },
+  photoInitial: { fontSize: 24, fontFamily: theme.fonts.bold, color: colors.white },
+  info: { flex: 1 },
+  name: { fontSize: 15, fontFamily: theme.fonts.bold, color: colors.textPrimary, marginBottom: 3 },
+  exam: { fontSize: 13, fontFamily: theme.fonts.regular, color: colors.textTertiary, marginBottom: 6 },
+  rankBadge: {
+    alignSelf: 'flex-start', backgroundColor: colors.amberBg,
+    paddingHorizontal: 10, paddingVertical: 4, borderRadius: 20,
+  },
+  rankText: { fontSize: 12, fontFamily: theme.fonts.semiBold, color: colors.accent },
+  empty: { textAlign: 'center', color: colors.textTertiary, fontFamily: theme.fonts.regular, marginTop: 40 },
+}), [colors]);
   const [items, setItems] = useState<Achievement[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -16,14 +46,14 @@ const AchievementsScreen = ({ navigation }: any) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.back}>
-          <BackArrowIcon size={24} color="#2D2D2D" />
+          <BackArrowIcon size={24} color={colors.textDark} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Achievements</Text>
         <View style={{ width: 40 }} />
       </View>
 
       {loading ? (
-        <ActivityIndicator style={{ flex: 1 }} size="large" color="#4DB8AC" />
+        <ActivityIndicator style={{ flex: 1 }} size="large" color={colors.primaryDark} />
       ) : (
         <FlatList
           data={items}
@@ -58,34 +88,5 @@ const AchievementsScreen = ({ navigation }: any) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F9FAFB' },
-  header: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
-    backgroundColor: '#FFFFFF', borderBottomWidth: 1, borderBottomColor: '#E5E7EB',
-  },
-  back: { padding: 8 },
-  headerTitle: { flex: 1, textAlign: 'center', fontSize: 18, fontFamily: theme.fonts.bold, color: '#2D2D2D' },
-  list: { padding: 16 },
-  card: {
-    flexDirection: 'row', alignItems: 'center', backgroundColor: '#FFFFFF',
-    borderRadius: 14, padding: 14, marginBottom: 12,
-    shadowColor: '#000', shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.07, shadowRadius: 6, elevation: 2,
-  },
-  photo: { width: 64, height: 64, borderRadius: 32, marginRight: 14 },
-  photoPlaceholder: { backgroundColor: '#4DB8AC', justifyContent: 'center', alignItems: 'center' },
-  photoInitial: { fontSize: 24, fontFamily: theme.fonts.bold, color: '#FFFFFF' },
-  info: { flex: 1 },
-  name: { fontSize: 15, fontFamily: theme.fonts.bold, color: '#1F2937', marginBottom: 3 },
-  exam: { fontSize: 13, fontFamily: theme.fonts.regular, color: '#6B7280', marginBottom: 6 },
-  rankBadge: {
-    alignSelf: 'flex-start', backgroundColor: '#FFF8EC',
-    paddingHorizontal: 10, paddingVertical: 4, borderRadius: 20,
-  },
-  rankText: { fontSize: 12, fontFamily: theme.fonts.semiBold, color: '#F39C12' },
-  empty: { textAlign: 'center', color: '#6B7280', fontFamily: theme.fonts.regular, marginTop: 40 },
-});
 
 export default AchievementsScreen;

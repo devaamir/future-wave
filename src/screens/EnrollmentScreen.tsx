@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   View,
   Text,
@@ -8,10 +8,83 @@ import {
   Image,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { theme, buttonStyles, buttonColors } from '../theme';
+import { theme, buttonStyles, buttonColors, useColors } from '../theme';
 import { BackArrowIcon, TickIcon } from '../components/Icons';
 
 const EnrollmentScreen = ({ navigation, route }: any) => {
+  const colors = useColors();
+  const styles = useMemo(() => StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.backgroundLight,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingTop: 50,
+    paddingBottom: 16,
+    backgroundColor: colors.white,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.surfaceAlt,
+  },
+  backButton: {
+    padding: 8,
+    marginRight: 12,
+  },
+  headerTitle: {
+    fontSize: 16,
+    fontFamily: theme.fonts.bold,
+    color: colors.textBody,
+  },
+  content: {
+    flex: 1,
+  },
+  courseSection: {
+    backgroundColor: colors.white,
+    padding: 20,
+    marginBottom: 16,
+    alignItems: 'center',
+  },
+  courseTitle: {
+    fontSize: 20,
+    fontFamily: theme.fonts.bold,
+    color: colors.textBody,
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  coursePrice: {
+    fontSize: 24,
+    fontFamily: theme.fonts.bold,
+    color: colors.primary,
+  },
+  featuresSection: {
+    backgroundColor: colors.white,
+    padding: 20,
+    marginBottom: 16,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontFamily: theme.fonts.bold,
+    color: colors.textBody,
+    marginBottom: 16,
+  },
+  featureItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 12,
+    gap: 12,
+  },
+  featureText: {
+    fontSize: 16,
+    fontFamily: theme.fonts.regular,
+    color: colors.textMuted,
+    flex: 1,
+  },
+  buttonSection: {
+    padding: 20,
+  },
+}), [colors]);
   const { courseTitle = 'Course Enrollment', coursePrice = '₹499' } = route?.params || {};
 
   const features = [
@@ -31,7 +104,7 @@ const EnrollmentScreen = ({ navigation, route }: any) => {
           style={styles.backButton}
           onPress={() => navigation.goBack()}
         >
-          <BackArrowIcon size={24} color="#1E293B" />
+          <BackArrowIcon size={24} color={colors.textBody} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Enrollment</Text>
       </View>
@@ -48,7 +121,7 @@ const EnrollmentScreen = ({ navigation, route }: any) => {
           <Text style={styles.sectionTitle}>What's Included</Text>
           {features.map((feature, index) => (
             <View key={index} style={styles.featureItem}>
-              <TickIcon size={16} color="#10B981" />
+              <TickIcon size={16} color={colors.successGreen} />
               <Text style={styles.featureText}>{feature}</Text>
             </View>
           ))}
@@ -78,77 +151,5 @@ const EnrollmentScreen = ({ navigation, route }: any) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F8FAFC',
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingTop: 50,
-    paddingBottom: 16,
-    backgroundColor: '#FFFFFF',
-    borderBottomWidth: 1,
-    borderBottomColor: '#F1F5F9',
-  },
-  backButton: {
-    padding: 8,
-    marginRight: 12,
-  },
-  headerTitle: {
-    fontSize: 16,
-    fontFamily: theme.fonts.bold,
-    color: '#1E293B',
-  },
-  content: {
-    flex: 1,
-  },
-  courseSection: {
-    backgroundColor: '#FFFFFF',
-    padding: 20,
-    marginBottom: 16,
-    alignItems: 'center',
-  },
-  courseTitle: {
-    fontSize: 20,
-    fontFamily: theme.fonts.bold,
-    color: '#1E293B',
-    textAlign: 'center',
-    marginBottom: 8,
-  },
-  coursePrice: {
-    fontSize: 24,
-    fontFamily: theme.fonts.bold,
-    color: '#4ECDC4',
-  },
-  featuresSection: {
-    backgroundColor: '#FFFFFF',
-    padding: 20,
-    marginBottom: 16,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontFamily: theme.fonts.bold,
-    color: '#1E293B',
-    marginBottom: 16,
-  },
-  featureItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 12,
-    gap: 12,
-  },
-  featureText: {
-    fontSize: 16,
-    fontFamily: theme.fonts.regular,
-    color: '#64748B',
-    flex: 1,
-  },
-  buttonSection: {
-    padding: 20,
-  },
-});
 
 export default EnrollmentScreen;

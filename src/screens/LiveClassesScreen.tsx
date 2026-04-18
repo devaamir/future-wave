@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   View,
   Text,
@@ -11,10 +11,208 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import Svg, { Path } from 'react-native-svg';
 import { PlayIcon } from '../components/Icons';
-import { theme } from '../theme';
+import { theme, useColors } from '../theme';
 import { useNavigation } from '@react-navigation/native';
 
 const LiveClassesScreen = () => {
+  const colors = useColors();
+  const styles = useMemo(() => StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.white,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingTop: 20,
+    paddingBottom: 16,
+    backgroundColor: colors.white,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.borderLight,
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontFamily: theme.fonts.bold,
+    color: colors.textDark,
+  },
+  calendarIcon: {
+    padding: 8,
+  },
+  content: {
+    flex: 1,
+  },
+  liveSection: {
+    padding: 16,
+  },
+  liveCard: {
+    height: 200,
+    borderRadius: 16,
+    overflow: 'hidden',
+  },
+  liveCardImage: {
+    borderRadius: 16,
+    transform: [{ scaleX: 1.1 }, { scaleY: 1.2 }],
+  },
+  liveOverlay: {
+    flex: 1,
+    backgroundColor: colors.overlayDark02,
+    padding: 16,
+    justifyContent: 'space-between',
+  },
+  liveBadge: {
+    alignSelf: 'flex-start',
+    backgroundColor: colors.errorDeep,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  redDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: colors.white,
+    marginRight: 6,
+  },
+  liveText: {
+    color: colors.white,
+    fontSize: 12,
+    fontFamily: theme.fonts.bold,
+  },
+  liveInfo: {
+    alignItems: 'flex-start',
+  },
+  liveTitle: {
+    fontSize: 18,
+    fontFamily: theme.fonts.bold,
+    color: colors.white,
+    marginBottom: 4,
+  },
+  liveTeacher: {
+    fontSize: 14,
+    fontFamily: theme.fonts.regular,
+    color: colors.white,
+    marginBottom: 16,
+  },
+  joinButton: {
+    borderRadius: 8,
+    alignSelf: 'flex-end',
+  },
+  joinButtonContent: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+  },
+  joinButtonText: {
+    color: colors.white,
+    fontSize: 14,
+    fontFamily: theme.fonts.bold,
+  },
+  section: {
+    padding: 16,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontFamily: theme.fonts.bold,
+    color: colors.textDark,
+    marginBottom: 16,
+  },
+  classCard: {
+    backgroundColor: colors.white,
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    shadowColor: colors.blackShort,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  teacherAvatar: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    marginRight: 12,
+  },
+  classInfo: {
+    flex: 1,
+  },
+  classTitle: {
+    fontSize: 16,
+    fontFamily: theme.fonts.bold,
+    color: colors.textDark,
+    marginBottom: 4,
+  },
+  teacherName: {
+    fontSize: 14,
+    fontFamily: theme.fonts.regular,
+    color: colors.textTertiary,
+    marginBottom: 2,
+  },
+  classTime: {
+    fontSize: 14,
+    fontFamily: theme.fonts.regular,
+    color: colors.textTertiary,
+  },
+  reminderButton: {
+    borderWidth: 1,
+    borderColor: colors.primary,
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+  },
+  reminderText: {
+    fontSize: 12,
+    fontFamily: theme.fonts.medium,
+    color: colors.primary,
+  },
+  recordingsScroll: {
+    marginLeft: -16,
+    paddingLeft: 16,
+  },
+  recordingCard: {
+    marginRight: 12,
+    width: 120,
+  },
+  recordingThumbnail: {
+    position: 'relative',
+    marginBottom: 8,
+  },
+  thumbnailImage: {
+    width: 120,
+    height: 80,
+    borderRadius: 8,
+  },
+  playOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.overlayDark03,
+    borderRadius: 8,
+  },
+  playButton: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: colors.overlayDark06,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  recordingTitle: {
+    fontSize: 14,
+    fontFamily: theme.fonts.bold,
+    color: colors.textDark,
+    textAlign: 'center',
+  },
+}), [colors]);
   const navigation = useNavigation();
 
   const upcomingClasses = [
@@ -84,7 +282,7 @@ const LiveClassesScreen = () => {
           <Svg width={24} height={24} viewBox="0 0 24 24">
             <Path
               d="M3 9H21M7 3V5M17 3V5M6 13H8M6 17H8M11 13H13M11 17H13M16 13H18M16 17H18M6.2 21H17.8C18.9201 21 19.4802 21 19.908 20.782C20.2843 20.5903 20.5903 20.2843 20.782 19.908C21 19.4802 21 18.9201 21 17.8V8.2C21 7.07989 21 6.51984 20.782 6.09202C20.5903 5.71569 20.2843 5.40973 19.908 5.21799C19.4802 5 18.9201 5 17.8 5H6.2C5.0799 5 4.51984 5 4.09202 5.21799C3.71569 5.40973 3.40973 5.71569 3.21799 6.09202C3 6.51984 3 7.07989 3 8.2V17.8C3 18.9201 3 19.4802 3.21799 19.908C3.40973 20.2843 3.71569 20.5903 4.09202 20.782C4.51984 21 5.07989 21 6.2 21Z"
-              stroke="#4ECDC4"
+              stroke={colors.primary}
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -109,7 +307,7 @@ const LiveClassesScreen = () => {
               </View>
 
               <LinearGradient
-                colors={['#4ECDC4', '#26A69A']}
+                colors={[colors.primary, colors.tealActive]}
                 style={styles.joinButton}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
@@ -178,7 +376,7 @@ const LiveClassesScreen = () => {
                   />
                   <View style={styles.playOverlay}>
                     <View style={styles.playButton}>
-                      <PlayIcon size={24} color="#FFFFFF" />
+                      <PlayIcon size={24} color={colors.white} />
                     </View>
                   </View>
                 </View>
@@ -192,202 +390,5 @@ const LiveClassesScreen = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingTop: 20,
-    paddingBottom: 16,
-    backgroundColor: '#FFFFFF',
-    borderBottomWidth: 1,
-    borderBottomColor: '#F3F4F6',
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontFamily: theme.fonts.bold,
-    color: '#2D2D2D',
-  },
-  calendarIcon: {
-    padding: 8,
-  },
-  content: {
-    flex: 1,
-  },
-  liveSection: {
-    padding: 16,
-  },
-  liveCard: {
-    height: 200,
-    borderRadius: 16,
-    overflow: 'hidden',
-  },
-  liveCardImage: {
-    borderRadius: 16,
-    transform: [{ scaleX: 1.1 }, { scaleY: 1.2 }],
-  },
-  liveOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
-    padding: 16,
-    justifyContent: 'space-between',
-  },
-  liveBadge: {
-    alignSelf: 'flex-start',
-    backgroundColor: '#E53935',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  redDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: '#FFFFFF',
-    marginRight: 6,
-  },
-  liveText: {
-    color: '#FFFFFF',
-    fontSize: 12,
-    fontFamily: theme.fonts.bold,
-  },
-  liveInfo: {
-    alignItems: 'flex-start',
-  },
-  liveTitle: {
-    fontSize: 18,
-    fontFamily: theme.fonts.bold,
-    color: '#FFFFFF',
-    marginBottom: 4,
-  },
-  liveTeacher: {
-    fontSize: 14,
-    fontFamily: theme.fonts.regular,
-    color: '#FFFFFF',
-    marginBottom: 16,
-  },
-  joinButton: {
-    borderRadius: 8,
-    alignSelf: 'flex-end',
-  },
-  joinButtonContent: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-  },
-  joinButtonText: {
-    color: '#FFFFFF',
-    fontSize: 14,
-    fontFamily: theme.fonts.bold,
-  },
-  section: {
-    padding: 16,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontFamily: theme.fonts.bold,
-    color: '#2D2D2D',
-    marginBottom: 16,
-  },
-  classCard: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
-    flexDirection: 'row',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  teacherAvatar: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    marginRight: 12,
-  },
-  classInfo: {
-    flex: 1,
-  },
-  classTitle: {
-    fontSize: 16,
-    fontFamily: theme.fonts.bold,
-    color: '#2D2D2D',
-    marginBottom: 4,
-  },
-  teacherName: {
-    fontSize: 14,
-    fontFamily: theme.fonts.regular,
-    color: '#6B7280',
-    marginBottom: 2,
-  },
-  classTime: {
-    fontSize: 14,
-    fontFamily: theme.fonts.regular,
-    color: '#6B7280',
-  },
-  reminderButton: {
-    borderWidth: 1,
-    borderColor: '#4ECDC4',
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-  },
-  reminderText: {
-    fontSize: 12,
-    fontFamily: theme.fonts.medium,
-    color: '#4ECDC4',
-  },
-  recordingsScroll: {
-    marginLeft: -16,
-    paddingLeft: 16,
-  },
-  recordingCard: {
-    marginRight: 12,
-    width: 120,
-  },
-  recordingThumbnail: {
-    position: 'relative',
-    marginBottom: 8,
-  },
-  thumbnailImage: {
-    width: 120,
-    height: 80,
-    borderRadius: 8,
-  },
-  playOverlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
-    borderRadius: 8,
-  },
-  playButton: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  recordingTitle: {
-    fontSize: 14,
-    fontFamily: theme.fonts.bold,
-    color: '#2D2D2D',
-    textAlign: 'center',
-  },
-});
 
 export default LiveClassesScreen;

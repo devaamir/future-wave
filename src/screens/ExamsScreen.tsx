@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   View,
   Text,
@@ -16,11 +16,272 @@ import {
   ClockIcon,
   TickIcon,
 } from '../components/Icons';
-import { theme, buttonStyles, buttonColors } from '../theme';
+import { theme, buttonStyles, buttonColors, useColors } from '../theme';
 
 const { width } = Dimensions.get('window');
 
 const ExamsScreen = () => {
+  const colors = useColors();
+  const styles = useMemo(() => StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.backgroundLight,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 16,
+    backgroundColor: colors.white,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.surfaceAlt,
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontFamily: theme.fonts.bold,
+    color: colors.textBody,
+  },
+  headerIcons: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  headerIcon: {
+    padding: 8,
+  },
+  tabContainer: {
+    backgroundColor: colors.white,
+    paddingVertical: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.surfaceAlt,
+  },
+  tabScrollContainer: {
+    paddingHorizontal: 20,
+    gap: 12,
+  },
+  filterChip: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: colors.borderSlate,
+    backgroundColor: colors.white,
+  },
+  activeFilterChip: {
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
+  },
+  filterChipText: {
+    fontSize: 14,
+    fontFamily: theme.fonts.medium,
+    color: colors.textMuted,
+  },
+  activeFilterChipText: {
+    color: colors.white,
+    fontFamily: theme.fonts.bold,
+  },
+  content: {
+    flex: 1,
+  },
+  section: {
+    padding: 20,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontFamily: theme.fonts.bold,
+    color: colors.textBody,
+    marginBottom: 16,
+  },
+  examCard: {
+    backgroundColor: colors.white,
+    borderRadius: 16,
+    marginBottom: 16,
+    shadowColor: colors.blackShort,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  ongoingCard: {
+    borderWidth: 2,
+    borderColor: colors.primary,
+  },
+  completedCard: {
+    opacity: 0.9,
+  },
+  cardContent: {
+    padding: 20,
+  },
+  thumbnailContainer: {
+    width: 48,
+    height: 48,
+    borderRadius: 8,
+    overflow: 'hidden',
+    marginBottom: 12,
+  },
+  examThumbnail: {
+    width: '100%',
+    height: '100%',
+  },
+  examInfo: {
+    flex: 1,
+    marginBottom: 16,
+  },
+  examTitle: {
+    fontSize: 16,
+    fontFamily: theme.fonts.bold,
+    color: colors.textBody,
+    marginBottom: 8,
+  },
+  examDetailsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 4,
+  },
+  examDetail: {
+    fontSize: 14,
+    fontFamily: theme.fonts.regular,
+    color: colors.textMuted,
+    marginLeft: 8,
+  },
+  startButton: {
+    borderRadius: 12,
+    alignSelf: 'flex-end',
+  },
+  resumeButton: {
+    borderRadius: 12,
+    marginTop: 16,
+  },
+  buttonContent: {
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    alignItems: 'center',
+  },
+  buttonText: {
+    fontSize: 14,
+    fontFamily: theme.fonts.bold,
+    color: colors.white,
+  },
+  ongoingHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: 16,
+  },
+  timerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.amberBgPale,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 16,
+    gap: 6,
+  },
+  timerText: {
+    fontSize: 12,
+    fontFamily: theme.fonts.bold,
+    color: colors.amberDark,
+  },
+  progressContainer: {
+    marginBottom: 12,
+  },
+  progressBar: {
+    height: 8,
+    backgroundColor: colors.borderSlate,
+    borderRadius: 4,
+    marginBottom: 8,
+  },
+  progressFill: {
+    height: '100%',
+    backgroundColor: colors.primary,
+    borderRadius: 4,
+  },
+  progressText: {
+    fontSize: 12,
+    fontFamily: theme.fonts.medium,
+    color: colors.textMuted,
+  },
+  questionsText: {
+    fontSize: 14,
+    fontFamily: theme.fonts.regular,
+    color: colors.textMuted,
+  },
+  completedHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: 16,
+  },
+  completedInfo: {
+    flex: 1,
+  },
+  examDate: {
+    fontSize: 12,
+    fontFamily: theme.fonts.regular,
+    color: colors.textMuted,
+    marginTop: 4,
+  },
+  completedBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.greenBgPale,
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderRadius: 12,
+    gap: 4,
+  },
+  completedText: {
+    fontSize: 12,
+    fontFamily: theme.fonts.medium,
+    color: colors.emerald,
+  },
+  scoreContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  scoreText: {
+    fontSize: 16,
+    fontFamily: theme.fonts.bold,
+    color: colors.textBody,
+  },
+  statusBadge: {
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderRadius: 12,
+  },
+  statusText: {
+    fontSize: 12,
+    fontFamily: theme.fonts.bold,
+    color: colors.white,
+  },
+  emptyState: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 80,
+    paddingHorizontal: 40,
+  },
+  emptyIcon: {
+    fontSize: 64,
+    marginBottom: 16,
+  },
+  emptyTitle: {
+    fontSize: 20,
+    fontFamily: theme.fonts.bold,
+    color: colors.textBody,
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+  emptySubtext: {
+    fontSize: 14,
+    fontFamily: theme.fonts.regular,
+    color: colors.textMuted,
+    textAlign: 'center',
+    lineHeight: 20,
+  },
+}), [colors]);
   const [activeTab, setActiveTab] = useState('All');
 
   const upcomingExams = [
@@ -32,7 +293,7 @@ const ExamsScreen = () => {
       time: '10:00 AM – 11:00 AM',
       duration: '1 Hour',
       thumbnail: require('../assets/images/physics_thumb.png'),
-      color: '#3B82F6',
+      color: colors.slate,
     },
     {
       id: 2,
@@ -42,7 +303,7 @@ const ExamsScreen = () => {
       time: '2:00 PM – 3:30 PM',
       duration: '90 mins',
       thumbnail: require('../assets/images/maths_thumb.png'),
-      color: '#10B981',
+      color: colors.successGreen,
     },
     {
       id: 3,
@@ -52,7 +313,7 @@ const ExamsScreen = () => {
       time: '9:00 AM – 10:00 AM',
       duration: '1 Hour',
       thumbnail: require('../assets/images/kpsc_thumb.png'),
-      color: '#F59E0B',
+      color: colors.orangeAlt,
     },
   ];
 
@@ -108,13 +369,13 @@ const ExamsScreen = () => {
             <View style={styles.examInfo}>
               <Text style={styles.examTitle}>{exam.title}</Text>
               <View style={styles.examDetailsRow}>
-                <CalendarIcon size={14} color="#6B7280" />
+                <CalendarIcon size={14} color={colors.textTertiary} />
                 <Text style={styles.examDetail}>
                   {exam.date}, {exam.time}
                 </Text>
               </View>
               <View style={styles.examDetailsRow}>
-                <ClockIcon size={14} color="#6B7280" />
+                <ClockIcon size={14} color={colors.textTertiary} />
                 <Text style={styles.examDetail}>{exam.duration}</Text>
               </View>
             </View>
@@ -143,7 +404,7 @@ const ExamsScreen = () => {
             <View style={styles.ongoingHeader}>
               <Text style={styles.examTitle}>{exam.title}</Text>
               <View style={styles.timerContainer}>
-                <ClockIcon size={14} color="#D97706" />
+                <ClockIcon size={14} color={colors.amberDark} />
                 <Text style={styles.timerText}>{exam.timeRemaining}</Text>
               </View>
             </View>
@@ -188,7 +449,7 @@ const ExamsScreen = () => {
                 <Text style={styles.examDate}>Completed on {exam.date}</Text>
               </View>
               <View style={styles.completedBadge}>
-                <TickIcon size={12} color="#16A34A" />
+                <TickIcon size={12} color={colors.emerald} />
                 <Text style={styles.completedText}>Completed</Text>
               </View>
             </View>
@@ -197,7 +458,7 @@ const ExamsScreen = () => {
               <View
                 style={[
                   styles.statusBadge,
-                  { backgroundColor: exam.score >= 50 ? '#10B981' : '#EF4444' },
+                  { backgroundColor: exam.score >= 50 ? colors.successGreen : colors.error },
                 ]}
               >
                 <Text style={styles.statusText}>{exam.score >= 50 ? 'Passed' : 'Failed'}</Text>
@@ -255,10 +516,10 @@ const ExamsScreen = () => {
         <Text style={styles.headerTitle}>Exams</Text>
         <View style={styles.headerIcons}>
           <TouchableOpacity style={styles.headerIcon}>
-            <CalendarIcon size={24} color="#4ECDC4" />
+            <CalendarIcon size={24} color={colors.primary} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.headerIcon}>
-            <NotificationIcon size={24} color="#4ECDC4" />
+            <NotificationIcon size={24} color={colors.primary} />
           </TouchableOpacity>
         </View>
       </View>
@@ -305,272 +566,12 @@ const ExamsScreen = () => {
           start={buttonStyles.primaryGradientStart}
           end={buttonStyles.primaryGradientEnd}
         >
-          <CalendarIcon size={24} color="#FFFFFF" />
+          <CalendarIcon size={24} color={colors.white} />
         </LinearGradient>
       </TouchableOpacity>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F8FAFC',
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 16,
-    backgroundColor: '#FFFFFF',
-    borderBottomWidth: 1,
-    borderBottomColor: '#F1F5F9',
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontFamily: theme.fonts.bold,
-    color: '#1E293B',
-  },
-  headerIcons: {
-    flexDirection: 'row',
-    gap: 12,
-  },
-  headerIcon: {
-    padding: 8,
-  },
-  tabContainer: {
-    backgroundColor: '#FFFFFF',
-    paddingVertical: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#F1F5F9',
-  },
-  tabScrollContainer: {
-    paddingHorizontal: 20,
-    gap: 12,
-  },
-  filterChip: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: '#E2E8F0',
-    backgroundColor: '#FFFFFF',
-  },
-  activeFilterChip: {
-    backgroundColor: '#4ECDC4',
-    borderColor: '#4ECDC4',
-  },
-  filterChipText: {
-    fontSize: 14,
-    fontFamily: theme.fonts.medium,
-    color: '#64748B',
-  },
-  activeFilterChipText: {
-    color: '#FFFFFF',
-    fontFamily: theme.fonts.bold,
-  },
-  content: {
-    flex: 1,
-  },
-  section: {
-    padding: 20,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontFamily: theme.fonts.bold,
-    color: '#1E293B',
-    marginBottom: 16,
-  },
-  examCard: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 16,
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    elevation: 4,
-  },
-  ongoingCard: {
-    borderWidth: 2,
-    borderColor: '#4ECDC4',
-  },
-  completedCard: {
-    opacity: 0.9,
-  },
-  cardContent: {
-    padding: 20,
-  },
-  thumbnailContainer: {
-    width: 48,
-    height: 48,
-    borderRadius: 8,
-    overflow: 'hidden',
-    marginBottom: 12,
-  },
-  examThumbnail: {
-    width: '100%',
-    height: '100%',
-  },
-  examInfo: {
-    flex: 1,
-    marginBottom: 16,
-  },
-  examTitle: {
-    fontSize: 16,
-    fontFamily: theme.fonts.bold,
-    color: '#1E293B',
-    marginBottom: 8,
-  },
-  examDetailsRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 4,
-  },
-  examDetail: {
-    fontSize: 14,
-    fontFamily: theme.fonts.regular,
-    color: '#64748B',
-    marginLeft: 8,
-  },
-  startButton: {
-    borderRadius: 12,
-    alignSelf: 'flex-end',
-  },
-  resumeButton: {
-    borderRadius: 12,
-    marginTop: 16,
-  },
-  buttonContent: {
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    alignItems: 'center',
-  },
-  buttonText: {
-    fontSize: 14,
-    fontFamily: theme.fonts.bold,
-    color: '#FFFFFF',
-  },
-  ongoingHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginBottom: 16,
-  },
-  timerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#FEF3C7',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 16,
-    gap: 6,
-  },
-  timerText: {
-    fontSize: 12,
-    fontFamily: theme.fonts.bold,
-    color: '#D97706',
-  },
-  progressContainer: {
-    marginBottom: 12,
-  },
-  progressBar: {
-    height: 8,
-    backgroundColor: '#E2E8F0',
-    borderRadius: 4,
-    marginBottom: 8,
-  },
-  progressFill: {
-    height: '100%',
-    backgroundColor: '#4ECDC4',
-    borderRadius: 4,
-  },
-  progressText: {
-    fontSize: 12,
-    fontFamily: theme.fonts.medium,
-    color: '#64748B',
-  },
-  questionsText: {
-    fontSize: 14,
-    fontFamily: theme.fonts.regular,
-    color: '#64748B',
-  },
-  completedHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginBottom: 16,
-  },
-  completedInfo: {
-    flex: 1,
-  },
-  examDate: {
-    fontSize: 12,
-    fontFamily: theme.fonts.regular,
-    color: '#64748B',
-    marginTop: 4,
-  },
-  completedBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#DCFCE7',
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    borderRadius: 12,
-    gap: 4,
-  },
-  completedText: {
-    fontSize: 12,
-    fontFamily: theme.fonts.medium,
-    color: '#16A34A',
-  },
-  scoreContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  scoreText: {
-    fontSize: 16,
-    fontFamily: theme.fonts.bold,
-    color: '#1E293B',
-  },
-  statusBadge: {
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    borderRadius: 12,
-  },
-  statusText: {
-    fontSize: 12,
-    fontFamily: theme.fonts.bold,
-    color: '#FFFFFF',
-  },
-  emptyState: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 80,
-    paddingHorizontal: 40,
-  },
-  emptyIcon: {
-    fontSize: 64,
-    marginBottom: 16,
-  },
-  emptyTitle: {
-    fontSize: 20,
-    fontFamily: theme.fonts.bold,
-    color: '#1E293B',
-    marginBottom: 8,
-    textAlign: 'center',
-  },
-  emptySubtext: {
-    fontSize: 14,
-    fontFamily: theme.fonts.regular,
-    color: '#64748B',
-    textAlign: 'center',
-    lineHeight: 20,
-  },
-});
 
 export default ExamsScreen;

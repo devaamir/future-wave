@@ -1,12 +1,38 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native';
 import { BackArrowIcon } from '../components/Icons';
-import { theme } from '../theme';
+import { theme, useColors } from '../theme';
 import { getExamRankings, RankingEntry } from '../services/api';
 
 const MEDAL: Record<number, string> = { 1: '🥇', 2: '🥈', 3: '🥉' };
 
 const RankingScreen = ({ navigation }: any) => {
+  const colors = useColors();
+  const styles = useMemo(() => StyleSheet.create({
+  container: { flex: 1, backgroundColor: colors.backgroundGrey },
+  header: {
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+    paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
+    backgroundColor: colors.white, borderBottomWidth: 1, borderBottomColor: colors.border,
+  },
+  back: { padding: 8 },
+  headerTitle: { flex: 1, textAlign: 'center', fontSize: 18, fontFamily: theme.fonts.bold, color: colors.textDark },
+  list: { padding: 16 },
+  card: {
+    flexDirection: 'row', alignItems: 'center', backgroundColor: colors.white,
+    borderRadius: 14, padding: 14, marginBottom: 10,
+    shadowColor: colors.blackShort, shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.06, shadowRadius: 4, elevation: 2,
+  },
+  cardMe: { backgroundColor: colors.blueBg, borderWidth: 1.5, borderColor: colors.blue },
+  rank: { fontSize: 22, width: 40, textAlign: 'center' },
+  info: { flex: 1, marginLeft: 10 },
+  name: { fontSize: 14, fontFamily: theme.fonts.semiBold, color: colors.textPrimary },
+  nameMe: { color: colors.blue },
+  exam: { fontSize: 11, fontFamily: theme.fonts.regular, color: colors.textDisabled, marginTop: 2 },
+  score: { fontSize: 18, fontFamily: theme.fonts.bold, color: colors.textPrimary },
+  scoreMe: { color: colors.blue },
+  empty: { textAlign: 'center', color: colors.textDisabled, fontFamily: theme.fonts.regular, marginTop: 40 },
+}), [colors]);
   const [items, setItems] = useState<RankingEntry[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -18,12 +44,12 @@ const RankingScreen = ({ navigation }: any) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.back}>
-          <BackArrowIcon size={24} color="#2D2D2D" />
+          <BackArrowIcon size={24} color={colors.textDark} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Ranking</Text>
         <View style={{ width: 40 }} />
       </View>
-      {loading ? <ActivityIndicator style={{ flex: 1 }} size="large" color="#7B5ACF" /> : (
+      {loading ? <ActivityIndicator style={{ flex: 1 }} size="large" color={colors.purple} /> : (
         <FlatList
           data={items}
           keyExtractor={item => item.id.toString()}
@@ -45,30 +71,5 @@ const RankingScreen = ({ navigation }: any) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F9FAFB' },
-  header: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
-    backgroundColor: '#FFFFFF', borderBottomWidth: 1, borderBottomColor: '#E5E7EB',
-  },
-  back: { padding: 8 },
-  headerTitle: { flex: 1, textAlign: 'center', fontSize: 18, fontFamily: theme.fonts.bold, color: '#2D2D2D' },
-  list: { padding: 16 },
-  card: {
-    flexDirection: 'row', alignItems: 'center', backgroundColor: '#FFFFFF',
-    borderRadius: 14, padding: 14, marginBottom: 10,
-    shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.06, shadowRadius: 4, elevation: 2,
-  },
-  cardMe: { backgroundColor: '#EBF4FF', borderWidth: 1.5, borderColor: '#3A8EDB' },
-  rank: { fontSize: 22, width: 40, textAlign: 'center' },
-  info: { flex: 1, marginLeft: 10 },
-  name: { fontSize: 14, fontFamily: theme.fonts.semiBold, color: '#1F2937' },
-  nameMe: { color: '#3A8EDB' },
-  exam: { fontSize: 11, fontFamily: theme.fonts.regular, color: '#9CA3AF', marginTop: 2 },
-  score: { fontSize: 18, fontFamily: theme.fonts.bold, color: '#1F2937' },
-  scoreMe: { color: '#3A8EDB' },
-  empty: { textAlign: 'center', color: '#9CA3AF', fontFamily: theme.fonts.regular, marginTop: 40 },
-});
 
 export default RankingScreen;

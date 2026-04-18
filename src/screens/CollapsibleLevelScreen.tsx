@@ -1,19 +1,121 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import { BackArrowIcon } from '../components/Icons';
 import { getScertSubjects, getScertQuestions } from '../services/api';
-import { theme } from '../theme';
+import { theme, useColors } from '../theme';
 
-const palette = [
-  { color: '#3A8EDB', bg: '#EBF4FF' },
-  { color: '#7B5ACF', bg: '#F3EEFF' },
-  { color: '#10B981', bg: '#ECFDF5' },
-  { color: '#F39C12', bg: '#FFF8EC' },
-  { color: '#EF4444', bg: '#FEF2F2' },
-];
 
 const CollapsibleLevelScreen = ({ route, navigation }: any) => {
+  const colors = useColors();
+  const palette = useMemo(() => [
+  { color: colors.blue, bg: colors.blueBg },
+  { color: colors.purple, bg: colors.purpleBg },
+  { color: colors.successGreen, bg: colors.greenBgLight },
+  { color: colors.accent, bg: colors.amberBg },
+  { color: colors.error, bg: colors.errorBg },
+], [colors]);
+  const styles = useMemo(() => StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.backgroundGrey
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingTop: 50,
+    paddingBottom: 16,
+    backgroundColor: colors.white,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+  },
+  back: {
+    padding: 8
+  },
+  headerTitle: {
+    flex: 1,
+    textAlign: 'center',
+    fontSize: 16,
+    fontFamily: theme.fonts.bold,
+    color: colors.textDark
+  },
+  list: {
+    padding: 16
+  },
+  section: {
+    marginBottom: 12
+  },
+  levelCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.white,
+    borderRadius: 12,
+    padding: 16,
+    borderLeftWidth: 4,
+    shadowColor: colors.blackShort,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.06,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  dot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginRight: 12
+  },
+  levelTitle: {
+    flex: 1,
+    fontSize: 15,
+    fontFamily: theme.fonts.bold
+  },
+  buttonsRow: {
+    flexDirection: 'row',
+    gap: 10,
+    marginTop: 10,
+    paddingHorizontal: 4
+  },
+  btn: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    paddingVertical: 12,
+    borderRadius: 10,
+  },
+  btnText: {
+    fontSize: 13,
+    fontFamily: theme.fonts.semiBold,
+    color: colors.white
+  },
+  categoriesContainer: {
+    marginTop: 10,
+    paddingHorizontal: 4,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8
+  },
+  categoryBtn: {
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    borderRadius: 10,
+    borderWidth: 1.5,
+    alignItems: 'center',
+  },
+  categoryBtnText: {
+    fontSize: 13,
+    fontFamily: theme.fonts.semiBold
+  },
+  empty: {
+    textAlign: 'center',
+    color: colors.textTertiary,
+    fontFamily: theme.fonts.regular,
+    marginTop: 40
+  },
+}), [colors]);
   const { title, fetchFn, yearWiseFn, subjectWiseScreen, categoriesFn } = route.params;
   const [items, setItems] = useState<{ id: number; name: string }[]>([]);
   const [loading, setLoading] = useState(true);
@@ -39,14 +141,14 @@ const CollapsibleLevelScreen = ({ route, navigation }: any) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.back}>
-          <BackArrowIcon size={24} color="#2D2D2D" />
+          <BackArrowIcon size={24} color={colors.textDark} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>{title}</Text>
         <View style={{ width: 40 }} />
       </View>
 
       {loading ? (
-        <ActivityIndicator style={{ flex: 1 }} size="large" color="#3A8EDB" />
+        <ActivityIndicator style={{ flex: 1 }} size="large" color={colors.blue} />
       ) : (
         <FlatList
           data={items}
@@ -67,7 +169,7 @@ const CollapsibleLevelScreen = ({ route, navigation }: any) => {
                   <Svg width={20} height={20} viewBox="0 0 24 24" fill="none">
                     <Path
                       d={isOpen ? 'M6 9l6 6 6-6' : 'M9 18l6-6-6-6'}
-                      stroke="#9CA3AF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                      stroke={colors.textDisabled} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
                     />
                   </Svg>
                 </TouchableOpacity>
@@ -104,7 +206,7 @@ const CollapsibleLevelScreen = ({ route, navigation }: any) => {
                         onPress={() => yearWiseFn && navigation.navigate('QACategories', yearWiseFn(item, color, bg))}
                       >
                         <Svg width={16} height={16} viewBox="0 0 24 24" fill="none">
-                          <Path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                          <Path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke={colors.white} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                         </Svg>
                         <Text style={styles.btnText}>Year Wise</Text>
                       </TouchableOpacity>
@@ -132,106 +234,5 @@ const CollapsibleLevelScreen = ({ route, navigation }: any) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F9FAFB'
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingTop: 50,
-    paddingBottom: 16,
-    backgroundColor: '#FFFFFF',
-    borderBottomWidth: 1,
-    borderBottomColor: '#E5E7EB',
-  },
-  back: {
-    padding: 8
-  },
-  headerTitle: {
-    flex: 1,
-    textAlign: 'center',
-    fontSize: 16,
-    fontFamily: theme.fonts.bold,
-    color: '#2D2D2D'
-  },
-  list: {
-    padding: 16
-  },
-  section: {
-    marginBottom: 12
-  },
-  levelCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    padding: 16,
-    borderLeftWidth: 4,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.06,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  dot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    marginRight: 12
-  },
-  levelTitle: {
-    flex: 1,
-    fontSize: 15,
-    fontFamily: theme.fonts.bold
-  },
-  buttonsRow: {
-    flexDirection: 'row',
-    gap: 10,
-    marginTop: 10,
-    paddingHorizontal: 4
-  },
-  btn: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-    paddingVertical: 12,
-    borderRadius: 10,
-  },
-  btnText: {
-    fontSize: 13,
-    fontFamily: theme.fonts.semiBold,
-    color: '#FFFFFF'
-  },
-  categoriesContainer: {
-    marginTop: 10,
-    paddingHorizontal: 4,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8
-  },
-  categoryBtn: {
-    paddingVertical: 10,
-    paddingHorizontal: 14,
-    borderRadius: 10,
-    borderWidth: 1.5,
-    alignItems: 'center',
-  },
-  categoryBtnText: {
-    fontSize: 13,
-    fontFamily: theme.fonts.semiBold
-  },
-  empty: {
-    textAlign: 'center',
-    color: '#6B7280',
-    fontFamily: theme.fonts.regular,
-    marginTop: 40
-  },
-});
 
 export default CollapsibleLevelScreen;
