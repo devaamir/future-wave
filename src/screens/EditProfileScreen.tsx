@@ -30,6 +30,20 @@ import { getUser, saveSession } from '../services/storage';
 import { updateProfile } from '../services/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+const InputField = ({ label, value, onChangeText, placeholder, keyboardType = 'default', styles, colors }: any) => (
+  <View style={styles.inputContainer}>
+    <Text style={styles.inputLabel}>{label}</Text>
+    <TextInput
+      style={styles.textInput}
+      value={value}
+      onChangeText={onChangeText}
+      placeholder={placeholder}
+      keyboardType={keyboardType}
+      placeholderTextColor={colors.textTertiary}
+    />
+  </View>
+);
+
 const EditProfileScreen = ({ navigation }: any) => {
   const colors = useColors();
   const styles = useMemo(() => StyleSheet.create({
@@ -279,26 +293,6 @@ const EditProfileScreen = ({ navigation }: any) => {
     }
   };
 
-  const InputField = ({
-    label,
-    value,
-    onChangeText,
-    placeholder,
-    keyboardType = 'default',
-  }: any) => (
-    <View style={styles.inputContainer}>
-      <Text style={styles.inputLabel}>{label}</Text>
-      <TextInput
-        style={styles.textInput}
-        value={value}
-        onChangeText={onChangeText}
-        placeholder={placeholder}
-        keyboardType={keyboardType}
-        placeholderTextColor={colors.textDisabled}
-      />
-    </View>
-  );
-
   return (
     <View style={styles.container}>
       {/* Header */}
@@ -343,7 +337,7 @@ const EditProfileScreen = ({ navigation }: any) => {
 
         {/* Form Fields */}
         <View style={styles.formSection}>
-          <InputField
+          <InputField styles={styles} colors={colors}
             label="Full Name"
             value={formData.name}
             onChangeText={(text: string) =>
@@ -352,7 +346,7 @@ const EditProfileScreen = ({ navigation }: any) => {
             placeholder="Enter your full name"
           />
 
-          <InputField
+          <InputField styles={styles} colors={colors}
             label="Email Address"
             value={formData.email}
             onChangeText={(text: string) =>
@@ -362,7 +356,7 @@ const EditProfileScreen = ({ navigation }: any) => {
             keyboardType="email-address"
           />
 
-          <InputField
+          <InputField styles={styles} colors={colors}
             label="Phone Number"
             value={formData.phone}
             onChangeText={(text: string) =>
@@ -372,7 +366,7 @@ const EditProfileScreen = ({ navigation }: any) => {
             keyboardType="phone-pad"
           />
 
-          <InputField
+          <InputField styles={styles} colors={colors}
             label="Date of Birth"
             value={formData.dateOfBirth}
             onChangeText={(text: string) =>
@@ -381,7 +375,7 @@ const EditProfileScreen = ({ navigation }: any) => {
             placeholder="DD/MM/YYYY"
           />
 
-          <InputField
+          <InputField styles={styles} colors={colors}
             label="Address"
             value={formData.address}
             onChangeText={(text: string) =>

@@ -3,6 +3,7 @@ export interface RegisterPayload {
   email: string;
   password: string;
   name: string;
+  mobile_number: string;
 }
 
 export interface LoginPayload {

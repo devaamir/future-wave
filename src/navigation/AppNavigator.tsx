@@ -6,6 +6,7 @@ import { getAccessToken } from '../services/storage';
 import WelcomeScreen from '../screens/WelcomeScreen';
 import LoginScreen from '../screens/LoginScreen';
 import SignupScreen from '../screens/SignupScreen';
+import SetPasswordScreen from '../screens/SetPasswordScreen';
 import MainHomeScreen from '../screens/MainHomeScreen';
 import NotificationScreen from '../screens/NotificationScreen';
 import LiveClassesScreen from '../screens/LiveClassesScreen';
@@ -93,6 +94,7 @@ const AppNavigator = () => {
         <Stack.Screen name="Welcome" component={WelcomeScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Signup" component={SignupScreen} />
+        <Stack.Screen name="SetPassword" component={SetPasswordScreen} />
         <Stack.Screen name="Home" component={MainHomeScreen} />
         <Stack.Screen name="Notifications" component={NotificationScreen} />
         <Stack.Screen name="LiveClasses" component={LiveClassesScreen} />

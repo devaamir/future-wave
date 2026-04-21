@@ -34,6 +34,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
 import { getNews, getAnnouncements, News, Announcement } from '../services/api';
+import { getUser } from '../services/storage';
 
 
 
@@ -68,7 +69,8 @@ const HomeScreen = ({ onTabPress }: any) => {
       marginLeft: 12,
     },
     greetingText: {
-      fontSize: 18,
+      fontSize: 16,
+      width: '80%',
       fontFamily: theme.fonts.semiBold,
       color: colors.textDark,
     },
@@ -76,7 +78,6 @@ const HomeScreen = ({ onTabPress }: any) => {
       fontSize: 13,
       fontFamily: theme.fonts.regular,
       color: colors.textTertiary,
-      marginTop: 2,
     },
     searchContainer: {
       flexDirection: 'row',
@@ -430,8 +431,10 @@ const HomeScreen = ({ onTabPress }: any) => {
   const statusBarHeight = insets.top;
   const [news, setNews] = useState<News[]>([]);
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
+  const [userName, setUserName] = useState('');
 
   useEffect(() => {
+    getUser().then(u => { if (u?.name) setUserName(u.name); });
     getNews({ page: 1 }).then(({ data }) => setNews(data.results)).catch(() => { });
     getAnnouncements().then(({ data }) => setAnnouncements(data)).catch(() => { });
   }, []);
@@ -465,7 +468,7 @@ const HomeScreen = ({ onTabPress }: any) => {
             resizeMode="contain"
           />
           <View style={styles.headerCenter}>
-            <Text style={styles.greetingText}>Hi, Aamir</Text>
+            <Text style={styles.greetingText} numberOfLines={1}>Hi, {userName || 'there'}</Text>
             <Text style={styles.subGreetingText}>Ready to continue learning?</Text>
           </View>
           <TouchableOpacity

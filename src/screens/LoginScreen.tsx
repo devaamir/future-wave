@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -9,74 +9,93 @@ import {
   Alert,
   ActivityIndicator,
 } from 'react-native';
-import { theme, useColors} from '../theme';
+import { theme, colors } from '../theme';
 import { login } from '../services/api';
 import { saveSession } from '../services/storage';
+import { EyeIcon, EyeOffIcon } from '../components/Icons';
 
 const LoginScreen = ({ navigation }: any) => {
-  const colors = useColors();
-  const styles = useMemo(() => StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: theme.colors.background,
-    padding: 20,
-    justifyContent: 'center',
-  },
-  logo: {
-    width: 160,
-    height: 160,
-    alignSelf: 'center',
-    marginBottom: 20,
-  },
-  title: {
-    fontSize: 28,
-    fontFamily: theme.fonts.bold,
-    color: theme.colors.text,
-    textAlign: 'center',
-    marginBottom: 40,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: theme.colors.primary,
-    borderRadius: 10,
-    padding: 15,
-    marginBottom: 15,
-    fontSize: 16,
-    fontFamily: theme.fonts.regular,
-    backgroundColor: theme.colors.white,
-  },
-  loginButton: {
-    backgroundColor: theme.colors.accent,
-    paddingVertical: 15,
-    borderRadius: 10,
-    alignItems: 'center',
-    marginTop: 20,
-    marginBottom: 20,
-  },
-  loginButtonText: {
-    color: theme.colors.white,
-    fontSize: 18,
-    fontFamily: theme.fonts.semiBold,
-  },
-  linkText: {
-    color: theme.colors.secondary,
-    textAlign: 'center',
-    fontSize: 16,
-    fontFamily: theme.fonts.regular,
-  },
-}), [colors]);
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: theme.colors.background,
+      padding: 20,
+      justifyContent: 'center',
+    },
+    logo: {
+      width: 160,
+      height: 160,
+      alignSelf: 'center',
+      marginBottom: 20,
+    },
+    title: {
+      fontSize: 28,
+      fontFamily: theme.fonts.bold,
+      color: theme.colors.text,
+      textAlign: 'center',
+      marginBottom: 40,
+    },
+    inputWrapper: { position: 'relative', marginBottom: 15 },
+    input: {
+      borderWidth: 1,
+      borderColor: theme.colors.primary,
+      borderRadius: 10,
+      padding: 15,
+      paddingRight: 48,
+      marginBottom: 15,
+      fontSize: 16,
+      fontFamily: theme.fonts.regular,
+      backgroundColor: theme.colors.white,
+      color: theme.colors.text,
+    },
+    eyeBtn: { position: 'absolute', right: 14, top: 0, bottom: 0, justifyContent: 'center' },
+    loginButton: {
+      backgroundColor: theme.colors.accent,
+      paddingVertical: 15,
+      borderRadius: 10,
+      alignItems: 'center',
+      marginTop: 20,
+      marginBottom: 20,
+    },
+    loginButtonText: {
+      color: theme.colors.white,
+      fontSize: 18,
+      fontFamily: theme.fonts.semiBold,
+    },
+    linkText: {
+      color: colors.indigo,
+      textAlign: 'center',
+      fontSize: 15,
+      fontFamily: theme.fonts.medium,
+      textDecorationLine: 'underline',
+    },
+  });
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
-    if (!email || !password) {
+    const trimmedEmail = email.trim();
+    const trimmedPassword = password.trim();
+
+    if (!trimmedEmail || !trimmedPassword) {
       Alert.alert('Error', 'Please enter email and password.');
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(trimmedEmail)) {
+      Alert.alert('Error', 'Please enter a valid email address.');
+      return;
+    }
+    if (trimmedPassword.length < 6) {
+      Alert.alert('Error', 'Password must be at least 6 characters.');
       return;
     }
     try {
       setLoading(true);
-      const { data } = await login({ username: email, password });
+      const { data } = await login({ username: trimmedEmail, password: trimmedPassword });
       await saveSession(data.access, data.refresh, data.user);
       navigation.reset({ index: 0, routes: [{ name: 'Home' }] });
     } catch (error: any) {
@@ -101,19 +120,28 @@ const LoginScreen = ({ navigation }: any) => {
       <TextInput
         style={styles.input}
         placeholder="Email"
+        placeholderTextColor={colors.textDisabled}
         value={email}
         onChangeText={setEmail}
         keyboardType="email-address"
         autoCapitalize="none"
       />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
+      <View style={styles.inputWrapper}>
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          placeholderTextColor={colors.textDisabled}
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry={!showPassword}
+        />
+        <TouchableOpacity style={styles.eyeBtn} onPress={() => setShowPassword(p => !p)}>
+          {showPassword
+            ? <EyeOffIcon size={20} color={colors.textTertiary} />
+            : <EyeIcon size={20} color={colors.textTertiary} />}
+        </TouchableOpacity>
+      </View>
 
       <TouchableOpacity style={styles.loginButton} onPress={handleLogin} disabled={loading}>
         {loading ? (
@@ -124,7 +152,7 @@ const LoginScreen = ({ navigation }: any) => {
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-        <Text style={styles.linkText}>Don't have an account? Sign Up</Text>
+        <Text style={styles.linkText}>New learner? Join us</Text>
       </TouchableOpacity>
     </View>
   );

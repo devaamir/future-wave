@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -7,14 +7,12 @@ import {
   StyleSheet,
   Image,
   Alert,
-  ActivityIndicator,
 } from 'react-native';
-import { theme, useColors} from '../theme';
-import { register } from '../services/api';
+import { theme, colors} from '../theme';
 
 const SignupScreen = ({ navigation }: any) => {
-  const colors = useColors();
-  const styles = useMemo(() => StyleSheet.create({
+  
+  const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: theme.colors.background,
@@ -58,41 +56,41 @@ const SignupScreen = ({ navigation }: any) => {
     fontFamily: theme.fonts.semiBold,
   },
   linkText: {
-    color: theme.colors.accent,
+    color: colors.indigo,
     textAlign: 'center',
-    fontSize: 16,
-    fontFamily: theme.fonts.regular,
+    fontSize: 15,
+    fontFamily: theme.fonts.medium,
+    textDecorationLine: 'underline',
   },
-}), [colors]);
+});
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [phone, setPhone] = useState('');
 
-  const handleSignup = async () => {
-    if (!name || !email || !password) {
+  const handleSignup = () => {
+    const trimName = name.trim();
+    const trimEmail = email.trim();
+    const trimPhone = phone.trim();
+
+    if (!trimName || !trimEmail || !trimPhone) {
       Alert.alert('Error', 'Please fill in all fields.');
       return;
     }
-    try {
-      setLoading(true);
-      await register({
-        username: email,
-        email,
-        password,
-        name,
-      });
-      Alert.alert('Success', 'Account created! Please login.', [
-        { text: 'OK', onPress: () => navigation.navigate('Login') },
-      ]);
-    } catch (error: any) {
-      const msg = error?.response?.data
-        ? JSON.stringify(error.response.data)
-        : 'Something went wrong. Please try again.';
-      Alert.alert('Signup Failed', msg);
-    } finally {
-      setLoading(false);
+    if (trimName.length < 2) {
+      Alert.alert('Error', 'Name must be at least 2 characters.');
+      return;
     }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(trimEmail)) {
+      Alert.alert('Error', 'Please enter a valid email address.');
+      return;
+    }
+    const phoneRegex = /^[6-9][0-9]{9}$/;
+    if (!phoneRegex.test(trimPhone)) {
+      Alert.alert('Error', 'Please enter a valid 10-digit Indian mobile number.');
+      return;
+    }
+    navigation.navigate('SetPassword', { name: trimName, email: trimEmail, mobile_number: trimPhone });
   };
 
   return (
@@ -107,6 +105,7 @@ const SignupScreen = ({ navigation }: any) => {
       <TextInput
         style={styles.input}
         placeholder="Full Name"
+        placeholderTextColor={colors.textDisabled}
         value={name}
         onChangeText={setName}
       />
@@ -114,6 +113,7 @@ const SignupScreen = ({ navigation }: any) => {
       <TextInput
         style={styles.input}
         placeholder="Email"
+        placeholderTextColor={colors.textDisabled}
         value={email}
         onChangeText={setEmail}
         keyboardType="email-address"
@@ -122,18 +122,15 @@ const SignupScreen = ({ navigation }: any) => {
 
       <TextInput
         style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
+        placeholder="Phone Number"
+        placeholderTextColor={colors.textDisabled}
+        value={phone}
+        onChangeText={setPhone}
+        keyboardType="phone-pad"
       />
 
-      <TouchableOpacity style={styles.signupButton} onPress={handleSignup} disabled={loading}>
-        {loading ? (
-          <ActivityIndicator color={theme.colors.white} />
-        ) : (
-          <Text style={styles.signupButtonText}>Sign Up</Text>
-        )}
+      <TouchableOpacity style={styles.signupButton} onPress={handleSignup}>
+        <Text style={styles.signupButtonText}>Next</Text>
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => navigation.navigate('Login')}>
