@@ -438,7 +438,20 @@ const HomeScreen = ({ onTabPress }: any) => {
   const [news, setNews] = useState<News[]>([]);
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [userName, setUserName] = useState('');
-  const [modalVisible, setModalVisible] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const isAccessBlocked = () => {
+    if (appExpiry === undefined) return false;
+    if (appExpiry === null) return true;
+    const daysLeft = Math.ceil((new Date(appExpiry).getTime() - Date.now()) / 86400000);
+    return daysLeft <= 0;
+  };
+
+  const safeNavigate = (screen: string) => {
+    if (screen === 'Notifications') { navigation.navigate(screen as never); return; }
+    if (isAccessBlocked()) { setModalVisible(true); return; }
+    navigation.navigate(screen as never);
+  };
 
   useEffect(() => {
     getUser().then(u => { if (u?.name) setUserName(u.name); });
@@ -471,28 +484,35 @@ const HomeScreen = ({ onTabPress }: any) => {
       {(() => {
         const isNull = appExpiry !== undefined && appExpiry === null;
         const daysLeft = appExpiry ? Math.ceil((new Date(appExpiry).getTime() - Date.now()) / 86400000) : null;
+        const isExpired = daysLeft !== null && daysLeft <= 0;
         const isNearExpiry = daysLeft !== null && daysLeft <= 10 && daysLeft > 0;
-        if (!isNull && !isNearExpiry) return null;
         if (!modalVisible) return null;
         return (
-          <Modal visible transparent animationType="fade" onRequestClose={() => setModalVisible(false)}>
+          <Modal visible transparent animationType="fade" onRequestClose={() => isNearExpiry ? setModalVisible(false) : null}>
             <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center', padding: 24 }}>
               <View style={{ backgroundColor: '#FFFFFF', borderRadius: 24, padding: 36, alignItems: 'center', width: '100%', minHeight: 320, shadowColor: '#000', shadowOpacity: 0.15, shadowRadius: 20, elevation: 10 }}>
                 <View style={{ width: 72, height: 72, borderRadius: 36, backgroundColor: isNearExpiry ? '#FFF8E1' : '#FFF3E0', justifyContent: 'center', alignItems: 'center', marginBottom: 24 }}>
                   {isNearExpiry ? <WarningIcon size={36} color="#F59E0B" /> : <LockIcon size={36} color="#F39C12" />}
                 </View>
                 <Text style={{ fontSize: 22, fontFamily: theme.fonts.bold, color: '#1A1A2E', marginBottom: 12, textAlign: 'center' }}>
-                  {isNearExpiry ? 'Expiring Soon' : 'Access Not Activated'}
+                  {isNearExpiry ? 'Expiring Soon' : isExpired ? 'Access Expired' : 'Access Not Activated'}
                 </Text>
                 <View style={{ width: 40, height: 3, backgroundColor: isNearExpiry ? '#F59E0B' : '#F39C12', borderRadius: 2, marginBottom: 16 }} />
                 <Text style={{ fontSize: 15, fontFamily: theme.fonts.regular, color: '#6B7280', textAlign: 'center', lineHeight: 24 }}>
                   {isNearExpiry
                     ? `Your access expires in ${daysLeft} day${daysLeft === 1 ? '' : 's'}.\nPlease renew to avoid interruption.`
-                    : 'Your app access has not been activated yet.\nPlease contact support to get started.'}
+                    : isExpired
+                      ? 'Your app access has expired.\nPlease contact support to renew.'
+                      : 'Your app access has not been activated yet.\nPlease contact support to get started.'}
                 </Text>
                 {isNearExpiry && (
                   <TouchableOpacity onPress={() => setModalVisible(false)} style={{ marginTop: 24, backgroundColor: '#F59E0B', borderRadius: 12, paddingVertical: 12, paddingHorizontal: 32 }}>
                     <Text style={{ color: '#fff', fontFamily: theme.fonts.semiBold, fontSize: 15 }}>Got it</Text>
+                  </TouchableOpacity>
+                )}
+                {(isNull || isExpired) && (
+                  <TouchableOpacity onPress={() => setModalVisible(false)} style={{ marginTop: 24, backgroundColor: '#F39C12', borderRadius: 12, paddingVertical: 12, paddingHorizontal: 32 }}>
+                    <Text style={{ color: '#fff', fontFamily: theme.fonts.semiBold, fontSize: 15 }}>OK</Text>
                   </TouchableOpacity>
                 )}
               </View>
@@ -520,7 +540,7 @@ const HomeScreen = ({ onTabPress }: any) => {
         </View>
       </View>
 
-      <TouchableOpacity style={styles.searchContainer} activeOpacity={0.8} onPress={() => navigation.navigate('Search' as never)}>
+      <TouchableOpacity style={styles.searchContainer} activeOpacity={0.8} onPress={() => safeNavigate('Search')}>
         <SearchIcon size={18} color={colors.textDisabled} />
         <Text style={styles.searchPlaceholder}>Search courses, exams, materials...</Text>
       </TouchableOpacity>
@@ -538,7 +558,7 @@ const HomeScreen = ({ onTabPress }: any) => {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.tasksHorizontal}
           >
-            <TouchableOpacity style={styles.taskCard} activeOpacity={0.7} onPress={() => navigation.navigate('StudyMaterial' as never)}>
+            <TouchableOpacity style={styles.taskCard} activeOpacity={0.7} onPress={() => safeNavigate('StudyMaterial')}>
               <View style={styles.taskHeader}>
                 <View style={styles.taskIconContainer}>
                   <StudyMaterialIcon size={24} color={colors.textTertiary} />
@@ -553,7 +573,7 @@ const HomeScreen = ({ onTabPress }: any) => {
               </View>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.taskCard} activeOpacity={0.7} onPress={() => navigation.navigate('DailyQuiz' as never)}>
+            <TouchableOpacity style={styles.taskCard} activeOpacity={0.7} onPress={() => safeNavigate('DailyQuiz')}>
               <View style={styles.taskHeader}>
                 <View style={styles.taskIconContainer}>
                   <ExamIcon size={24} color={colors.textTertiary} />
@@ -567,7 +587,7 @@ const HomeScreen = ({ onTabPress }: any) => {
               </View>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.taskCard} activeOpacity={0.7} onPress={() => navigation.navigate('CurrentAffairs' as never)}>
+            <TouchableOpacity style={styles.taskCard} activeOpacity={0.7} onPress={() => safeNavigate('CurrentAffairs')}>
               <View style={styles.taskHeader}>
                 <View style={[styles.taskIconContainer, { backgroundColor: colors.greenBg, borderRadius: 8, padding: 4 }]}>
                   <CurrentAffairsIcon size={20} color={colors.successGreenDark} />
@@ -592,7 +612,7 @@ const HomeScreen = ({ onTabPress }: any) => {
                   key={index}
                   style={styles.dashboardItem}
                   activeOpacity={0.7}
-                  onPress={() => item.screen && navigation.navigate(item.screen as never)}
+                  onPress={() => item.screen && safeNavigate(item.screen)}
                 >
                   <View style={[styles.iconContainer, { backgroundColor: item.color }]}>
                     <IconComponent size={20} color={colors.white} />
@@ -608,7 +628,7 @@ const HomeScreen = ({ onTabPress }: any) => {
           <View style={styles.section}>
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionTitle}>Announcements</Text>
-              <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('Announcements' as never)}>
+              <TouchableOpacity activeOpacity={0.7} onPress={() => safeNavigate('Announcements')}>
                 <Text style={styles.viewAllText}>View All</Text>
               </TouchableOpacity>
             </View>
@@ -638,7 +658,7 @@ const HomeScreen = ({ onTabPress }: any) => {
           <View style={styles.section}>
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionTitle}>News & Events</Text>
-              <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('NewsList' as never)}>
+              <TouchableOpacity activeOpacity={0.7} onPress={() => safeNavigate('NewsList')}>
                 <Text style={styles.viewAllText}>View All</Text>
               </TouchableOpacity>
             </View>
@@ -652,7 +672,7 @@ const HomeScreen = ({ onTabPress }: any) => {
                   key={item.id}
                   style={styles.affairCard}
                   activeOpacity={0.7}
-                  onPress={() => navigation.navigate('NewsDetail' as never, { item } as never)}
+                  onPress={() => isAccessBlocked() ? setModalVisible(true) : navigation.navigate('NewsDetail' as never, { item } as never)}
                 >
                   {item.image ? (
                     <Image source={{ uri: item.image }} style={styles.affairImage} resizeMode="cover" />
