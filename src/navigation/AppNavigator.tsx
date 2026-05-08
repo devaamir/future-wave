@@ -41,6 +41,9 @@ import OMRPracticeScreen from '../screens/OMRPracticeScreen';
 import OnlineOMRScreen from '../screens/OnlineOMRScreen';
 import OMRSummaryScreen from '../screens/OMRSummaryScreen';
 import MultimediaVideosScreen from '../screens/MultimediaVideosScreen';
+import AudioClassScreen from '../screens/AudioClassScreen';
+import TodayExamScreen from '../screens/TodayExamScreen';
+import ExamQuestionsScreen from '../screens/ExamQuestionsScreen';
 import MyTasksScreen from '../screens/MyTasksScreen';
 import SearchScreen from '../screens/SearchScreen';
 import ExamsMenuScreen from '../screens/ExamsMenuScreen';
@@ -136,6 +139,9 @@ const AppNavigator = () => {
         <Stack.Screen name="Videos" component={VideosScreen} />
         <Stack.Screen name="VideoSubjects" component={QAListScreen} />
         <Stack.Screen name="MultimediaVideos" component={MultimediaVideosScreen} />
+        <Stack.Screen name="AudioClasses" component={AudioClassScreen} />
+        <Stack.Screen name="TodayExam" component={TodayExamScreen} />
+        <Stack.Screen name="ExamQuestions" component={ExamQuestionsScreen} />
         <Stack.Screen name="MyTasks" component={MyTasksScreen} />
         <Stack.Screen name="Search" component={SearchScreen} />
         <Stack.Screen name="ExamsMenu" component={ExamsMenuScreen} />

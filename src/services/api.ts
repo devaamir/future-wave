@@ -50,6 +50,11 @@ import {
   QAQuestionsParams,
   CapsuleQuestionsParams,
   ScertQuestionsParams,
+  AudioClass,
+  AudioClassesParams,
+  OnlineExam,
+  OnlineExamQuestion,
+  ExamSubmitPayload,
 } from './types';
 
 export * from './types';
@@ -81,6 +86,8 @@ api.interceptors.response.use(
           { refresh },
         );
         await AsyncStorage.setItem('access_token', data.access);
+        if (data.app_expiry) await AsyncStorage.setItem('app_expiry', data.app_expiry);
+        else await AsyncStorage.removeItem('app_expiry');
         originalRequest.headers.Authorization = `Bearer ${data.access}`;
         return api(originalRequest);
       } catch {
@@ -248,5 +255,17 @@ export const getMultimediaSubjects = (privacy: 'PUBLIC' | 'PRIVATE') =>
 
 export const getMultimediaVideos = (params: { page?: number; page_size?: number; privacy: string; subject_id: number }) =>
   api.get<PaginatedResponse<MultimediaVideo>>('multimedia/', { params });
+
+export const getAudioClasses = (params?: AudioClassesParams) =>
+  api.get<PaginatedResponse<AudioClass>>('audio-classes/', { params });
+
+export const getOnlineExams = () =>
+  api.get<OnlineExam[]>('exams/online/');
+
+export const getExamQuestions = (examId: number) =>
+  api.get<OnlineExamQuestion[]>(`exams/${examId}/questions/`);
+
+export const submitExam = (examId: number, payload: ExamSubmitPayload) =>
+  api.post(`exams/${examId}/submit/`, payload);
 
 export default api;

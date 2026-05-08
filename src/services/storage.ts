@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LoginUser } from './api';
+import { APP_EXPIRY_KEY } from '../context/AuthContext';
 
 const KEYS = {
   ACCESS_TOKEN: 'access_token',
@@ -23,4 +24,4 @@ export const getUser = async (): Promise<LoginUser | null> => {
 };
 
 export const clearSession = () =>
-  AsyncStorage.multiRemove([KEYS.ACCESS_TOKEN, KEYS.REFRESH_TOKEN, KEYS.USER]);
+  AsyncStorage.multiRemove([KEYS.ACCESS_TOKEN, KEYS.REFRESH_TOKEN, KEYS.USER, APP_EXPIRY_KEY]);

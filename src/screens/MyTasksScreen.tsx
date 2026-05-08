@@ -1,84 +1,35 @@
-import React, { useState, useMemo } from 'react';
-import {
-  View, Text, StyleSheet, FlatList, TouchableOpacity,
-} from 'react-native';
-import { BackArrowIcon } from '../components/Icons';
+import React, { useMemo } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { BackArrowIcon, ExamIcon } from '../components/Icons';
 import { theme, useColors } from '../theme';
 
-interface Task {
-  id: number;
-  title: string;
-  description: string;
-  done: boolean;
-}
-
-const INITIAL_TASKS: Task[] = [
-  { id: 1, title: 'Complete Study Material', description: 'Finish reading Chapter 3', done: false },
-  { id: 2, title: 'Practice OMR', description: 'Attempt 1 full OMR test', done: false },
-  { id: 3, title: 'Revise Current Affairs', description: 'Read last 7 days news', done: true },
-  { id: 4, title: 'Solve Previous Questions', description: 'Complete 20 PQ questions', done: false },
-];
-
-const MyTasksScreen = ({ navigation }: any) => {
+const MyTasksScreen = () => {
   const colors = useColors();
+  const TASK_ITEMS = useMemo(() => [
+    { title: 'Today Exam', icon: ExamIcon, color: colors.accent, bg: colors.amberBg, screen: 'TodayExam' },
+  ], [colors]);
   const styles = useMemo(() => StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.backgroundGrey },
-  header: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
-    backgroundColor: colors.white, borderBottomWidth: 1, borderBottomColor: colors.border,
-  },
-  back: { padding: 8 },
-  headerTitle: { flex: 1, textAlign: 'center', fontSize: 18, fontFamily: theme.fonts.bold, color: colors.textDark },
-  statsRow: { flexDirection: 'row', gap: 12, padding: 16 },
-  statBox: {
-    flex: 1, borderRadius: 12, padding: 14, alignItems: 'center',
-  },
-  statNum: { fontSize: 24, fontFamily: theme.fonts.bold },
-  statLabel: { fontSize: 12, fontFamily: theme.fonts.regular, color: colors.textTertiary, marginTop: 2 },
-  list: { paddingHorizontal: 16, paddingBottom: 24 },
-  card: {
-    flexDirection: 'row', alignItems: 'center', backgroundColor: colors.white,
-    borderRadius: 12, padding: 14, marginBottom: 10,
-    shadowColor: colors.blackShort, shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.06, shadowRadius: 4, elevation: 2,
-  },
-  cardDone: { opacity: 0.6 },
-  checkbox: {
-    width: 24, height: 24, borderRadius: 12, borderWidth: 2,
-    borderColor: colors.borderMuted, justifyContent: 'center', alignItems: 'center', marginRight: 12,
-  },
-  checkboxDone: { backgroundColor: colors.successGreenDeep, borderColor: colors.successGreenDeep },
-  checkmark: { color: colors.white, fontSize: 13, fontFamily: theme.fonts.bold },
-  taskInfo: { flex: 1 },
-  taskTitle: { fontSize: 14, fontFamily: theme.fonts.semiBold, color: colors.textPrimary },
-  taskTitleDone: { textDecorationLine: 'line-through', color: colors.textDisabled },
-  taskDesc: { fontSize: 12, fontFamily: theme.fonts.regular, color: colors.textTertiary, marginTop: 2 },
-  empty: { textAlign: 'center', color: colors.textTertiary, fontFamily: theme.fonts.regular, marginTop: 40 },
-}), [colors]);
-  const [tasks, setTasks] = useState<Task[]>(INITIAL_TASKS);
-
-  const toggleTask = (id: number) =>
-    setTasks(prev => prev.map(t => t.id === id ? { ...t, done: !t.done } : t));
-
-  const pending = tasks.filter(t => !t.done);
-  const completed = tasks.filter(t => t.done);
-
-  const renderItem = ({ item }: { item: Task }) => (
-    <TouchableOpacity
-      style={[styles.card, item.done && styles.cardDone]}
-      activeOpacity={0.8}
-      onPress={() => toggleTask(item.id)}
-    >
-      <View style={[styles.checkbox, item.done && styles.checkboxDone]}>
-        {item.done && <Text style={styles.checkmark}>✓</Text>}
-      </View>
-      <View style={styles.taskInfo}>
-        <Text style={[styles.taskTitle, item.done && styles.taskTitleDone]}>{item.title}</Text>
-        <Text style={styles.taskDesc}>{item.description}</Text>
-      </View>
-    </TouchableOpacity>
-  );
+    container: { flex: 1, backgroundColor: colors.backgroundGrey },
+    header: {
+      flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+      paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
+      backgroundColor: colors.white, borderBottomWidth: 1, borderBottomColor: colors.border,
+    },
+    back: { padding: 8 },
+    headerTitle: { flex: 1, textAlign: 'center', fontSize: 18, fontFamily: theme.fonts.bold, color: colors.textDark },
+    list: { padding: 16 },
+    card: {
+      flexDirection: 'row', alignItems: 'center', backgroundColor: colors.white,
+      borderRadius: 14, padding: 16, marginBottom: 12,
+      shadowColor: colors.blackShort, shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.06, shadowRadius: 4, elevation: 2,
+    },
+    iconBox: { width: 50, height: 50, borderRadius: 14, justifyContent: 'center', alignItems: 'center', marginRight: 14 },
+    cardTitle: { flex: 1, fontSize: 15, fontFamily: theme.fonts.semiBold, color: colors.textPrimary },
+    arrow: { fontSize: 22, color: colors.textDisabled },
+  }), [colors]);
+  const navigation = useNavigation<any>();
 
   return (
     <View style={styles.container}>
@@ -90,28 +41,29 @@ const MyTasksScreen = ({ navigation }: any) => {
         <View style={{ width: 40 }} />
       </View>
 
-      <View style={styles.statsRow}>
-        <View style={[styles.statBox, { backgroundColor: colors.blueBg }]}>
-          <Text style={[styles.statNum, { color: colors.blue }]}>{pending.length}</Text>
-          <Text style={styles.statLabel}>Pending</Text>
-        </View>
-        <View style={[styles.statBox, { backgroundColor: colors.greenBgLight }]}>
-          <Text style={[styles.statNum, { color: colors.successGreenDeep }]}>{completed.length}</Text>
-          <Text style={styles.statLabel}>Completed</Text>
-        </View>
-      </View>
-
       <FlatList
-        data={tasks}
-        keyExtractor={item => item.id.toString()}
-        renderItem={renderItem}
+        data={TASK_ITEMS}
+        keyExtractor={item => item.title}
         contentContainerStyle={styles.list}
-        showsVerticalScrollIndicator={false}
-        ListEmptyComponent={<Text style={styles.empty}>No tasks yet.</Text>}
+        renderItem={({ item }) => {
+          const Icon = item.icon;
+          return (
+            <TouchableOpacity
+              style={styles.card}
+              activeOpacity={0.8}
+              onPress={() => navigation.navigate(item.screen)}
+            >
+              <View style={[styles.iconBox, { backgroundColor: item.bg }]}>
+                <Icon size={26} color={item.color} />
+              </View>
+              <Text style={styles.cardTitle}>{item.title}</Text>
+              <Text style={styles.arrow}>›</Text>
+            </TouchableOpacity>
+          );
+        }}
       />
     </View>
   );
 };
-
 
 export default MyTasksScreen;

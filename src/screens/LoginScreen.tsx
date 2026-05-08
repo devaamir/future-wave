@@ -12,9 +12,11 @@ import {
 import { theme, colors } from '../theme';
 import { login } from '../services/api';
 import { saveSession } from '../services/storage';
+import { useAuth } from '../context/AuthContext';
 import { EyeIcon, EyeOffIcon } from '../components/Icons';
 
 const LoginScreen = ({ navigation }: any) => {
+  const { setAppExpiry } = useAuth();
 
   const styles = StyleSheet.create({
     container: {
@@ -97,6 +99,7 @@ const LoginScreen = ({ navigation }: any) => {
       setLoading(true);
       const { data } = await login({ username: trimmedEmail, password: trimmedPassword });
       await saveSession(data.access, data.refresh, data.user);
+      setAppExpiry(data.app_expiry);
       navigation.reset({ index: 0, routes: [{ name: 'Home' }] });
     } catch (error: any) {
       const msg = error?.response?.data

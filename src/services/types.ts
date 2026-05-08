@@ -30,6 +30,7 @@ export interface LoginUser {
 export interface LoginResponse {
   refresh: string;
   access: string;
+  app_expiry: string | null;
   user: LoginUser;
 }
 
@@ -460,4 +461,58 @@ export interface RankingEntry {
   score: number;
   exam: string;
   is_me: boolean;
+}
+
+export interface AudioClass {
+  id: number;
+  batches: { id: number; name: string }[];
+  level: string;
+  privacy: string;
+  title: string;
+  description: string;
+  audio_file: string;
+  created_at: string;
+  updated_at: string;
+  subject: number;
+  course: number;
+}
+
+export interface AudioClassesParams {
+  course_id?: number;
+  level?: string;
+  page?: number;
+  page_size?: number;
+  privacy?: string;
+  subject_id?: number;
+}
+
+export interface OnlineExam {
+  id: number;
+  name: string;
+  level: string;
+  exam_type: string;
+  mode: string;
+  description: string;
+  date: string;
+  start_time: string;
+  end_time: string;
+  duration: string;
+  total_questions: number;
+  total_marks: string;
+  course_name: string;
+  batch_name: string;
+}
+
+export interface OnlineExamQuestion {
+  id: number;
+  question: string;
+  option_1: string;
+  option_2: string;
+  option_3: string;
+  option_4: string;
+}
+
+export interface ExamSubmitPayload {
+  time_taken: number;
+  answers: { question_id: number; selected_option: string }[];
 }

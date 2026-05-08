@@ -10,6 +10,7 @@ import {
   Platform,
   StatusBar,
   ImageBackground,
+  Modal,
 } from 'react-native';
 import {
   NotificationIcon,
@@ -27,6 +28,8 @@ import {
   ExamIcon,
   AchievementsIcon,
   MegaphoneIcon,
+  WarningIcon,
+  LockIcon,
   GoldenBellIcon,
 } from '../components/Icons';
 import { theme, useColors, useTheme } from '../theme';
@@ -35,12 +38,15 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
 import { getNews, getAnnouncements, News, Announcement } from '../services/api';
 import { getUser } from '../services/storage';
+import { useAuth } from '../context/AuthContext';
 
 
 
 const HomeScreen = ({ onTabPress }: any) => {
   const colors = useColors();
   const { isDark } = useTheme();
+  const { appExpiry } = useAuth();
+
   const styles = useMemo(() => StyleSheet.create({
     container: {
       flex: 1,
@@ -432,6 +438,7 @@ const HomeScreen = ({ onTabPress }: any) => {
   const [news, setNews] = useState<News[]>([]);
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [userName, setUserName] = useState('');
+  const [modalVisible, setModalVisible] = useState(true);
 
   useEffect(() => {
     getUser().then(u => { if (u?.name) setUserName(u.name); });
@@ -446,7 +453,7 @@ const HomeScreen = ({ onTabPress }: any) => {
     { title: 'OMR Practice', icon: OMRIcon, color: colors.accent, screen: 'OMRPractice' },
     { title: 'Prelims', icon: PrelimsIcon, color: colors.purple, screen: 'PrelimsCourseCategories' },
     { title: 'Main Courses', icon: MainCoursesIcon, color: colors.amber, screen: 'MainsCourseCategories' },
-    { title: 'Audio Class', icon: AudioClassIcon, color: colors.pink, screen: null },
+    { title: 'Audio Class', icon: AudioClassIcon, color: colors.pink, screen: 'AudioClasses' },
     { title: 'Videos', icon: VideosIcon, color: colors.errorAlt, screen: 'Videos' },
     { title: 'Achievements', icon: AchievementsIcon, color: colors.primaryDark, screen: 'Achievements' },
     { title: 'Our Books', icon: OurBooksIcon, color: colors.successGreenAlt, screen: 'OurBooks' },
@@ -460,6 +467,39 @@ const HomeScreen = ({ onTabPress }: any) => {
   return (
     <ImageBackground source={isDark ? require('../assets/images/background-dark-image.png') : require('../assets/images/background-image.png')} style={styles.container}>
       <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} />
+
+      {(() => {
+        const isNull = appExpiry !== undefined && appExpiry === null;
+        const daysLeft = appExpiry ? Math.ceil((new Date(appExpiry).getTime() - Date.now()) / 86400000) : null;
+        const isNearExpiry = daysLeft !== null && daysLeft <= 10 && daysLeft > 0;
+        if (!isNull && !isNearExpiry) return null;
+        if (!modalVisible) return null;
+        return (
+          <Modal visible transparent animationType="fade" onRequestClose={() => setModalVisible(false)}>
+            <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center', padding: 24 }}>
+              <View style={{ backgroundColor: '#FFFFFF', borderRadius: 24, padding: 36, alignItems: 'center', width: '100%', minHeight: 320, shadowColor: '#000', shadowOpacity: 0.15, shadowRadius: 20, elevation: 10 }}>
+                <View style={{ width: 72, height: 72, borderRadius: 36, backgroundColor: isNearExpiry ? '#FFF8E1' : '#FFF3E0', justifyContent: 'center', alignItems: 'center', marginBottom: 24 }}>
+                  {isNearExpiry ? <WarningIcon size={36} color="#F59E0B" /> : <LockIcon size={36} color="#F39C12" />}
+                </View>
+                <Text style={{ fontSize: 22, fontFamily: theme.fonts.bold, color: '#1A1A2E', marginBottom: 12, textAlign: 'center' }}>
+                  {isNearExpiry ? 'Expiring Soon' : 'Access Not Activated'}
+                </Text>
+                <View style={{ width: 40, height: 3, backgroundColor: isNearExpiry ? '#F59E0B' : '#F39C12', borderRadius: 2, marginBottom: 16 }} />
+                <Text style={{ fontSize: 15, fontFamily: theme.fonts.regular, color: '#6B7280', textAlign: 'center', lineHeight: 24 }}>
+                  {isNearExpiry
+                    ? `Your access expires in ${daysLeft} day${daysLeft === 1 ? '' : 's'}.\nPlease renew to avoid interruption.`
+                    : 'Your app access has not been activated yet.\nPlease contact support to get started.'}
+                </Text>
+                {isNearExpiry && (
+                  <TouchableOpacity onPress={() => setModalVisible(false)} style={{ marginTop: 24, backgroundColor: '#F59E0B', borderRadius: 12, paddingVertical: 12, paddingHorizontal: 32 }}>
+                    <Text style={{ color: '#fff', fontFamily: theme.fonts.semiBold, fontSize: 15 }}>Got it</Text>
+                  </TouchableOpacity>
+                )}
+              </View>
+            </View>
+          </Modal>
+        );
+      })()}
       <View style={[styles.headerContainer, { paddingTop: statusBarHeight }]}>
         <View style={styles.header}>
           <Image
