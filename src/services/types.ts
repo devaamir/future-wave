@@ -1,3 +1,13 @@
+export interface PasswordResetRequestPayload {
+  email: string;
+}
+
+export interface PasswordResetConfirmPayload {
+  email: string;
+  otp: string;
+  new_password: string;
+}
+
 export interface RegisterPayload {
   username: string;
   email: string;

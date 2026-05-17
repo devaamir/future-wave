@@ -102,9 +102,10 @@ const LoginScreen = ({ navigation }: any) => {
       setAppExpiry(data.app_expiry);
       navigation.reset({ index: 0, routes: [{ name: 'Home' }] });
     } catch (error: any) {
-      const msg = error?.response?.data
-        ? JSON.stringify(error.response.data)
-        : 'Invalid credentials. Please try again.';
+      const data = error?.response?.data;
+      const msg = data?.non_field_errors?.[0]
+        ?? data?.detail
+        ?? 'Invalid credentials. Please try again.';
       Alert.alert('Login Failed', msg);
     } finally {
       setLoading(false);
@@ -156,6 +157,10 @@ const LoginScreen = ({ navigation }: any) => {
 
       <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
         <Text style={styles.linkText}>New learner? Join us</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={{ marginTop: 12 }} onPress={() => navigation.navigate('ForgotPassword')}>
+        <Text style={styles.linkText}>Reset password</Text>
       </TouchableOpacity>
     </View>
   );

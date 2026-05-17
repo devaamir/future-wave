@@ -7,6 +7,9 @@ import WelcomeScreen from '../screens/WelcomeScreen';
 import LoginScreen from '../screens/LoginScreen';
 import SignupScreen from '../screens/SignupScreen';
 import SetPasswordScreen from '../screens/SetPasswordScreen';
+import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
+import OtpVerifyScreen from '../screens/OtpVerifyScreen';
+import ResetPasswordScreen from '../screens/ResetPasswordScreen';
 import MainHomeScreen from '../screens/MainHomeScreen';
 import NotificationScreen from '../screens/NotificationScreen';
 import LiveClassesScreen from '../screens/LiveClassesScreen';
@@ -98,6 +101,9 @@ const AppNavigator = () => {
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Signup" component={SignupScreen} />
         <Stack.Screen name="SetPassword" component={SetPasswordScreen} />
+        <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+        <Stack.Screen name="OtpVerify" component={OtpVerifyScreen} />
+        <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
         <Stack.Screen name="Home" component={MainHomeScreen} />
         <Stack.Screen name="Notifications" component={NotificationScreen} />
         <Stack.Screen name="LiveClasses" component={LiveClassesScreen} />

@@ -55,6 +55,8 @@ import {
   OnlineExam,
   OnlineExamQuestion,
   ExamSubmitPayload,
+  PasswordResetConfirmPayload,
+  PasswordResetRequestPayload,
 } from './types';
 
 export * from './types';
@@ -101,6 +103,12 @@ api.interceptors.response.use(
 );
 
 export const register = (data: RegisterPayload) => api.post('register/', data);
+
+export const passwordResetConfirm = (data: PasswordResetConfirmPayload) =>
+  api.post<PasswordResetConfirmPayload>('password-reset/confirm/', data);
+
+export const passwordResetRequestOtp = (data: PasswordResetRequestPayload) =>
+  api.post<PasswordResetRequestPayload>('password-reset/request-otp/', data);
 
 export const login = (data: LoginPayload) =>
   api.post<LoginResponse>('login/', data);
