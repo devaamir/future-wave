@@ -55,8 +55,18 @@ const QAQuestionsScreen = ({ route, navigation }: any) => {
     : (page: number) => getQAQuestions({ subcategory_id: subcategoryId, page, page_size: 20 });
 
   useEffect(() => {
-    load(1).then(({ data }: any) => { setQuestions(data.results); setNextPage(data.next); })
-      .catch(console.error).finally(() => setLoading(false));
+    console.log('[QAQuestionsScreen] Opened with params:', JSON.stringify({ title: route.params.title, subcategory, subcategoryId }, null, 2));
+    console.log('[QAQuestionsScreen] Has fetchFn:', !!fetchFn);
+    load(1)
+      .then(({ data }: any) => {
+        console.log('[QAQuestionsScreen] Response | total:', data?.count, '| results count:', data?.results?.length);
+        setQuestions(data.results);
+        setNextPage(data.next);
+      })
+      .catch((err: any) => {
+        console.error('[QAQuestionsScreen] Error loading questions:', err);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   const fetchMore = async () => {

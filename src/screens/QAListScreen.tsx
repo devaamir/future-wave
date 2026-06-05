@@ -34,8 +34,18 @@ const QAListScreen = ({ route, navigation }: any) => {
   const [loading, setLoading] = useState(true);
 
   useFocusEffect(useCallback(() => {
+    console.log('[QAListScreen] Screen:', title, '| nextScreen:', nextScreen);
+    console.log('[QAListScreen] Calling fetchFn...');
     setLoading(true);
-    fetchFn().then(({ data }: any) => setItems(data)).catch(console.error).finally(() => setLoading(false));
+    fetchFn()
+      .then(({ data }: any) => {
+        console.log('[QAListScreen] fetchFn response for', title, '| count:', Array.isArray(data) ? data.length : data, '| data:', JSON.stringify(data));
+        setItems(data);
+      })
+      .catch((err: any) => {
+        console.error('[QAListScreen] fetchFn error for', title, ':', err);
+      })
+      .finally(() => setLoading(false));
   }, [route.params]));
 
   return (
@@ -59,7 +69,17 @@ const QAListScreen = ({ route, navigation }: any) => {
             <TouchableOpacity
               style={[styles.card, { borderLeftColor: color }]}
               activeOpacity={0.8}
-              onPress={() => nextScreen && navigation.navigate(nextScreen, { ...nextParams(item), color, bg })}
+              onPress={() => {
+                console.log('[QAListScreen] Item tapped:', JSON.stringify(item), '| navigating to:', nextScreen);
+                if (item.pdf_file) {
+                  console.log('[QAListScreen] pdf_file detected, opening PDFViewer:', item.pdf_file);
+                  navigation.navigate('PDFViewer', { url: item.pdf_file, title: item.name });
+                  return;
+                }
+                const params = nextParams ? nextParams(item) : {};
+                console.log('[QAListScreen] Next params (excluding functions):', JSON.stringify(params, (k, v) => typeof v === 'function' ? '[Function]' : v));
+                nextScreen && navigation.navigate(nextScreen, { ...params, color, bg });
+              }}
             >
               <View style={[styles.badge, { backgroundColor: bg }]}>
                 <Text style={[styles.badgeText, { color }]}>{index + 1}</Text>
