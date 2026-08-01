@@ -1,4 +1,4 @@
-package com.future
+package com.tipspsc.academy
 
 import android.os.Build
 import android.os.Bundle

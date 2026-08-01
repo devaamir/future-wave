@@ -1,4 +1,4 @@
-package com.future
+package com.tipspsc.academy
 
 import android.app.Application
 import com.facebook.react.PackageList

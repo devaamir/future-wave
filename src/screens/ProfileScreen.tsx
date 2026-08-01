@@ -25,163 +25,167 @@ import { LoginUser } from '../services/api';
 
 const ProfileScreen = ({ navigation, onTabPress }: any) => {
   const colors = useColors();
-  const styles = useMemo(() => StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.backgroundGrey,
-  },
-  header: {
-    backgroundColor: colors.white,
-    paddingTop: 20,
-    paddingBottom: 16,
-    paddingHorizontal: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.borderLight,
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontFamily: theme.fonts.bold,
-    color: colors.textDark,
-  },
-  profileCard: {
-    backgroundColor: colors.white,
-    borderRadius: 12,
-    padding: 20,
-    margin: 16,
-    alignItems: 'center',
-    shadowColor: colors.blackShort,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  avatarContainer: {
-    position: 'relative',
-    marginBottom: 16,
-  },
-  avatar: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: colors.borderLight,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  avatarImage: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-  },
-  editIcon: {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-    backgroundColor: colors.white,
-    borderRadius: 12,
-    width: 24,
-    height: 24,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  userName: {
-    fontSize: 20,
-    fontFamily: theme.fonts.bold,
-    color: colors.textDark,
-    marginBottom: 4,
-  },
-  userEmail: {
-    fontSize: 14,
-    fontFamily: theme.fonts.regular,
-    color: colors.textTertiary,
-  },
-  content: {
-    flex: 1,
-    paddingHorizontal: 16,
-  },
-  section: {
-    marginTop: 20,
-    marginBottom: 10,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontFamily: theme.fonts.semiBold,
-    color: colors.textDark,
-    marginBottom: 12,
-    marginLeft: 4,
-  },
-  card: {
-    backgroundColor: colors.white,
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
-    flexDirection: 'row',
-    alignItems: 'center',
-    shadowColor: colors.blackShort,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  cardIcon: {
-    fontSize: 20,
-    marginRight: 16,
-    width: 24,
-    textAlign: 'center',
-  },
-  cardIconContainer: {
-    marginRight: 16,
-    width: 24,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  cardTitle: {
-    flex: 1,
-    fontSize: 16,
-    fontFamily: theme.fonts.medium,
-    color: colors.textDark,
-  },
-  cardSubtitle: {
-    fontSize: 14,
-    fontFamily: theme.fonts.regular,
-    color: colors.textTertiary,
-  },
-  arrow: {
-    fontSize: 20,
-    color: colors.textTertiary,
-    fontFamily: theme.fonts.regular,
-  },
-  logoutButton: {
-    marginHorizontal: 16,
-    marginTop: 20,
-    marginBottom: 20,
-    paddingVertical: 14,
-    borderRadius: 12,
-    backgroundColor: colors.errorBgLight,
-    borderWidth: 1,
-    borderColor: colors.errorBgPale,
-    alignItems: 'center',
-  },
-  logoutContent: {},
-  logoutText: {
-    fontSize: 15,
-    fontFamily: theme.fonts.bold,
-    color: colors.error,
-  },
-  versionText: {
-    fontSize: 12,
-    fontFamily: theme.fonts.regular,
-    color: colors.textTertiary,
-    textAlign: 'center',
-    marginBottom: 6,
-  },
-  poweredBy: {
-    fontSize: 11,
-    fontFamily: theme.fonts.regular,
-    color: colors.textDisabled,
-    textAlign: 'center',
-    marginBottom: 30,
-  },
-}), [colors]);
+  const styles = useMemo(
+    () =>
+      StyleSheet.create({
+        container: {
+          flex: 1,
+          backgroundColor: colors.backgroundGrey,
+        },
+        header: {
+          backgroundColor: colors.white,
+          paddingTop: 20,
+          paddingBottom: 16,
+          paddingHorizontal: 16,
+          borderBottomWidth: 1,
+          borderBottomColor: colors.borderLight,
+        },
+        headerTitle: {
+          fontSize: 18,
+          fontFamily: theme.fonts.bold,
+          color: colors.textDark,
+        },
+        profileCard: {
+          backgroundColor: colors.white,
+          borderRadius: 12,
+          padding: 20,
+          margin: 16,
+          alignItems: 'center',
+          shadowColor: colors.blackShort,
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
+          elevation: 3,
+        },
+        avatarContainer: {
+          position: 'relative',
+          marginBottom: 16,
+        },
+        avatar: {
+          width: 80,
+          height: 80,
+          borderRadius: 40,
+          backgroundColor: colors.borderLight,
+          alignItems: 'center',
+          justifyContent: 'center',
+        },
+        avatarImage: {
+          width: 80,
+          height: 80,
+          borderRadius: 40,
+        },
+        editIcon: {
+          position: 'absolute',
+          bottom: 0,
+          right: 0,
+          backgroundColor: colors.white,
+          borderRadius: 12,
+          width: 24,
+          height: 24,
+          justifyContent: 'center',
+          alignItems: 'center',
+        },
+        userName: {
+          fontSize: 20,
+          fontFamily: theme.fonts.bold,
+          color: colors.textDark,
+          marginBottom: 4,
+        },
+        userEmail: {
+          fontSize: 14,
+          fontFamily: theme.fonts.regular,
+          color: colors.textTertiary,
+        },
+        content: {
+          flex: 1,
+          paddingHorizontal: 16,
+        },
+        section: {
+          marginTop: 20,
+          marginBottom: 10,
+        },
+        sectionTitle: {
+          fontSize: 18,
+          fontFamily: theme.fonts.semiBold,
+          color: colors.textDark,
+          marginBottom: 12,
+          marginLeft: 4,
+        },
+        card: {
+          backgroundColor: colors.white,
+          borderRadius: 12,
+          padding: 16,
+          marginBottom: 12,
+          flexDirection: 'row',
+          alignItems: 'center',
+          shadowColor: colors.blackShort,
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
+          elevation: 3,
+        },
+        cardIcon: {
+          fontSize: 20,
+          marginRight: 16,
+          width: 24,
+          textAlign: 'center',
+        },
+        cardIconContainer: {
+          marginRight: 16,
+          width: 24,
+          alignItems: 'center',
+          justifyContent: 'center',
+        },
+        cardTitle: {
+          flex: 1,
+          fontSize: 16,
+          fontFamily: theme.fonts.medium,
+          color: colors.textDark,
+        },
+        cardSubtitle: {
+          fontSize: 14,
+          fontFamily: theme.fonts.regular,
+          color: colors.textTertiary,
+        },
+        arrow: {
+          fontSize: 20,
+          color: colors.textTertiary,
+          fontFamily: theme.fonts.regular,
+        },
+        logoutButton: {
+          marginHorizontal: 16,
+          marginTop: 20,
+          marginBottom: 20,
+          paddingVertical: 14,
+          borderRadius: 12,
+          backgroundColor: colors.errorBgLight,
+          borderWidth: 1,
+          borderColor: colors.errorBgPale,
+          alignItems: 'center',
+        },
+        logoutContent: {},
+        logoutText: {
+          fontSize: 15,
+          fontFamily: theme.fonts.bold,
+          color: colors.error,
+        },
+        versionText: {
+          fontSize: 12,
+          fontFamily: theme.fonts.regular,
+          color: colors.textTertiary,
+          textAlign: 'center',
+          marginBottom: 6,
+        },
+        poweredBy: {
+          fontSize: 11,
+          fontFamily: theme.fonts.regular,
+          color: colors.textDisabled,
+          textAlign: 'center',
+          marginBottom: 30,
+        },
+      }),
+    [colors],
+  );
   const { isDark, toggleDark } = useTheme();
   const [user, setUser] = useState<LoginUser | null>(null);
 
@@ -223,7 +227,11 @@ const ProfileScreen = ({ navigation, onTabPress }: any) => {
         <Text style={styles.headerTitle}>Profile</Text>
       </View>
 
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 80 }}>
+      <ScrollView
+        style={styles.content}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 80 }}
+      >
         {/* Profile Info Card */}
         <View style={styles.profileCard}>
           <TouchableOpacity
@@ -232,7 +240,10 @@ const ProfileScreen = ({ navigation, onTabPress }: any) => {
           >
             <View style={styles.avatar}>
               {user?.photo ? (
-                <Image source={{ uri: user.photo }} style={styles.avatarImage} />
+                <Image
+                  source={{ uri: user.photo }}
+                  style={styles.avatarImage}
+                />
               ) : (
                 <ProfileIcon size={48} color={colors.textTertiary} />
               )}
@@ -285,17 +296,21 @@ const ProfileScreen = ({ navigation, onTabPress }: any) => {
           <ProfileCard
             icon={<QuestionIcon size={20} color={colors.textTertiary} />}
             title="Help & Support"
-            onPress={() => { }}
+            onPress={() => {}}
           />
           <ProfileCard
             icon={<InfoIcon size={20} color={colors.textTertiary} />}
-            title="About Tips PSC"
-            onPress={() => { }}
+            title="About TIPS PSC ACADEMY"
+            onPress={() => {}}
           />
         </View>
 
         {/* Logout Button */}
-        <TouchableOpacity style={styles.logoutButton} onPress={handleLogout} activeOpacity={0.8}>
+        <TouchableOpacity
+          style={styles.logoutButton}
+          onPress={handleLogout}
+          activeOpacity={0.8}
+        >
           <Text style={styles.logoutText}>Log Out</Text>
         </TouchableOpacity>
 
@@ -306,6 +321,5 @@ const ProfileScreen = ({ navigation, onTabPress }: any) => {
     </View>
   );
 };
-
 
 export default ProfileScreen;
