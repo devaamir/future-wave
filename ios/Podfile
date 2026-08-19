@@ -31,5 +31,33 @@ target 'Future' do
       :mac_catalyst_enabled => false,
       # :ccache_enabled => true
     )
+
+    # Xcode 26 / Apple clang 21 workaround for fmt 11.0.2.
+    # fmt enables consteval via __cpp_consteval, but Apple clang 21 has broken
+    # consteval support that rejects pointer arithmetic in constant expressions.
+    # This patches fmt's base.h to disable consteval entirely on this compiler.
+    fmt_base = File.join(
+      installer.sandbox.root,
+      'fmt',
+      'include',
+      'fmt',
+      'base.h'
+    )
+
+    if File.exist?(fmt_base)
+      content = File.read(fmt_base)
+
+      unless content.include?('Xcode 26 workaround')
+        patched = content.gsub(
+          /^(#elif defined\(__cpp_consteval\)\n#  define FMT_USE_CONSTEVAL) 1/,
+          "// Xcode 26 workaround: disable consteval\n\\1 0"
+        )
+
+        if patched != content
+          File.chmod(0644, fmt_base)
+          File.write(fmt_base, patched)
+        end
+      end
+    end
   end
 end
