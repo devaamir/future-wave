@@ -6,6 +6,7 @@ import {
 import { BackArrowIcon } from '../components/Icons';
 import { theme, useColors } from '../theme';
 import { getOMRPracticeHistory, OMRPracticeHistory } from '../services/api';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const PAGE_SIZE = 10;
 
@@ -17,11 +18,12 @@ const formatTime = (secs: number) => {
 
 const OMRHistoryScreen = ({ navigation }: any) => {
   const colors = useColors();
+  const insets = useSafeAreaInsets();
   const styles = useMemo(() => StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.backgroundGrey },
   header: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
+    paddingHorizontal: 16, paddingTop: insets.top + 16, paddingBottom: 16,
     backgroundColor: colors.white, borderBottomWidth: 1, borderBottomColor: colors.border,
   },
   back: { padding: 8 },
@@ -39,7 +41,7 @@ const OMRHistoryScreen = ({ navigation }: any) => {
   statVal: { fontSize: 16, fontFamily: theme.fonts.bold, color: colors.textPrimary },
   statLabel: { fontSize: 10, fontFamily: theme.fonts.regular, color: colors.textDisabled, marginTop: 2 },
   empty: { textAlign: 'center', color: colors.textDisabled, fontFamily: theme.fonts.regular, marginTop: 40 },
-}), [colors]);
+}), [colors, insets]);
   const [items, setItems] = useState<OMRPracticeHistory[]>([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);

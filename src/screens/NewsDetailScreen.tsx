@@ -10,9 +10,11 @@ import {
 import { BackArrowIcon } from '../components/Icons';
 import { theme, useColors } from '../theme';
 import { News } from '../services/api';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const NewsDetailScreen = ({ route, navigation }: any) => {
   const colors = useColors();
+  const insets = useSafeAreaInsets();
   const styles = useMemo(() => StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.white },
   header: {
@@ -20,7 +22,7 @@ const NewsDetailScreen = ({ route, navigation }: any) => {
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-    paddingTop: 50,
+    paddingTop: insets.top + 16,
     paddingBottom: 16,
     backgroundColor: colors.white,
     borderBottomWidth: 1,
@@ -76,7 +78,7 @@ const NewsDetailScreen = ({ route, navigation }: any) => {
     color: colors.textBodyAlt,
     // lineHeight: 16,
   },
-}), [colors]);
+}), [colors, insets]);
   const item: News = route.params.item;
 
   const formattedDate = (date: string) => new Date(date).toLocaleDateString('en-US', {

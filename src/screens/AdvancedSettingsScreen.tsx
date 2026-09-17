@@ -17,9 +17,11 @@ import {
 import { theme, useColors, useTheme } from '../theme';
 import { clearSession } from '../services/storage';
 import { deleteAccount } from '../services/api';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const AdvancedSettingsScreen = ({ navigation }: any) => {
   const colors = useColors();
+  const insets = useSafeAreaInsets();
   const { isDark, toggleDark } = useTheme();
 
   const styles = useMemo(
@@ -33,7 +35,7 @@ const AdvancedSettingsScreen = ({ navigation }: any) => {
           flexDirection: 'row',
           alignItems: 'center',
           paddingHorizontal: 20,
-          paddingTop: 50,
+          paddingTop: insets.top + 16,
           paddingBottom: 16,
           backgroundColor: colors.white,
           borderBottomWidth: 1,
@@ -122,7 +124,7 @@ const AdvancedSettingsScreen = ({ navigation }: any) => {
           color: colors.error,
         },
       }),
-    [colors],
+    [colors, insets],
   );
 
   const handleDeleteAccount = () => {

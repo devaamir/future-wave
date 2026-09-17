@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Modal, ScrollView } from 'rea
 import Svg, { Path, Circle } from 'react-native-svg';
 import { BackArrowIcon } from '../components/Icons';
 import { theme, useColors } from '../theme';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 
 
@@ -16,6 +17,7 @@ const instructions = [
 
 const OMRPracticeScreen = ({ navigation }: any) => {
   const colors = useColors();
+  const insets = useSafeAreaInsets();
   const options = useMemo(() => [
     {
       label: 'Practice OMR', subtitle: 'Practice with standard OMR sheets',
@@ -59,17 +61,17 @@ const OMRPracticeScreen = ({ navigation }: any) => {
         </Svg>
       ),
     },
-  ], [colors]);
+  ], [colors, insets]);
 
   const modalOptions = useMemo(() => [
     { label: 'Physical OMR', subtitle: 'Scan & submit a physical OMR sheet', color: colors.accent, bg: colors.amberBg, online: false },
     { label: 'Online OMR', subtitle: 'Fill and submit OMR online', color: colors.blue, bg: colors.blueBg, online: true },
-  ], [colors]);
+  ], [colors, insets]);
   const styles = useMemo(() => StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.backgroundGrey },
   header: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
+    paddingHorizontal: 16, paddingTop: insets.top + 16, paddingBottom: 16,
     backgroundColor: colors.white, borderBottomWidth: 1, borderBottomColor: colors.border,
   },
   back: { padding: 8 },

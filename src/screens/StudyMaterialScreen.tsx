@@ -10,9 +10,11 @@ import {
 import { BackArrowIcon, EyeIcon } from '../components/Icons';
 import { theme, useColors } from '../theme';
 import { getStudyMaterials, StudyMaterial } from '../services/api';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const StudyMaterialScreen = ({ navigation }: any) => {
   const colors = useColors();
+  const insets = useSafeAreaInsets();
   const styles = useMemo(() => StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.backgroundGrey },
   header: {
@@ -20,7 +22,7 @@ const StudyMaterialScreen = ({ navigation }: any) => {
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-    paddingTop: 50,
+    paddingTop: insets.top + 16,
     paddingBottom: 16,
     backgroundColor: colors.white,
     borderBottomWidth: 1,
@@ -78,7 +80,7 @@ const StudyMaterialScreen = ({ navigation }: any) => {
     justifyContent: 'center',
     alignItems: 'center',
   },
-}), [colors]);
+}), [colors, insets]);
   const [materials, setMaterials] = useState<StudyMaterial[]>([]);
   const [loading, setLoading] = useState(true);
   const [nextPage, setNextPage] = useState<string | null>(null);

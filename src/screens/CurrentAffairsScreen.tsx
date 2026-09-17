@@ -14,6 +14,7 @@ import { BackArrowIcon } from '../components/Icons';
 import { theme, useColors } from '../theme';
 import { getCurrentAffairs, CurrentAffair } from '../services/api';
 import Svg, { Path } from 'react-native-svg';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const ChevronRight = ({ color }: { color: string }) => (
   <Svg width={18} height={18} viewBox="0 0 24 24" fill="none">
@@ -48,6 +49,7 @@ interface GroupedSection {
 
 const CurrentAffairsScreen = ({ navigation }: any) => {
   const colors = useColors();
+  const insets = useSafeAreaInsets();
 
   const styles = useMemo(() => StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.backgroundGrey },
@@ -56,7 +58,7 @@ const CurrentAffairsScreen = ({ navigation }: any) => {
       alignItems: 'center',
       justifyContent: 'space-between',
       paddingHorizontal: 16,
-      paddingTop: 50,
+      paddingTop: insets.top + 16,
       paddingBottom: 16,
       backgroundColor: colors.white,
       borderBottomWidth: 1,
@@ -173,7 +175,7 @@ const CurrentAffairsScreen = ({ navigation }: any) => {
       fontFamily: theme.fonts.regular,
       marginTop: 40,
     },
-  }), [colors]);
+  }), [colors, insets]);
 
   const [sections, setSections] = useState<GroupedSection[]>([]);
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});

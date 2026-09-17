@@ -7,16 +7,18 @@ import { useNavigation } from '@react-navigation/native';
 import { NotificationIcon, BackArrowIcon } from '../components/Icons';
 import { theme, useColors } from '../theme';
 import { getNotifications } from '../services/api';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface Notification { id: number; title: string; description: string; created_at: string; }
 
 const NotificationScreen = () => {
   const colors = useColors();
+  const insets = useSafeAreaInsets();
   const styles = useMemo(() => StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.white },
   header: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
+    paddingHorizontal: 16, paddingTop: insets.top + 16, paddingBottom: 16,
     backgroundColor: colors.white, borderBottomWidth: 1, borderBottomColor: colors.border,
   },
   backButton: { padding: 8 },
@@ -37,7 +39,7 @@ const NotificationScreen = () => {
   emptyState: { alignItems: 'center', justifyContent: 'center', paddingVertical: 60 },
   emptyTitle: { fontSize: theme.fontSizes.lg, fontFamily: theme.fonts.bold, color: colors.textDisabled, marginTop: 16, marginBottom: 8 },
   emptySubtitle: { fontSize: theme.fontSizes.sm, fontFamily: theme.fonts.regular, color: colors.textDisabled, textAlign: 'center' },
-}), [colors]);
+}), [colors, insets]);
   const navigation = useNavigation();
   const [items, setItems] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);

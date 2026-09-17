@@ -17,11 +17,13 @@ import {
   TickIcon,
 } from '../components/Icons';
 import { theme, buttonStyles, buttonColors, useColors } from '../theme';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const { width } = Dimensions.get('window');
 
 const ExamsScreen = () => {
   const colors = useColors();
+  const insets = useSafeAreaInsets();
   const styles = useMemo(() => StyleSheet.create({
   container: {
     flex: 1,
@@ -32,7 +34,7 @@ const ExamsScreen = () => {
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    paddingTop: 20,
+    paddingTop: insets.top + 16,
     paddingBottom: 16,
     backgroundColor: colors.white,
     borderBottomWidth: 1,
@@ -281,7 +283,7 @@ const ExamsScreen = () => {
     textAlign: 'center',
     lineHeight: 20,
   },
-}), [colors]);
+}), [colors, insets]);
   const [activeTab, setActiveTab] = useState('All');
 
   const upcomingExams = [

@@ -6,14 +6,17 @@ import {
 import { BackArrowIcon, SearchIcon } from '../components/Icons';
 import { theme, useColors } from '../theme';
 import { search, SearchResult } from '../services/api';
+import DismissKeyboard from '../components/DismissKeyboard';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const SearchScreen = ({ navigation }: any) => {
   const colors = useColors();
+  const insets = useSafeAreaInsets();
   const styles = useMemo(() => StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.backgroundGrey },
   header: {
     flexDirection: 'row', alignItems: 'center', gap: 10,
-    paddingHorizontal: 16, paddingTop: 50, paddingBottom: 14,
+    paddingHorizontal: 16, paddingTop: insets.top + 16, paddingBottom: 14,
     backgroundColor: colors.white, borderBottomWidth: 1, borderBottomColor: colors.border,
   },
   back: { padding: 4 },
@@ -49,7 +52,7 @@ const SearchScreen = ({ navigation }: any) => {
     paddingVertical: 11, alignItems: 'center',
   },
   closeBtnText: { fontSize: 14, fontFamily: theme.fonts.bold, color: colors.white },
-}), [colors]);
+}), [colors, insets]);
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
   const [loading, setLoading] = useState(false);
@@ -78,6 +81,7 @@ const SearchScreen = ({ navigation }: any) => {
   };
 
   return (
+    <DismissKeyboard>
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.back}>
@@ -144,6 +148,7 @@ const SearchScreen = ({ navigation }: any) => {
         </TouchableOpacity>
       </Modal>
     </View>
+    </DismissKeyboard>
   );
 };
 

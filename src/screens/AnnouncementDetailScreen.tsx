@@ -3,16 +3,18 @@ import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, Dimensions
 import { BackArrowIcon } from '../components/Icons';
 import { theme, useColors } from '../theme';
 import { Announcement } from '../services/api';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const screenWidth = Dimensions.get('window').width;
 
 const AnnouncementDetailScreen = ({ route, navigation }: any) => {
   const colors = useColors();
+  const insets = useSafeAreaInsets();
   const styles = useMemo(() => StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.white },
   header: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
+    paddingHorizontal: 16, paddingTop: insets.top + 16, paddingBottom: 16,
     backgroundColor: colors.white, borderBottomWidth: 1, borderBottomColor: colors.border,
   },
   back: { padding: 8 },
@@ -21,7 +23,7 @@ const AnnouncementDetailScreen = ({ route, navigation }: any) => {
   date: { fontSize: 12, fontFamily: theme.fonts.medium, color: colors.primaryDeep, marginBottom: 8 },
   title: { fontSize: 20, fontFamily: theme.fonts.bold, color: colors.textHeading, lineHeight: 28, marginBottom: 16 },
   body: { fontSize: 15, fontFamily: theme.fonts.regular, color: colors.textBodyAlt, lineHeight: 24 },
-}), [colors]);
+}), [colors, insets]);
   const item: Announcement = route.params.item;
   const [imgHeight, setImgHeight] = useState(220);
 

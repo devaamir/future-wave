@@ -6,6 +6,7 @@ import {
 import { theme, colors } from '../theme';
 import { register } from '../services/api';
 import { EyeIcon, EyeOffIcon } from '../components/Icons';
+import DismissKeyboard from '../components/DismissKeyboard';
 
 const SetPasswordScreen = ({ route, navigation }: any) => {
   const [password, setPassword] = useState('');
@@ -46,6 +47,7 @@ const SetPasswordScreen = ({ route, navigation }: any) => {
   };
 
   return (
+    <DismissKeyboard>
     <View style={styles.container}>
       <Text style={styles.title}>Set Password</Text>
       <Text style={styles.subtitle}>Choose a strong password for your account</Text>
@@ -86,6 +88,7 @@ const SetPasswordScreen = ({ route, navigation }: any) => {
         {loading ? <ActivityIndicator color={colors.white} /> : <Text style={styles.buttonText}>Create Account</Text>}
       </TouchableOpacity>
     </View>
+    </DismissKeyboard>
   );
 };
 

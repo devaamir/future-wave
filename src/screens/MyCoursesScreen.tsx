@@ -10,9 +10,11 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import { theme, buttonStyles, buttonColors, useColors } from '../theme';
 import { ClockIcon, PlayIcon, BackArrowIcon } from '../components/Icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const MyCoursesScreen = ({ navigation }: any) => {
   const colors = useColors();
+  const insets = useSafeAreaInsets();
   const styles = useMemo(() => StyleSheet.create({
   container: {
     flex: 1,
@@ -22,7 +24,7 @@ const MyCoursesScreen = ({ navigation }: any) => {
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingTop: 50,
+    paddingTop: insets.top + 16,
     paddingBottom: 16,
     backgroundColor: colors.white,
     borderBottomWidth: 1,
@@ -107,7 +109,7 @@ const MyCoursesScreen = ({ navigation }: any) => {
     fontFamily: theme.fonts.regular,
     color: colors.textMuted,
   },
-}), [colors]);
+}), [colors, insets]);
   const enrolledCourses = [
     {
       id: '1',

@@ -6,14 +6,16 @@ import {
 import { BackArrowIcon } from '../components/Icons';
 import { theme, useColors } from '../theme';
 import { getMultimediaVideos, MultimediaVideo } from '../services/api';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const MultimediaVideosScreen = ({ route, navigation }: any) => {
   const colors = useColors();
+  const insets = useSafeAreaInsets();
   const styles = useMemo(() => StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.backgroundGrey },
   header: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
+    paddingHorizontal: 16, paddingTop: insets.top + 16, paddingBottom: 16,
     backgroundColor: colors.white, borderBottomWidth: 1, borderBottomColor: colors.border,
   },
   back: { padding: 8 },
@@ -33,7 +35,7 @@ const MultimediaVideosScreen = ({ route, navigation }: any) => {
   badge: { alignSelf: 'flex-start', backgroundColor: colors.borderLight, borderRadius: 6, paddingHorizontal: 6, paddingVertical: 2 },
   badgeText: { fontSize: 10, fontFamily: theme.fonts.semiBold },
   empty: { textAlign: 'center', color: colors.textTertiary, fontFamily: theme.fonts.regular, marginTop: 40 },
-}), [colors]);
+}), [colors, insets]);
   const { title, subjectId, privacy, color = colors.errorAlt, bg = colors.errorBgAlt } = route.params;
   const [videos, setVideos] = useState<MultimediaVideo[]>([]);
   const [loading, setLoading] = useState(true);

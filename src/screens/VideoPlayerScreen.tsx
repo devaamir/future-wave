@@ -5,6 +5,7 @@ import Video from 'react-native-video';
 import { BackArrowIcon } from '../components/Icons';
 import { theme, useColors } from '../theme';
 import YoutubePlayer from 'react-native-youtube-iframe';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const { width } = Dimensions.get('window');
 
@@ -17,17 +18,18 @@ const extractYoutubeId = (val: string) => {
 
 const VideoPlayerScreen = ({ route, navigation }: any) => {
   const colors = useColors();
+  const insets = useSafeAreaInsets();
   const styles = useMemo(() => StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.blackShort },
   header: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
+    paddingHorizontal: 16, paddingTop: insets.top + 16, paddingBottom: 16,
     backgroundColor: colors.white, borderBottomWidth: 1, borderBottomColor: colors.border,
   },
   back: { padding: 8 },
   headerTitle: { flex: 1, textAlign: 'center', fontSize: 16, fontFamily: theme.fonts.bold, color: colors.textDark },
   player: { width, aspectRatio: 16 / 9, backgroundColor: colors.blackShort },
-}), [colors]);
+}), [colors, insets]);
   const { videoId: rawId, videoUrl, playerType, title } = route.params || {};
   console.log('playerType', playerType);
 

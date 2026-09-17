@@ -9,6 +9,7 @@ import {
   Alert,
 } from 'react-native';
 import { theme, colors} from '../theme';
+import DismissKeyboard from '../components/DismissKeyboard';
 
 const SignupScreen = ({ navigation }: any) => {
   
@@ -94,6 +95,7 @@ const SignupScreen = ({ navigation }: any) => {
   };
 
   return (
+    <DismissKeyboard>
     <View style={styles.container}>
       <Image
         source={require('../assets/images/logo-icon.png')}
@@ -137,6 +139,7 @@ const SignupScreen = ({ navigation }: any) => {
         <Text style={styles.linkText}>Already have an account? Login</Text>
       </TouchableOpacity>
     </View>
+    </DismissKeyboard>
   );
 };
 

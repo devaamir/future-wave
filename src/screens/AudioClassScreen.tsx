@@ -7,6 +7,7 @@ import Video, { VideoRef } from 'react-native-video';
 import { BackArrowIcon, PlayIcon, PauseIcon, AudioClassIcon } from '../components/Icons';
 import { theme, useColors } from '../theme';
 import { getAudioClasses, AudioClass } from '../services/api';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const AudioCard = ({ item, colors, styles }: { item: AudioClass; colors: any; styles: any }) => {
   const [playing, setPlaying] = useState(false);
@@ -67,11 +68,12 @@ const AudioCard = ({ item, colors, styles }: { item: AudioClass; colors: any; st
 
 const AudioClassScreen = ({ navigation }: any) => {
   const colors = useColors();
+  const insets = useSafeAreaInsets();
   const styles = useMemo(() => StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.backgroundGrey },
     header: {
       flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-      paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
+      paddingHorizontal: 16, paddingTop: insets.top + 16, paddingBottom: 16,
       backgroundColor: colors.white, borderBottomWidth: 1, borderBottomColor: colors.border,
     },
     back: { padding: 8 },
@@ -97,7 +99,7 @@ const AudioClassScreen = ({ navigation }: any) => {
     badge: { borderRadius: 6, paddingHorizontal: 8, paddingVertical: 3, backgroundColor: colors.borderLight },
     badgeText: { fontSize: 11, fontFamily: theme.fonts.semiBold, color: colors.textTertiary },
     empty: { textAlign: 'center', color: colors.textTertiary, fontFamily: theme.fonts.regular, marginTop: 40 },
-  }), [colors]);
+  }), [colors, insets]);
 
   const [items, setItems] = useState<AudioClass[]>([]);
   const [loading, setLoading] = useState(true);

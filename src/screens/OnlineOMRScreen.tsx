@@ -5,6 +5,7 @@ import {
 import { BackArrowIcon } from '../components/Icons';
 import { theme, useColors } from '../theme';
 import { generateOMR, generatePrevOMR, evaluateOMR, evaluatePrevOMR } from '../services/api';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface Question {
   id: number;
@@ -28,11 +29,12 @@ const TIME_PER_QUESTION = 60;
 
 const OnlineOMRScreen = ({ navigation, route }: any) => {
   const colors = useColors();
+  const insets = useSafeAreaInsets();
   const styles = useMemo(() => StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.backgroundGrey },
   header: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
+    paddingHorizontal: 16, paddingTop: insets.top + 16, paddingBottom: 16,
     backgroundColor: colors.white, borderBottomWidth: 1, borderBottomColor: colors.border,
   },
   back: { padding: 8 },
@@ -73,7 +75,7 @@ const OnlineOMRScreen = ({ navigation, route }: any) => {
   radioDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: colors.blue },
   optionText: { flex: 1, fontSize: 13, fontFamily: theme.fonts.regular, color: colors.textBodyAlt },
   optionTextSelected: { color: colors.indigoDeep, fontFamily: theme.fonts.semiBold },
-}), [colors]);
+}), [colors, insets]);
   const isPracticeOMR = route?.params?.type === 'Practice OMR';
   const isPrevOMR = route?.params?.type === 'Practice PQ OMR';
   const [questions, setQuestions] = useState<Question[]>([]);

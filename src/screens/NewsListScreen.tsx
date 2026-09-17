@@ -11,9 +11,11 @@ import {
 import { BackArrowIcon } from '../components/Icons';
 import { theme, useColors } from '../theme';
 import { getNews, News } from '../services/api';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const NewsListScreen = ({ navigation }: any) => {
   const colors = useColors();
+  const insets = useSafeAreaInsets();
   const styles = useMemo(() => StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.backgroundGrey },
   header: {
@@ -21,7 +23,7 @@ const NewsListScreen = ({ navigation }: any) => {
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-    paddingTop: 50,
+    paddingTop: insets.top + 16,
     paddingBottom: 16,
     backgroundColor: colors.white,
     borderBottomWidth: 1,
@@ -78,7 +80,7 @@ const NewsListScreen = ({ navigation }: any) => {
     fontFamily: theme.fonts.regular,
     marginTop: 40,
   },
-}), [colors]);
+}), [colors, insets]);
   const [news, setNews] = useState<News[]>([]);
   const [loading, setLoading] = useState(true);
   const [nextPage, setNextPage] = useState<string | null>(null);

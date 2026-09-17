@@ -6,16 +6,18 @@ import {
 import { BackArrowIcon } from '../components/Icons';
 import { theme, useColors } from '../theme';
 import { getExamHistory, ExamHistory } from '../services/api';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const PAGE_SIZE = 10;
 
 const NextExamScreen = ({ navigation }: any) => {
   const colors = useColors();
+  const insets = useSafeAreaInsets();
   const styles = useMemo(() => StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.backgroundGrey },
   header: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
+    paddingHorizontal: 16, paddingTop: insets.top + 16, paddingBottom: 16,
     backgroundColor: colors.white, borderBottomWidth: 1, borderBottomColor: colors.border,
   },
   back: { padding: 8 },
@@ -34,7 +36,7 @@ const NextExamScreen = ({ navigation }: any) => {
   marks: { fontSize: 18, fontFamily: theme.fonts.bold, color: colors.textPrimary },
   rank: { fontSize: 12, fontFamily: theme.fonts.semiBold, color: colors.purple },
   empty: { textAlign: 'center', color: colors.textDisabled, fontFamily: theme.fonts.regular, marginTop: 40 },
-}), [colors]);
+}), [colors, insets]);
   const [history, setHistory] = useState<ExamHistory[]>([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);

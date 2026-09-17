@@ -5,6 +5,7 @@ import {
 import { BackArrowIcon } from '../components/Icons';
 import { theme, useColors } from '../theme';
 import { getExamQuestions, submitExam, OnlineExamQuestion } from '../services/api';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const OPTIONS = ['option_1', 'option_2', 'option_3', 'option_4'] as const;
 const LABELS = ['A', 'B', 'C', 'D'];
@@ -12,11 +13,12 @@ const LABELS = ['A', 'B', 'C', 'D'];
 const ExamQuestionsScreen = ({ navigation, route }: any) => {
   const { examId, examName, duration, startTime, endTime } = route.params;
   const colors = useColors();
+  const insets = useSafeAreaInsets();
   const styles = useMemo(() => StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.backgroundGrey },
     header: {
       flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-      paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
+      paddingHorizontal: 16, paddingTop: insets.top + 16, paddingBottom: 16,
       backgroundColor: colors.white, borderBottomWidth: 1, borderBottomColor: colors.border,
     },
     back: { padding: 8 },
@@ -55,7 +57,7 @@ const ExamQuestionsScreen = ({ navigation, route }: any) => {
     },
     submitBtnText: { fontSize: 16, fontFamily: theme.fonts.bold, color: colors.white },
     empty: { textAlign: 'center', color: colors.textTertiary, fontFamily: theme.fonts.regular, marginTop: 40 },
-  }), [colors]);
+  }), [colors, insets]);
 
   const [questions, setQuestions] = useState<OnlineExamQuestion[]>([]);
   const [loading, setLoading] = useState(true);

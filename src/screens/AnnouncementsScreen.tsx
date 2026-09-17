@@ -6,14 +6,16 @@ import {
 import { BackArrowIcon } from '../components/Icons';
 import { theme, useColors } from '../theme';
 import { getAnnouncements, Announcement } from '../services/api';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const AnnouncementsScreen = ({ navigation }: any) => {
   const colors = useColors();
+  const insets = useSafeAreaInsets();
   const styles = useMemo(() => StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.backgroundGrey },
   header: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
+    paddingHorizontal: 16, paddingTop: insets.top + 16, paddingBottom: 16,
     backgroundColor: colors.white, borderBottomWidth: 1, borderBottomColor: colors.border,
   },
   back: { padding: 8 },
@@ -40,7 +42,7 @@ const AnnouncementsScreen = ({ navigation }: any) => {
   title: { fontSize: 13, fontFamily: theme.fonts.semiBold, color: colors.textPrimary, marginBottom: 4 },
   date: { fontSize: 11, fontFamily: theme.fonts.regular, color: colors.primaryDeep },
   empty: { textAlign: 'center', color: colors.textTertiary, fontFamily: theme.fonts.regular, marginTop: 40 },
-}), [colors]);
+}), [colors, insets]);
   const [items, setItems] = useState<Announcement[]>([]);
   const [loading, setLoading] = useState(true);
 

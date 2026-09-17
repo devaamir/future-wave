@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
+import { getAccessVariant } from '../utils/expiry';
 import {
   View,
   Text,
@@ -10,7 +11,6 @@ import {
   Platform,
   StatusBar,
   ImageBackground,
-  Modal,
 } from 'react-native';
 import {
   NotificationIcon,
@@ -28,10 +28,9 @@ import {
   ExamIcon,
   AchievementsIcon,
   MegaphoneIcon,
-  WarningIcon,
-  LockIcon,
   GoldenBellIcon,
 } from '../components/Icons';
+import AccessModal from '../components/AccessModal';
 import { theme, useColors, useTheme } from '../theme';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -440,16 +439,11 @@ const HomeScreen = ({ onTabPress }: any) => {
   const [userName, setUserName] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
 
-  const isAccessBlocked = () => {
-    if (appExpiry === undefined) return false;
-    if (appExpiry === null) return true;
-    const daysLeft = Math.ceil((new Date(appExpiry).getTime() - Date.now()) / 86400000);
-    return daysLeft <= 0;
-  };
+  const { variant: modalVariant, daysLeft, isBlocked, isNearExpiry } = getAccessVariant(appExpiry);
 
   const safeNavigate = (screen: string) => {
     if (screen === 'Notifications') { navigation.navigate(screen as never); return; }
-    if (isAccessBlocked()) { setModalVisible(true); return; }
+    if (isBlocked) { setModalVisible(true); return; }
     navigation.navigate(screen as never);
   };
 
@@ -458,6 +452,11 @@ const HomeScreen = ({ onTabPress }: any) => {
     getNews({ page: 1 }).then(({ data }) => setNews(data.results)).catch(() => { });
     getAnnouncements().then(({ data }) => setAnnouncements(data)).catch(() => { });
   }, []);
+
+  useEffect(() => {
+    if (appExpiry === undefined) return;
+    if (isBlocked || isNearExpiry) setModalVisible(true);
+  }, [appExpiry]);
 
 
   const dashboardItems = [
@@ -481,45 +480,12 @@ const HomeScreen = ({ onTabPress }: any) => {
     <ImageBackground source={isDark ? require('../assets/images/background-dark-image.png') : require('../assets/images/background-image.png')} style={styles.container}>
       <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} />
 
-      {(() => {
-        const isNull = appExpiry !== undefined && appExpiry === null;
-        const daysLeft = appExpiry ? Math.ceil((new Date(appExpiry).getTime() - Date.now()) / 86400000) : null;
-        const isExpired = daysLeft !== null && daysLeft <= 0;
-        const isNearExpiry = daysLeft !== null && daysLeft <= 10 && daysLeft > 0;
-        if (!modalVisible) return null;
-        return (
-          <Modal visible transparent animationType="fade" onRequestClose={() => isNearExpiry ? setModalVisible(false) : null}>
-            <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center', padding: 24 }}>
-              <View style={{ backgroundColor: '#FFFFFF', borderRadius: 24, padding: 36, alignItems: 'center', width: '100%', minHeight: 320, shadowColor: '#000', shadowOpacity: 0.15, shadowRadius: 20, elevation: 10 }}>
-                <View style={{ width: 72, height: 72, borderRadius: 36, backgroundColor: isNearExpiry ? '#FFF8E1' : '#FFF3E0', justifyContent: 'center', alignItems: 'center', marginBottom: 24 }}>
-                  {isNearExpiry ? <WarningIcon size={36} color="#F59E0B" /> : <LockIcon size={36} color="#F39C12" />}
-                </View>
-                <Text style={{ fontSize: 22, fontFamily: theme.fonts.bold, color: '#1A1A2E', marginBottom: 12, textAlign: 'center' }}>
-                  {isNearExpiry ? 'Expiring Soon' : isExpired ? 'Access Expired' : 'Access Not Activated'}
-                </Text>
-                <View style={{ width: 40, height: 3, backgroundColor: isNearExpiry ? '#F59E0B' : '#F39C12', borderRadius: 2, marginBottom: 16 }} />
-                <Text style={{ fontSize: 15, fontFamily: theme.fonts.regular, color: '#6B7280', textAlign: 'center', lineHeight: 24 }}>
-                  {isNearExpiry
-                    ? `Your access expires in ${daysLeft} day${daysLeft === 1 ? '' : 's'}.\nPlease renew to avoid interruption.`
-                    : isExpired
-                      ? 'Your app access has expired.\nPlease contact support to renew.'
-                      : 'Your app access has not been activated yet.\nPlease contact support to get started.'}
-                </Text>
-                {isNearExpiry && (
-                  <TouchableOpacity onPress={() => setModalVisible(false)} style={{ marginTop: 24, backgroundColor: '#F59E0B', borderRadius: 12, paddingVertical: 12, paddingHorizontal: 32 }}>
-                    <Text style={{ color: '#fff', fontFamily: theme.fonts.semiBold, fontSize: 15 }}>Got it</Text>
-                  </TouchableOpacity>
-                )}
-                {(isNull || isExpired) && (
-                  <TouchableOpacity onPress={() => setModalVisible(false)} style={{ marginTop: 24, backgroundColor: '#F39C12', borderRadius: 12, paddingVertical: 12, paddingHorizontal: 32 }}>
-                    <Text style={{ color: '#fff', fontFamily: theme.fonts.semiBold, fontSize: 15 }}>OK</Text>
-                  </TouchableOpacity>
-                )}
-              </View>
-            </View>
-          </Modal>
-        );
-      })()}
+      <AccessModal
+        visible={modalVisible}
+        variant={modalVariant}
+        daysLeft={daysLeft}
+        onClose={() => setModalVisible(false)}
+      />
       <View style={[styles.headerContainer, { paddingTop: statusBarHeight }]}>
         <View style={styles.header}>
           <Image
@@ -672,7 +638,7 @@ const HomeScreen = ({ onTabPress }: any) => {
                   key={item.id}
                   style={styles.affairCard}
                   activeOpacity={0.7}
-                  onPress={() => isAccessBlocked() ? setModalVisible(true) : navigation.navigate('NewsDetail' as never, { item } as never)}
+                  onPress={() => isBlocked ? setModalVisible(true) : navigation.navigate('NewsDetail' as never, { item } as never)}
                 >
                   {item.image ? (
                     <Image source={{ uri: item.image }} style={styles.affairImage} resizeMode="cover" />

@@ -6,6 +6,7 @@ import {
 import { theme, colors } from '../theme';
 import { EyeIcon, EyeOffIcon } from '../components/Icons';
 import { passwordResetConfirm } from '../services/api';
+import DismissKeyboard from '../components/DismissKeyboard';
 
 const ResetPasswordScreen = ({ navigation, route }: any) => {
   const { email, otp } = route.params;
@@ -40,6 +41,7 @@ const ResetPasswordScreen = ({ navigation, route }: any) => {
   };
 
   return (
+    <DismissKeyboard>
     <View style={styles.container}>
       <Text style={styles.title}>Reset Password</Text>
       <Text style={styles.subtitle}>Enter your new password below.</Text>
@@ -76,6 +78,7 @@ const ResetPasswordScreen = ({ navigation, route }: any) => {
         {loading ? <ActivityIndicator color={theme.colors.white} /> : <Text style={styles.buttonText}>Submit</Text>}
       </TouchableOpacity>
     </View>
+    </DismissKeyboard>
   );
 };
 

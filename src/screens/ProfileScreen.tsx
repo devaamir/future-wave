@@ -21,9 +21,11 @@ import {
 import { theme, useColors } from '../theme';
 import { getUser, clearSession } from '../services/storage';
 import { LoginUser } from '../services/api';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const ProfileScreen = ({ navigation, onTabPress }: any) => {
   const colors = useColors();
+  const insets = useSafeAreaInsets();
   const styles = useMemo(
     () =>
       StyleSheet.create({
@@ -33,7 +35,7 @@ const ProfileScreen = ({ navigation, onTabPress }: any) => {
         },
         header: {
           backgroundColor: colors.white,
-          paddingTop: 20,
+          paddingTop: insets.top + 16,
           paddingBottom: 16,
           paddingHorizontal: 16,
           borderBottomWidth: 1,
@@ -183,7 +185,7 @@ const ProfileScreen = ({ navigation, onTabPress }: any) => {
           marginBottom: 30,
         },
       }),
-    [colors],
+    [colors, insets],
   );
   const [user, setUser] = useState<LoginUser | null>(null);
 

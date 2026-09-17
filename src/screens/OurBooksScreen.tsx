@@ -6,14 +6,16 @@ import {
 import { BackArrowIcon } from '../components/Icons';
 import { theme, useColors } from '../theme';
 import { getBooks, Book } from '../services/api';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const OurBooksScreen = ({ navigation }: any) => {
   const colors = useColors();
+  const insets = useSafeAreaInsets();
   const styles = useMemo(() => StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.backgroundGrey },
   header: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
+    paddingHorizontal: 16, paddingTop: insets.top + 16, paddingBottom: 16,
     backgroundColor: colors.white, borderBottomWidth: 1, borderBottomColor: colors.border,
   },
   back: { padding: 8 },
@@ -36,7 +38,7 @@ const OurBooksScreen = ({ navigation }: any) => {
   freeText: { fontSize: 11, fontFamily: theme.fonts.bold, color: colors.successGreenAlt },
   price: { fontSize: 13, fontFamily: theme.fonts.bold, color: colors.textHeading },
   empty: { textAlign: 'center', color: colors.textTertiary, fontFamily: theme.fonts.regular, marginTop: 40 },
-}), [colors]);
+}), [colors, insets]);
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
 

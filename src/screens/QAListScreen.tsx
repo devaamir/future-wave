@@ -3,16 +3,18 @@ import { View, Text, StyleSheet, TouchableOpacity, FlatList, ActivityIndicator }
 import { useFocusEffect } from '@react-navigation/native';
 import { BackArrowIcon } from '../components/Icons';
 import { theme, useColors } from '../theme';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface Item { id: number; name: string; }
 
 const QAListScreen = ({ route, navigation }: any) => {
   const colors = useColors();
+  const insets = useSafeAreaInsets();
   const styles = useMemo(() => StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.backgroundGrey },
   header: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
+    paddingHorizontal: 16, paddingTop: insets.top + 16, paddingBottom: 16,
     backgroundColor: colors.white, borderBottomWidth: 1, borderBottomColor: colors.border,
   },
   back: { padding: 8 },
@@ -28,7 +30,7 @@ const QAListScreen = ({ route, navigation }: any) => {
   itemTitle: { flex: 1, fontSize: 14, fontFamily: theme.fonts.semiBold, color: colors.textPrimary },
   arrow: { fontSize: 22 },
   empty: { textAlign: 'center', color: colors.textTertiary, fontFamily: theme.fonts.regular, marginTop: 40 },
-}), [colors]);
+}), [colors, insets]);
   const { title, color, bg, fetchFn, nextScreen, nextParams } = route.params;
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState(true);

@@ -13,9 +13,11 @@ import Svg, { Path } from 'react-native-svg';
 import { PlayIcon } from '../components/Icons';
 import { theme, useColors } from '../theme';
 import { useNavigation } from '@react-navigation/native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const LiveClassesScreen = () => {
   const colors = useColors();
+  const insets = useSafeAreaInsets();
   const styles = useMemo(() => StyleSheet.create({
   container: {
     flex: 1,
@@ -26,7 +28,7 @@ const LiveClassesScreen = () => {
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-    paddingTop: 20,
+    paddingTop: insets.top + 16,
     paddingBottom: 16,
     backgroundColor: colors.white,
     borderBottomWidth: 1,
@@ -212,7 +214,7 @@ const LiveClassesScreen = () => {
     color: colors.textDark,
     textAlign: 'center',
   },
-}), [colors]);
+}), [colors, insets]);
   const navigation = useNavigation();
 
   const upcomingClasses = [

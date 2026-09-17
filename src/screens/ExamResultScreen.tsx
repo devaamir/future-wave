@@ -3,14 +3,16 @@ import { View, Text, StyleSheet, TouchableOpacity, FlatList, ActivityIndicator }
 import { BackArrowIcon } from '../components/Icons';
 import { theme, useColors } from '../theme';
 import { getExamResults, ExamResult } from '../services/api';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const ExamResultScreen = ({ navigation }: any) => {
   const colors = useColors();
+  const insets = useSafeAreaInsets();
   const styles = useMemo(() => StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.backgroundGrey },
   header: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
+    paddingHorizontal: 16, paddingTop: insets.top + 16, paddingBottom: 16,
     backgroundColor: colors.white, borderBottomWidth: 1, borderBottomColor: colors.border,
   },
   back: { padding: 8 },
@@ -31,7 +33,7 @@ const ExamResultScreen = ({ navigation }: any) => {
   omrBtn: { backgroundColor: colors.blueBg, borderRadius: 8, paddingHorizontal: 12, paddingVertical: 4 },
   omrBtnText: { fontSize: 11, fontFamily: theme.fonts.bold, color: colors.blue },
   empty: { textAlign: 'center', color: colors.textDisabled, fontFamily: theme.fonts.regular, marginTop: 40 },
-}), [colors]);
+}), [colors, insets]);
   const [items, setItems] = useState<ExamResult[]>([]);
   const [loading, setLoading] = useState(true);
 

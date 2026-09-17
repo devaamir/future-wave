@@ -4,17 +4,19 @@ import Svg, { Path } from 'react-native-svg';
 import { BackArrowIcon } from '../components/Icons';
 import { getScertSubjects, getScertQuestions } from '../services/api';
 import { theme, useColors } from '../theme';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 
 const CollapsibleLevelScreen = ({ route, navigation }: any) => {
   const colors = useColors();
+  const insets = useSafeAreaInsets();
   const palette = useMemo(() => [
   { color: colors.blue, bg: colors.blueBg },
   { color: colors.purple, bg: colors.purpleBg },
   { color: colors.successGreen, bg: colors.greenBgLight },
   { color: colors.accent, bg: colors.amberBg },
   { color: colors.error, bg: colors.errorBg },
-], [colors]);
+], [colors, insets]);
   const styles = useMemo(() => StyleSheet.create({
   container: {
     flex: 1,
@@ -25,7 +27,7 @@ const CollapsibleLevelScreen = ({ route, navigation }: any) => {
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-    paddingTop: 50,
+    paddingTop: insets.top + 16,
     paddingBottom: 16,
     backgroundColor: colors.white,
     borderBottomWidth: 1,

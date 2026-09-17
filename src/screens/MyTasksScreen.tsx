@@ -3,17 +3,19 @@ import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native
 import { useNavigation } from '@react-navigation/native';
 import { BackArrowIcon, ExamIcon } from '../components/Icons';
 import { theme, useColors } from '../theme';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const MyTasksScreen = () => {
   const colors = useColors();
+  const insets = useSafeAreaInsets();
   const TASK_ITEMS = useMemo(() => [
     { title: 'Today Exam', icon: ExamIcon, color: colors.accent, bg: colors.amberBg, screen: 'TodayExam' },
-  ], [colors]);
+  ], [colors, insets]);
   const styles = useMemo(() => StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.backgroundGrey },
     header: {
       flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-      paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
+      paddingHorizontal: 16, paddingTop: insets.top + 16, paddingBottom: 16,
       backgroundColor: colors.white, borderBottomWidth: 1, borderBottomColor: colors.border,
     },
     back: { padding: 8 },

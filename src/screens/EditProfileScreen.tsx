@@ -29,6 +29,8 @@ import {
 import { getUser, saveSession } from '../services/storage';
 import { updateProfile } from '../services/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import DismissKeyboard from '../components/DismissKeyboard';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const InputField = ({ label, value, onChangeText, placeholder, keyboardType = 'default', styles, colors }: any) => (
   <View style={styles.inputContainer}>
@@ -46,6 +48,7 @@ const InputField = ({ label, value, onChangeText, placeholder, keyboardType = 'd
 
 const EditProfileScreen = ({ navigation }: any) => {
   const colors = useColors();
+  const insets = useSafeAreaInsets();
   const styles = useMemo(() => StyleSheet.create({
   container: {
     flex: 1,
@@ -55,7 +58,7 @@ const EditProfileScreen = ({ navigation }: any) => {
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingTop: 50,
+    paddingTop: insets.top + 16,
     paddingBottom: 16,
     backgroundColor: colors.white,
     borderBottomWidth: 1,
@@ -197,7 +200,7 @@ const EditProfileScreen = ({ navigation }: any) => {
     color: colors.textBody,
     marginLeft: 12,
   },
-}), [colors]);
+}), [colors, insets]);
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [isModalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -335,6 +338,7 @@ const EditProfileScreen = ({ navigation }: any) => {
   };
 
   return (
+    <DismissKeyboard>
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
@@ -486,6 +490,7 @@ const EditProfileScreen = ({ navigation }: any) => {
         </View>
       </Modal>
     </View>
+    </DismissKeyboard>
   );
 };
 

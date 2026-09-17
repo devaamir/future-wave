@@ -4,6 +4,7 @@ import {
   StyleSheet, Alert,
 } from 'react-native';
 import { theme, colors } from '../theme';
+import DismissKeyboard from '../components/DismissKeyboard';
 
 const OtpVerifyScreen = ({ navigation, route }: any) => {
   const { email } = route.params;
@@ -34,6 +35,7 @@ const OtpVerifyScreen = ({ navigation, route }: any) => {
   };
 
   return (
+    <DismissKeyboard>
     <View style={styles.container}>
       <Text style={styles.title}>Verify OTP</Text>
       <Text style={styles.subtitle}>Enter the 6-digit OTP sent to{'\n'}{email}</Text>
@@ -62,6 +64,7 @@ const OtpVerifyScreen = ({ navigation, route }: any) => {
         <Text style={styles.linkText}>Back</Text>
       </TouchableOpacity>
     </View>
+    </DismissKeyboard>
   );
 };
 

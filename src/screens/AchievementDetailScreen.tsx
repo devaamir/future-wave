@@ -3,14 +3,16 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'rea
 import { BackArrowIcon } from '../components/Icons';
 import { theme, useColors } from '../theme';
 import { Achievement } from '../services/api';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const AchievementDetailScreen = ({ route, navigation }: any) => {
   const colors = useColors();
+  const insets = useSafeAreaInsets();
   const styles = useMemo(() => StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.backgroundGrey },
   header: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
+    paddingHorizontal: 16, paddingTop: insets.top + 16, paddingBottom: 16,
     backgroundColor: colors.white, borderBottomWidth: 1, borderBottomColor: colors.border,
   },
   back: { padding: 8 },
@@ -36,7 +38,7 @@ const AchievementDetailScreen = ({ route, navigation }: any) => {
   },
   label: { fontSize: 13, fontFamily: theme.fonts.medium, color: colors.textTertiary },
   value: { fontSize: 13, fontFamily: theme.fonts.semiBold, color: colors.textPrimary, flex: 1, textAlign: 'right' },
-}), [colors]);
+}), [colors, insets]);
   const item: Achievement = route.params.item;
 
   return (

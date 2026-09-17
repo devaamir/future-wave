@@ -4,14 +4,16 @@ import Svg, { Path } from 'react-native-svg';
 import { BackArrowIcon } from '../components/Icons';
 import { theme, useColors } from '../theme';
 import { getMultimediaSubjects } from '../services/api';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const VideosScreen = ({ navigation }: any) => {
   const colors = useColors();
+  const insets = useSafeAreaInsets();
   const styles = useMemo(() => StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.backgroundGrey },
     header: {
       flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-      paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
+      paddingHorizontal: 16, paddingTop: insets.top + 16, paddingBottom: 16,
       backgroundColor: colors.white, borderBottomWidth: 1, borderBottomColor: colors.border,
     },
     back: { padding: 8 },
@@ -26,7 +28,7 @@ const VideosScreen = ({ navigation }: any) => {
     info: { flex: 1 },
     label: { fontSize: 14, fontFamily: theme.fonts.bold, marginBottom: 3 },
     subtitle: { fontSize: 12, fontFamily: theme.fonts.regular, color: colors.textTertiary },
-  }), [colors]);
+  }), [colors, insets]);
 
   const options = [
     {

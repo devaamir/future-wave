@@ -3,14 +3,16 @@ import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'rea
 import Pdf from 'react-native-pdf';
 import { BackArrowIcon } from '../components/Icons';
 import { theme, useColors } from '../theme';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const PDFViewerScreen = ({ route, navigation }: any) => {
   const colors = useColors();
+  const insets = useSafeAreaInsets();
   const styles = useMemo(() => StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.backgroundGrey },
   header: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
+    paddingHorizontal: 16, paddingTop: insets.top + 16, paddingBottom: 16,
     backgroundColor: colors.white, borderBottomWidth: 1, borderBottomColor: colors.border,
   },
   back: { padding: 8 },
@@ -20,7 +22,7 @@ const PDFViewerScreen = ({ route, navigation }: any) => {
   errorBox: { flex: 1, justifyContent: 'center', alignItems: 'center', gap: 12 },
   errorText: { fontSize: 14, fontFamily: theme.fonts.regular, color: colors.textTertiary },
   retry: { fontSize: 14, fontFamily: theme.fonts.bold, color: colors.blue },
-}), [colors]);
+}), [colors, insets]);
   const { url, title } = route.params;
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);

@@ -14,6 +14,7 @@ import { login } from '../services/api';
 import { saveSession } from '../services/storage';
 import { useAuth } from '../context/AuthContext';
 import { EyeIcon, EyeOffIcon } from '../components/Icons';
+import DismissKeyboard from '../components/DismissKeyboard';
 
 const LoginScreen = ({ navigation }: any) => {
   const { setAppExpiry } = useAuth();
@@ -113,6 +114,7 @@ const LoginScreen = ({ navigation }: any) => {
   };
 
   return (
+    <DismissKeyboard>
     <View style={styles.container}>
       <Image
         source={require('../assets/images/logo-icon.png')}
@@ -163,6 +165,7 @@ const LoginScreen = ({ navigation }: any) => {
         <Text style={styles.linkText}>Reset password</Text>
       </TouchableOpacity>
     </View>
+    </DismissKeyboard>
   );
 };
 

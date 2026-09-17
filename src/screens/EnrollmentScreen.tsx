@@ -10,9 +10,11 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import { theme, buttonStyles, buttonColors, useColors } from '../theme';
 import { BackArrowIcon, TickIcon } from '../components/Icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const EnrollmentScreen = ({ navigation, route }: any) => {
   const colors = useColors();
+  const insets = useSafeAreaInsets();
   const styles = useMemo(() => StyleSheet.create({
   container: {
     flex: 1,
@@ -22,7 +24,7 @@ const EnrollmentScreen = ({ navigation, route }: any) => {
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingTop: 50,
+    paddingTop: insets.top + 16,
     paddingBottom: 16,
     backgroundColor: colors.white,
     borderBottomWidth: 1,
@@ -84,7 +86,7 @@ const EnrollmentScreen = ({ navigation, route }: any) => {
   buttonSection: {
     padding: 20,
   },
-}), [colors]);
+}), [colors, insets]);
   const { courseTitle = 'Course Enrollment', coursePrice = '₹499' } = route?.params || {};
 
   const features = [

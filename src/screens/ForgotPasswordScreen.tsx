@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import { theme, colors } from '../theme';
 import { passwordResetRequestOtp } from '../services/api';
+import DismissKeyboard from '../components/DismissKeyboard';
 
 const ForgotPasswordScreen = ({ navigation }: any) => {
   const [email, setEmail] = useState('');
@@ -32,6 +33,7 @@ const ForgotPasswordScreen = ({ navigation }: any) => {
   };
 
   return (
+    <DismissKeyboard>
     <View style={styles.container}>
       <Image source={require('../assets/images/logo-icon.png')} style={styles.logo} resizeMode="contain" />
       <Text style={styles.title}>Forgot Password</Text>
@@ -55,6 +57,7 @@ const ForgotPasswordScreen = ({ navigation }: any) => {
         <Text style={styles.linkText}>Back to Login</Text>
       </TouchableOpacity>
     </View>
+    </DismissKeyboard>
   );
 };
 

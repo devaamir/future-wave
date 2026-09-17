@@ -12,11 +12,13 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import Svg, { Path } from 'react-native-svg';
 import { SettingsIcon, ClockIcon } from '../components/Icons';
 import { theme, useColors } from '../theme';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const { width } = Dimensions.get('window');
 
 const LiveClassJoinScreen = () => {
   const colors = useColors();
+  const insets = useSafeAreaInsets();
   const styles = useMemo(() => StyleSheet.create({
   container: {
     flex: 1,
@@ -27,7 +29,7 @@ const LiveClassJoinScreen = () => {
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-    paddingTop: 50,
+    paddingTop: insets.top + 16,
     paddingBottom: 16,
     backgroundColor: colors.white,
     borderBottomWidth: 1,
@@ -205,7 +207,7 @@ const LiveClassJoinScreen = () => {
     color: colors.textDisabled,
     textAlign: 'center',
   },
-}), [colors]);
+}), [colors, insets]);
   const navigation = useNavigation();
   const route = useRoute();
   const { classData } = route.params as { classData?: any } || {};

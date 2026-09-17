@@ -3,16 +3,18 @@ import { View, Text, StyleSheet, TouchableOpacity, FlatList, ActivityIndicator }
 import { BackArrowIcon } from '../components/Icons';
 import { theme, useColors } from '../theme';
 import { getExamRankings, RankingEntry } from '../services/api';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const MEDAL: Record<number, string> = { 1: '🥇', 2: '🥈', 3: '🥉' };
 
 const RankingScreen = ({ navigation }: any) => {
   const colors = useColors();
+  const insets = useSafeAreaInsets();
   const styles = useMemo(() => StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.backgroundGrey },
   header: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 16, paddingTop: 50, paddingBottom: 16,
+    paddingHorizontal: 16, paddingTop: insets.top + 16, paddingBottom: 16,
     backgroundColor: colors.white, borderBottomWidth: 1, borderBottomColor: colors.border,
   },
   back: { padding: 8 },
@@ -32,7 +34,7 @@ const RankingScreen = ({ navigation }: any) => {
   score: { fontSize: 18, fontFamily: theme.fonts.bold, color: colors.textPrimary },
   scoreMe: { color: colors.blue },
   empty: { textAlign: 'center', color: colors.textDisabled, fontFamily: theme.fonts.regular, marginTop: 40 },
-}), [colors]);
+}), [colors, insets]);
   const [items, setItems] = useState<RankingEntry[]>([]);
   const [loading, setLoading] = useState(true);
 

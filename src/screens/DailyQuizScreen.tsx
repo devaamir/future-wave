@@ -12,6 +12,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getQuestions, PrelimQuestion } from '../services/api';
 import { BackArrowIcon } from '../components/Icons';
 import { theme, useColors } from '../theme';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const QUIZ_KEY = 'daily_quiz_';
 
@@ -32,6 +33,7 @@ interface QuizResult {
 
 const DailyQuizScreen = ({ navigation }: any) => {
   const colors = useColors();
+  const insets = useSafeAreaInsets();
   const styles = useMemo(() => StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.backgroundGrey },
   center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
@@ -40,7 +42,7 @@ const DailyQuizScreen = ({ navigation }: any) => {
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-    paddingTop: 50,
+    paddingTop: insets.top + 16,
     paddingBottom: 16,
     backgroundColor: colors.white,
     borderBottomWidth: 1,
@@ -131,7 +133,7 @@ const DailyQuizScreen = ({ navigation }: any) => {
     color: colors.textDisabled,
     marginTop: 20,
   },
-}), [colors]);
+}), [colors, insets]);
   const [loading, setLoading] = useState(true);
   const [question, setQuestion] = useState<PrelimQuestion | null>(null);
   const [result, setResult] = useState<QuizResult | null>(null);

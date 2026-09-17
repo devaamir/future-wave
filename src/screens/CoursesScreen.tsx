@@ -12,7 +12,9 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import { theme, useColors } from '../theme';
 import { SearchIcon, NotificationIcon } from '../components/Icons';
+import DismissKeyboard from '../components/DismissKeyboard';
 import { useNavigation } from '@react-navigation/native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface Course {
   id: string;
@@ -27,6 +29,7 @@ interface Course {
 
 const CoursesScreen = ({ navigation }: any) => {
   const colors = useColors();
+  const insets = useSafeAreaInsets();
   const styles = useMemo(() => StyleSheet.create({
   container: {
     backgroundColor: colors.white,
@@ -36,7 +39,7 @@ const CoursesScreen = ({ navigation }: any) => {
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-    paddingTop: 20,
+    paddingTop: insets.top + 16,
     paddingBottom: 16,
     backgroundColor: colors.white,
   },
@@ -212,7 +215,7 @@ const CoursesScreen = ({ navigation }: any) => {
     fontFamily: theme.fonts.bold,
     color: colors.white,
   },
-}), [colors]);
+}), [colors, insets]);
   const nav = useNavigation();
   const [activeCategory, setActiveCategory] = useState('All');
   const [sortBy, setSortBy] = useState('Popular');
@@ -337,6 +340,7 @@ const CoursesScreen = ({ navigation }: any) => {
   );
 
   return (
+    <DismissKeyboard>
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Courses</Text>
@@ -413,6 +417,7 @@ const CoursesScreen = ({ navigation }: any) => {
         showsVerticalScrollIndicator={false}
       />
     </View>
+    </DismissKeyboard>
   );
 };
 
