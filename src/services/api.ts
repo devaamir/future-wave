@@ -113,8 +113,14 @@ export const passwordResetRequestOtp = (data: PasswordResetRequestPayload) =>
 export const login = (data: LoginPayload) =>
   api.post<LoginResponse>('login/', data);
 
-export const updateProfile = (data: UpdateProfilePayload) =>
-  api.patch<UpdateProfileResponse>('user/', data);
+export const updateProfile = (data: UpdateProfilePayload | FormData) => {
+  const isFormData = data instanceof FormData;
+  return api.patch<UpdateProfileResponse>('user/', data, {
+    headers: isFormData ? { 'Content-Type': 'multipart/form-data' } : {},
+  });
+};
+
+export const deleteAccount = () => api.delete('user/delete/');
 
 export const getQuestions = (params?: Record<string, any>) =>
   api.get<PaginatedResponse<PrelimQuestion>>('learning/prelims/questions/', { params });

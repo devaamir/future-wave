@@ -7,23 +7,9 @@ import {
   FlatList,
   ActivityIndicator,
 } from 'react-native';
-import { BackArrowIcon } from '../components/Icons';
-import Svg, { Path } from 'react-native-svg';
+import { BackArrowIcon, EyeIcon } from '../components/Icons';
 import { theme, useColors } from '../theme';
 import { getStudyMaterials, StudyMaterial } from '../services/api';
-
-const DownloadIcon = ({ size = 16, color = '#FFFFFF' }) => (
-  <Svg width={size} height={size} viewBox="0 0 24 24">
-    <Path
-      d="M8 12L12 16M12 16L16 12M12 16V4M4 20H20"
-      stroke={color}
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      fill="none"
-    />
-  </Svg>
-);
 
 const StudyMaterialScreen = ({ navigation }: any) => {
   const colors = useColors();
@@ -140,7 +126,7 @@ const StudyMaterialScreen = ({ navigation }: any) => {
         <Text style={styles.materialSubtitle} numberOfLines={1}>{item.subject.name} • {item.date}</Text>
       </View>
       <View style={styles.actionButton}>
-        <DownloadIcon size={16} color={colors.white} />
+        <EyeIcon size={16} color={colors.white} />
       </View>
     </TouchableOpacity>
   );

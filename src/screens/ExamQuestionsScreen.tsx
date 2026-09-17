@@ -61,15 +61,27 @@ const ExamQuestionsScreen = ({ navigation, route }: any) => {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [selected, setSelected] = useState<Record<number, string>>({});
+  const questionsRef = useRef<OnlineExamQuestion[]>([]);
+  const selectedRef = useRef<Record<number, string>>({});
 
   const calcInitialSeconds = () => {
-    if (startTime && endTime) {
+    const fullDuration = (parseInt(duration) || 60) * 60;
+    if (startTime && endTime && duration) {
       const now = new Date();
       const today = now.toISOString().split('T')[0];
       const start = new Date(`${today}T${startTime}`);
       const end = new Date(`${today}T${endTime}`);
-      if (now >= start && now <= end) {
-        return Math.max(0, Math.floor((end.getTime() - now.getTime()) / 1000));
+      const examEnd = new Date(start.getTime() + fullDuration * 1000);
+
+      // Only restrict time if user opens the exam after it has already started
+      if (now > start && now < end) {
+        const secsToExamEnd = Math.floor((examEnd.getTime() - now.getTime()) / 1000);
+        const secsToHardEnd = Math.floor((end.getTime() - now.getTime()) / 1000);
+        const remaining = Math.min(secsToExamEnd, secsToHardEnd);
+        // Only cut short if there's meaningfully less time than the full duration
+        if (remaining > 0 && remaining < fullDuration) {
+          return remaining;
+        }
       }
     }
     return (parseInt(duration) || 60) * 60;
@@ -80,9 +92,40 @@ const ExamQuestionsScreen = ({ navigation, route }: any) => {
   const examStartedAt = useRef(Date.now());
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
+  // How many seconds until the hard end_time — used for "running out of time" warning
+  const getSecsUntilHardEnd = () => {
+    if (endTime) {
+      const now = new Date();
+      const today = now.toISOString().split('T')[0];
+      const end = new Date(`${today}T${endTime}`);
+      return Math.max(0, Math.floor((end.getTime() - now.getTime()) / 1000));
+    }
+    return Infinity;
+  };
+  const secsUntilHardEnd = useRef(getSecsUntilHardEnd());
+
+  // Warn user on mount if they have significantly less time than the full exam duration
+  useEffect(() => {
+    const fullDuration = (parseInt(duration) || 60) * 60;
+    const availableSecs = Math.min(totalSeconds.current, secsUntilHardEnd.current);
+    // Warn if available time is less than 50% of full duration
+    if (availableSecs < fullDuration * 0.5) {
+      const minsLeft = Math.ceil(availableSecs / 60);
+      const totalMins = parseInt(duration) || 60;
+      Alert.alert(
+        '⚠️ Limited Time',
+        `This exam is ${totalMins} minutes long, but only ${minsLeft} minute${minsLeft !== 1 ? 's' : ''} remain${minsLeft === 1 ? 's' : ''} before it closes.\n\nYou can still attempt it, but you may not have enough time to complete all questions.`,
+        [
+          { text: 'Go Back', style: 'cancel', onPress: () => navigation.goBack() },
+          { text: 'Attempt Anyway', style: 'default' },
+        ],
+      );
+    }
+  }, []);
+
   useEffect(() => {
     getExamQuestions(examId)
-      .then(({ data }) => { console.log('getExamQuestions:', data); setQuestions(data); })
+      .then(({ data }) => { console.log('getExamQuestions:', data); questionsRef.current = data; setQuestions(data); })
       .catch(err => console.error('getExamQuestions error:', err))
       .finally(() => setLoading(false));
   }, [examId]);
@@ -107,17 +150,19 @@ const ExamQuestionsScreen = ({ navigation, route }: any) => {
     clearInterval(timerRef.current!);
     setSubmitting(true);
     const time_taken = Math.floor((Date.now() - examStartedAt.current) / 1000);
-    const answers = Object.entries(selected).map(([qId, opt]) => ({
+    const answers = Object.entries(selectedRef.current).map(([qId, opt]) => ({
       question_id: Number(qId),
-      selected_option: questions.find(q => q.id === Number(qId))?.[opt as typeof OPTIONS[number]] ?? '',
+      selected_option: questionsRef.current.find(q => q.id === Number(qId))?.[opt as typeof OPTIONS[number]] ?? '',
     }));
+    console.log('[submitExam] payload:', { time_taken, answers });
     try {
       await submitExam(examId, { time_taken, answers });
       Alert.alert('Submitted', 'Your exam has been submitted successfully.', [
         { text: 'OK', onPress: () => navigation.goBack() },
       ]);
-    } catch (err) {
+    } catch (err: any) {
       console.error('submitExam error:', err);
+      console.error('submitExam error response:', err?.response?.data);
       Alert.alert('Error', 'Failed to submit exam. Please try again.');
     } finally {
       setSubmitting(false);
@@ -146,7 +191,7 @@ const ExamQuestionsScreen = ({ navigation, route }: any) => {
           <BackArrowIcon size={24} color={colors.textDark} />
         </TouchableOpacity>
         <Text style={styles.headerTitle} numberOfLines={1}>{examName}</Text>
-        <Text style={[styles.timer, timeLeft < 60 && { color: colors.error }]}>{formatTimer(timeLeft)}</Text>
+        <Text style={[styles.timer, (timeLeft < 300 || secsUntilHardEnd.current < 300) && { color: colors.error }]}>{formatTimer(timeLeft)}</Text>
       </View>
 
       {loading ? (
@@ -172,7 +217,11 @@ const ExamQuestionsScreen = ({ navigation, route }: any) => {
                       key={opt}
                       style={[styles.option, isSelected && styles.optionSelected]}
                       activeOpacity={0.8}
-                      onPress={() => setSelected(prev => ({ ...prev, [item.id]: opt }))}
+                      onPress={() => setSelected(prev => {
+                        const next = { ...prev, [item.id]: opt };
+                        selectedRef.current = next;
+                        return next;
+                      })}
                     >
                       <View style={[styles.optLabel, isSelected && styles.optLabelSelected]}>
                         <Text style={[styles.optLabelText, isSelected && styles.optLabelTextSelected]}>{LABELS[i]}</Text>

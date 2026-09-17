@@ -59,7 +59,13 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSCameraUsageDescription</key>
+	<string>TIPS PSC ACADEMY needs access to your camera to allow you to take and upload a profile photo.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>TIPS PSC ACADEMY needs access to your photo library to allow you to select and upload images.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>TIPS PSC ACADEMY needs permission to save photos to your library.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>TIPS PSC ACADEMY needs access to your microphone for video recording.</string>
 </dict>
 </plist>

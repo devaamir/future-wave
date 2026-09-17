@@ -211,6 +211,7 @@ const EditProfileScreen = ({ navigation }: any) => {
 
   useEffect(() => {
     getUser().then(user => {
+      console.log('[EditProfile] fetched user from storage:', JSON.stringify(user));
       if (user) {
         setFormData({
           name: user.name || '',
@@ -219,7 +220,12 @@ const EditProfileScreen = ({ navigation }: any) => {
           dateOfBirth: '',
           address: user.address || '',
         });
-        if (user.photo) setProfileImage(user.photo);
+        if (user.photo) {
+          console.log('[EditProfile] setting profileImage from storage:', user.photo);
+          setProfileImage(user.photo);
+        } else {
+          console.log('[EditProfile] no photo found in storage');
+        }
       }
     });
   }, []);
@@ -234,28 +240,36 @@ const EditProfileScreen = ({ navigation }: any) => {
 
   const openCamera = () => {
     closeModal();
-    launchCamera(
-      {
-        mediaType: 'photo',
-        quality: 0.8,
-        maxWidth: 500,
-        maxHeight: 500,
-      },
-      handleImageResponse,
-    );
+    // Wait for the modal dismiss animation to complete before presenting
+    // the native camera picker — launching immediately causes a crash on iOS.
+    setTimeout(() => {
+      launchCamera(
+        {
+          mediaType: 'photo',
+          quality: 0.8,
+          maxWidth: 500,
+          maxHeight: 500,
+          saveToPhotos: false,
+        },
+        handleImageResponse,
+      );
+    }, 400);
   };
 
   const openGallery = () => {
     closeModal();
-    launchImageLibrary(
-      {
-        mediaType: 'photo',
-        quality: 0.8,
-        maxWidth: 500,
-        maxHeight: 500,
-      },
-      handleImageResponse,
-    );
+    // Same delay needed for gallery to avoid iOS presentation conflict.
+    setTimeout(() => {
+      launchImageLibrary(
+        {
+          mediaType: 'photo',
+          quality: 0.8,
+          maxWidth: 500,
+          maxHeight: 500,
+        },
+        handleImageResponse,
+      );
+    }, 400);
   };
 
   const handleImageResponse = (response: ImagePickerResponse) => {
@@ -267,23 +281,50 @@ const EditProfileScreen = ({ navigation }: any) => {
   const handleSave = async () => {
     try {
       setLoading(true);
-      const { data } = await updateProfile({
-        ...(formData.name ? { name: formData.name } : null),
-        ...(formData.phone ? { mobile_number: formData.phone } : null),
-        ...(formData.address ? { address: formData.address } : null),
-        // ...(profileImage ? { photo: profileImage } : null),
-      });
-      // Update stored user with new values
+
+      // Build multipart/form-data so the photo file is uploaded properly
+      const form = new FormData();
+      if (formData.name) form.append('name', formData.name);
+      if (formData.phone) form.append('mobile_number', formData.phone);
+      if (formData.address) form.append('address', formData.address);
+      if (profileImage && !profileImage.startsWith('http')) {
+        // Local file URI picked by the user — send as a file
+        const filename = profileImage.split('/').pop() ?? 'photo.jpg';
+        const ext = filename.split('.').pop()?.toLowerCase() ?? 'jpg';
+        const mimeType = ext === 'png' ? 'image/png' : 'image/jpeg';
+        console.log('[EditProfile] appending photo to form:', { uri: profileImage, name: filename, type: mimeType });
+        form.append('photo', { uri: profileImage, name: filename, type: mimeType } as any);
+      } else {
+        console.log('[EditProfile] profileImage at save time:', profileImage);
+      }
+
+      console.log('[EditProfile] sending PATCH to API...');
+      const { data } = await updateProfile(form as any);
+      console.log('[EditProfile] API response data:', JSON.stringify(data));
+
+      // Persist updated user — prefer the URL returned by the server, fall back
+      // to the local URI so the image shows immediately even before the server
+      // processes it.
       const currentUser = await getUser();
       if (currentUser) {
         const refresh = await AsyncStorage.getItem('refresh_token');
         const access = await AsyncStorage.getItem('access_token');
-        await saveSession(access!, refresh!, { ...currentUser, ...data });
+        const updatedPhoto = data.photo ?? profileImage ?? currentUser.photo;
+        console.log('[EditProfile] saving session with photo:', updatedPhoto);
+        await saveSession(access!, refresh!, {
+          ...currentUser,
+          ...data,
+          photo: updatedPhoto,
+        });
+        const savedUser = await getUser();
+        console.log('[EditProfile] user in storage after save:', JSON.stringify(savedUser));
       }
+
       Alert.alert('Success', 'Profile updated successfully.', [
         { text: 'OK', onPress: () => navigation.goBack() },
       ]);
     } catch (error: any) {
+      console.log('[EditProfile] save error:', JSON.stringify(error?.response?.data ?? error?.message));
       const msg = error?.response?.data
         ? JSON.stringify(error.response.data)
         : 'Failed to update profile.';

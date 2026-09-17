@@ -20,6 +20,7 @@ import RecordedVideosScreen from '../screens/RecordedVideosScreen';
 import VideoPlayerScreen from '../screens/VideoPlayerScreen';
 import MyCoursesScreen from '../screens/MyCoursesScreen';
 import EditProfileScreen from '../screens/EditProfileScreen';
+import AdvancedSettingsScreen from '../screens/AdvancedSettingsScreen';
 import EnrollmentScreen from '../screens/EnrollmentScreen';
 import DailyQuizScreen from '../screens/DailyQuizScreen';
 import CurrentAffairsScreen from '../screens/CurrentAffairsScreen';
@@ -116,6 +117,7 @@ const AppNavigator = () => {
         <Stack.Screen name="VideoPlayer" component={VideoPlayerScreen} />
         <Stack.Screen name="MyCourses" component={MyCoursesScreen} />
         <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+        <Stack.Screen name="AdvancedSettings" component={AdvancedSettingsScreen} />
         <Stack.Screen name="Enrollment" component={EnrollmentScreen} />
         <Stack.Screen name="DailyQuiz" component={DailyQuizScreen} />
         <Stack.Screen name="CurrentAffairs" component={CurrentAffairsScreen} />

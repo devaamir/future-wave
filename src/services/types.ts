@@ -111,9 +111,16 @@ export interface StudyMaterial {
 export interface CurrentAffair {
   id: number;
   date: string;
-  question: string;
-  answer: string;
+  level: string;
+  title: string;
+  qp_code: string | null;
+  details: string | null;
+  content: string | null;
+  category: string;
+  file_attachment: string | null;
   created_at: string;
+  subject: number;
+  course: number;
 }
 
 export interface QASubject {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import {
   View,
   Text,
@@ -6,20 +6,19 @@ import {
   StyleSheet,
   ScrollView,
   Image,
-  Switch,
   Alert,
 } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import {
   NotificationIcon,
-  MoonIcon,
   QuestionIcon,
-  LanguageIcon,
   InfoIcon,
   EditIcon,
   ProfileIcon,
+  SettingsIcon,
 } from '../components/Icons';
-import { theme, useColors, useTheme } from '../theme';
+import { theme, useColors } from '../theme';
 import { getUser, clearSession } from '../services/storage';
 import { LoginUser } from '../services/api';
 
@@ -186,12 +185,16 @@ const ProfileScreen = ({ navigation, onTabPress }: any) => {
       }),
     [colors],
   );
-  const { isDark, toggleDark } = useTheme();
   const [user, setUser] = useState<LoginUser | null>(null);
 
-  useEffect(() => {
-    getUser().then(setUser);
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      getUser().then(u => {
+        console.log('[ProfileScreen] user loaded on focus:', JSON.stringify(u));
+        setUser(u);
+      });
+    }, []),
+  );
 
   const handleLogout = () => {
     Alert.alert('Logout', 'Are you sure you want to logout?', [
@@ -272,27 +275,11 @@ const ProfileScreen = ({ navigation, onTabPress }: any) => {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Settings</Text>
 
-          <TouchableOpacity style={styles.card}>
-            <View style={styles.cardIconContainer}>
-              <LanguageIcon size={20} color={colors.textTertiary} />
-            </View>
-            <Text style={styles.cardTitle}>Language Preference</Text>
-            <Text style={styles.cardSubtitle}>English</Text>
-          </TouchableOpacity>
-
-          <View style={styles.card}>
-            <View style={styles.cardIconContainer}>
-              <MoonIcon size={20} color={colors.textTertiary} />
-            </View>
-            <Text style={styles.cardTitle}>Dark Mode</Text>
-            <Switch
-              value={isDark}
-              onValueChange={toggleDark}
-              trackColor={{ false: colors.border, true: colors.primary }}
-              thumbColor={isDark ? colors.white : colors.borderLight}
-            />
-          </View>
-
+          <ProfileCard
+            icon={<SettingsIcon size={20} color={colors.textTertiary} />}
+            title="Advanced Settings"
+            onPress={() => navigation?.navigate('AdvancedSettings')}
+          />
           <ProfileCard
             icon={<QuestionIcon size={20} color={colors.textTertiary} />}
             title="Help & Support"
