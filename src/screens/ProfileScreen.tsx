@@ -7,6 +7,7 @@ import {
   ScrollView,
   Image,
   Alert,
+  Linking,
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -285,12 +286,12 @@ const ProfileScreen = ({ navigation, onTabPress }: any) => {
           <ProfileCard
             icon={<QuestionIcon size={20} color={colors.textTertiary} />}
             title="Help & Support"
-            onPress={() => {}}
+            onPress={() => Linking.openURL('https://tipspscacademy.in/')}
           />
           <ProfileCard
             icon={<InfoIcon size={20} color={colors.textTertiary} />}
             title="About TIPS PSC ACADEMY"
-            onPress={() => {}}
+            onPress={() => Linking.openURL('https://tipspscacademy.in/')}
           />
         </View>
 
