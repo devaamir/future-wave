@@ -57,6 +57,10 @@ import {
   ExamSubmitPayload,
   PasswordResetConfirmPayload,
   PasswordResetRequestPayload,
+  Batch,
+  VideoSubjectsParams,
+  Video,
+  VideoParams,
 } from './types';
 
 export * from './types';
@@ -281,5 +285,17 @@ export const getExamQuestions = (examId: number) =>
 
 export const submitExam = (examId: number, payload: ExamSubmitPayload) =>
   api.post(`exams/${examId}/submit/`, payload);
+
+export const getUserBatches = () =>
+  api.get<Batch[]>('user/batches/');
+
+export const getVideoSubjects = (params: VideoSubjectsParams) =>
+  api.get<NamedItem[]>('video/subjects/', { params });
+
+export const getVideos = (params: VideoParams) =>
+  api.get<PaginatedResponse<Video>>('video/', { params });
+
+export const getVideoById = (id: number) =>
+  api.get<Video>(`video/${id}/`);
 
 export default api;

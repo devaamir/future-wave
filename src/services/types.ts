@@ -533,3 +533,49 @@ export interface ExamSubmitPayload {
   time_taken: number;
   answers: { question_id: number; selected_option: string }[];
 }
+
+export type PrivacyType = 'PUBLIC' | 'PRIVATE';
+
+export interface VideoSubjectsParams {
+  batch_id: number;
+  privacy?: PrivacyType;
+}
+
+export interface Batch {
+  id: number;
+  name: string;
+  course: number;
+  start_date: string;
+  end_date: string;
+}
+
+export type PlayerType = 'YOUTUBE' | 'VIMEO' | 'CUSTOM';
+export type LevelType = 'DEGREE' | 'PLUS_TWO' | 'TENTH' | string;
+
+export interface VideoParams {
+  batch_id: number;
+  level?: string;
+  page?: number;
+  page_size?: number;
+  privacy?: PrivacyType;
+  subject_id?: number;
+}
+
+export interface Video {
+  id: number;
+  batches: NamedItem[];
+  level: LevelType;
+  privacy: PrivacyType;
+  player_type: PlayerType;
+  title: string;
+  description: string;
+  video_id: string;
+  video_url: string;
+  thumbnail: string;
+  video_file: string;
+  created_at: string;
+  updated_at: string;
+  parent: number;
+  subject: number;
+  course: number;
+}

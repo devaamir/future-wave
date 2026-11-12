@@ -56,6 +56,7 @@ import TimeTableScreen from '../screens/TimeTableScreen';
 import ExamResultScreen from '../screens/ExamResultScreen';
 import RankingScreen from '../screens/RankingScreen';
 import OMRHistoryScreen from '../screens/OMRHistoryScreen';
+import VideoListScreen from '../screens/VideoListScreen';
 import { getPrelimsCourseCategories, getPrelimsCourses, getPrelimsSyllabuses, getPrelimSubjects, getPrelimCategories, getQuestions, getMainsCourseCategories, getMainsCourses, getMainsSyllabuses, getMainsSubjects, getMainsCategories, getMainsQuestions } from '../services/api';
 import { useColors } from '../theme';
 
@@ -145,7 +146,9 @@ const AppNavigator = () => {
         <Stack.Screen name="OnlineOMR" component={OnlineOMRScreen} />
         <Stack.Screen name="OMRSummary" component={OMRSummaryScreen} />
         <Stack.Screen name="Videos" component={VideosScreen} />
+        <Stack.Screen name="VideoBatches" component={QAListScreen} />
         <Stack.Screen name="VideoSubjects" component={QAListScreen} />
+        <Stack.Screen name="VideoList" component={VideoListScreen} />
         <Stack.Screen name="MultimediaVideos" component={MultimediaVideosScreen} />
         <Stack.Screen name="AudioClasses" component={AudioClassScreen} />
         <Stack.Screen name="TodayExam" component={TodayExamScreen} />

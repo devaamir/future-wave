@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import { BackArrowIcon } from '../components/Icons';
 import { theme, useColors } from '../theme';
-import { getMultimediaSubjects } from '../services/api';
+import { getUserBatches, getVideoSubjects } from '../services/api';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const VideosScreen = ({ navigation }: any) => {
@@ -58,14 +58,25 @@ const VideosScreen = ({ navigation }: any) => {
             key={opt.type}
             style={styles.card}
             activeOpacity={0.8}
-            onPress={() => navigation.navigate('VideoSubjects', {
+            onPress={() => navigation.navigate('VideoBatches', {
               title: opt.label, color: opt.color, bg: opt.bg,
-              fetchFn: () => getMultimediaSubjects(opt.type === 'public' ? 'PUBLIC' : 'PRIVATE'),
-              nextScreen: 'MultimediaVideos',
-              nextParams: (subject: any) => ({
-                title: subject.name, subjectId: subject.id,
-                privacy: opt.type === 'public' ? 'PUBLIC' : 'PRIVATE',
+              fetchFn: getUserBatches,
+              nextScreen: 'VideoSubjects',
+              nextParams: (batch: any) => ({
+                title: batch.name,
                 color: opt.color, bg: opt.bg,
+                fetchFn: () => getVideoSubjects({
+                  batch_id: batch.id,
+                  privacy: opt.type === 'public' ? 'PUBLIC' : 'PRIVATE',
+                }),
+                nextScreen: 'VideoList',
+                nextParams: (subject: any) => ({
+                  title: subject.name,
+                  batchId: batch.id,
+                  subjectId: subject.id,
+                  privacy: opt.type === 'public' ? 'PUBLIC' : 'PRIVATE',
+                  color: opt.color, bg: opt.bg,
+                }),
               }),
             })}
           >
